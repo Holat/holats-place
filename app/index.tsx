@@ -20,6 +20,7 @@ export default function Index() {
         source={require("@/assets/images/bg.jpg")}
         className=" flex-1 absolute h-full w-full"
         contentFit="cover"
+        cachePolicy={"disk"}
       />
       <LinearGradient
         colors={["transparent", "#18181b"]}

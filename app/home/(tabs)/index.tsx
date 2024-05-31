@@ -1,18 +1,8 @@
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FA6 from "react-native-vector-icons/FontAwesome6";
-import {
-  // widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { useNavigation, useRouter } from "expo-router";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
@@ -20,11 +10,17 @@ import { FoodType, IAction } from "@/constants/types";
 import { getAll, getAllTags } from "@/services/foodService";
 import { Image } from "expo-image";
 import FoodList from "@/components/FoodList";
+import Tags from "@/components/Tags";
+import FontAwesome6Icon from "react-native-vector-icons/FontAwesome6";
+import Card from "@/components/Card";
+import useCart from "@/hooks/useCart";
 // import AntDesign from "react-native-vector-icons/AntDesign";
 // import Price from "@/components/Price";
 // import StarRating from "@/components/Star";
+// import FA6 from "react-native-vector-icons/FontAwesome6";
 // import { ScrollView } from "react-native-virtualized-view";
 // import { TextInput } from "react-native-gesture-handler";
+// widthPercentageToDP as wp,
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -43,12 +39,13 @@ const reducer = (state: FoodType, action: IAction) => {
       return state;
   }
 };
-
+// #F6FAFD
 export default function Home() {
   const navigation = useNavigation();
   const router = useRouter();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [currentTag, setCurrentTag] = useState("All");
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const loadedFoods = getAll();
@@ -70,7 +67,11 @@ export default function Home() {
           <TouchableOpacity
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
-            <FA6 name="bars-staggered" color={"black"} size={hp(3)}></FA6>
+            <FontAwesome6Icon
+              name="bars-staggered"
+              color={"black"}
+              size={hp(3)}
+            />
           </TouchableOpacity>
           <View className="flex-row justify-between items-center gap-3">
             <TouchableOpacity>
@@ -108,39 +109,24 @@ export default function Home() {
       </View>
       <View className="mt-2 px-4">
         {/* <Text className="font-semibold text-xl">Categories</Text> */}
-        <ScrollView
-          className="flex gap-x-3"
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          {state.tags &&
-            state.tags.map((item, index) => (
-              <Pressable
-                key={index}
-                className="bg-neutral-200 rounded-3xl px-4 py-1"
-                style={{
-                  backgroundColor:
-                    item.name === currentTag ? "#fed7aa" : "white",
-                  borderColor:
-                    item.name === currentTag ? "#FA6400" : "transparent",
-                  marginVertical: 4,
-                  borderWidth: 1,
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 5,
-                  // Shadow properties for Android
-                  elevation: 3,
-                }}
-                onPress={() => setCurrentTag(item.name)}
-              >
-                <Text className="text-base">{item.name}</Text>
-              </Pressable>
-            ))}
-        </ScrollView>
+        <Tags tags={state.tags} />
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
         {state.foods && <FoodList data={state.foods} />}
+      </View>
+      <View className="p-4">
+        <View className="flex-row justify-between items-center mb-3">
+          <Text className="font-semibold text-xl">Categories</Text>
+          <Link
+            href={{
+              pathname: "/home/",
+            }}
+            className="text-orange-600 underline"
+          >
+            See All
+          </Link>
+        </View>
+        <Card item={state.foods[3]} handleAddToCart={addToCart} />
       </View>
     </SafeAreaView>
   );
