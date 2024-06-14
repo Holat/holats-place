@@ -46,11 +46,12 @@ export default function AuthProvider({
     userService.logout();
     setUser(null);
 
-    type === "n"
-      ? console.log("Logout Successful")
-      : type === "t"
-      ? console.log("Session expired")
-      : null;
+    console.log("Logout Successful");
+    // type === "n"
+    //   ? console.log("Logout Successful")
+    //   : type === "t"
+    //   ? console.log("Session expired")
+    //   : null;
   };
 
   const updateProfile = async (user: FormDetails) => {
