@@ -7,6 +7,10 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import AuthProvider from "@/context/AuthProvider";
 
+export const unstable_settings = {
+  initialRouteName: 'home',
+};
+
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
