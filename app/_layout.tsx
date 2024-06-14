@@ -18,14 +18,13 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-<<<<<<<<< Temporary merge branch 1
   const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
     (async function verify() {
       try {
         await authenticate();
-      } catch (e){
+      } catch (e) {
         console.log(e);
       } finally {
         setAppIsReady(true);
@@ -33,17 +32,16 @@ export default function Layout() {
     })();
   }, []);
 
-  const onLayoutRootView = useCallback(async() => {
-    if (appIsReady){
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady])
+  }, [appIsReady]);
 
-  if (!appIsReady){
+  if (!appIsReady) {
     return null;
   }
-  
-=========
+
   const toastConfig = {
     // customToast: ({text1, text2, props}: {text1: string, }) => (
     //   <View className="w-full bg-white rounded">
@@ -69,7 +67,6 @@ export default function Layout() {
       />
     ),
   };
->>>>>>>>> Temporary merge branch 2
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
