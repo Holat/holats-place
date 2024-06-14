@@ -1,30 +1,17 @@
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FA6 from "react-native-vector-icons/FontAwesome6";
-import {
-  // widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { useNavigation, useRouter } from "expo-router";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
-import { getAll, getAllTags } from "@/services/foodService";
+import { getAll, getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";
-import FoodList from "@/components/FoodList";
-// import AntDesign from "react-native-vector-icons/AntDesign";
-// import Price from "@/components/Price";
-// import StarRating from "@/components/Star";
-// import { ScrollView } from "react-native-virtualized-view";
-// import { TextInput } from "react-native-gesture-handler";
+import { Tags, FoodList, Card } from "@/components";
+import useCart from "@/hooks/useCart";
+import Toast from "react-native-toast-message";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -43,34 +30,47 @@ const reducer = (state: FoodType, action: IAction) => {
       return state;
   }
 };
-
 export default function Home() {
   const navigation = useNavigation();
   const router = useRouter();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const [currentTag, setCurrentTag] = useState("All");
+  const { addToCart } = useCart();
+
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Network Error",
+      text2: "Please check your internet connection and try again.",
+      // topOffset: hp(6),
+    });
+  };
 
   useEffect(() => {
-    const loadedFoods = getAll();
-    loadedFoods.then((foodItems) =>
-      dispatch({ type: FOODS_LOADED, payload: foodItems })
-    );
+    const loadedFoods = getTopRated();
+    loadedFoods
+      .then((foodItems) => dispatch({ type: FOODS_LOADED, payload: foodItems }))
+      .catch(() => {
+        showToast();
+      });
 
     const tags = getAllTags();
-    tags.then((tag) => {
-      dispatch({ type: TAGS_LOADED, payload: tag });
-    });
+    tags
+      .then((tag) => dispatch({ type: TAGS_LOADED, payload: tag }))
+      .catch(() => {
+        showToast();
+      });
   }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-100">
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <View className=" flex-col items-center self-center pt-1">
         <View className="flex-row justify-between items-center w-full px-5">
           <TouchableOpacity
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
-            <FA6 name="bars-staggered" color={"black"} size={hp(3)}></FA6>
+            <FontAwesome6 name="bars-staggered" color={"black"} size={hp(3)} />
           </TouchableOpacity>
           <View className="flex-row justify-between items-center gap-3">
             <TouchableOpacity>
@@ -87,60 +87,36 @@ export default function Home() {
             </TouchableOpacity>
           </View>
         </View>
-        {/* <View className="flex-row w-full  bg-neutral-200 p-1 rounded-md mt-3">
-          <TextInput
-            style={{ height: hp(5.5) }}
-            placeholder="Search for food"
-            className=" bg-neutral-200 flex-1 pl-2"
-            // onKeyPress
-          />
-          <TouchableOpacity
-            className=" bg-orange-500 rounded-md p-3 items-center justify-center"
-            style={{ height: hp(5.5), width: hp(5.5) }}
-          >
-            <FA6 color={"white"} name={"sliders"} size={hp(2)} />
-          </TouchableOpacity>
-        </View> */}
         <View className="self-start mt-3 pl-4">
           <Text className="text-4xl font-light">Get Your Food</Text>
           <Text className="text-4xl font-semibold">Delivered!</Text>
         </View>
       </View>
       <View className="mt-2 px-4">
-        {/* <Text className="font-semibold text-xl">Categories</Text> */}
-        <ScrollView
-          className="flex gap-x-3"
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        >
-          {state.tags &&
-            state.tags.map((item, index) => (
-              <Pressable
-                key={index}
-                className="bg-neutral-200 rounded-3xl px-4 py-1"
-                style={{
-                  backgroundColor:
-                    item.name === currentTag ? "#fed7aa" : "white",
-                  borderColor:
-                    item.name === currentTag ? "#FA6400" : "transparent",
-                  marginVertical: 4,
-                  borderWidth: 1,
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 5,
-                  // Shadow properties for Android
-                  elevation: 3,
-                }}
-                onPress={() => setCurrentTag(item.name)}
-              >
-                <Text className="text-base">{item.name}</Text>
-              </Pressable>
-            ))}
-        </ScrollView>
+        <Tags tags={tags} />
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {state.foods && <FoodList data={state.foods} />}
+        {foods.length > 0 ? (
+          <FoodList data={foods} />
+        ) : (
+          <View className="flex-1 w-full items-center justify-center">
+            <ActivityIndicator color={"#FA6400"} size={hp(5)} />
+          </View>
+        )}
+      </View>
+      <View className="p-4">
+        <View className="flex-row justify-between items-center mb-3">
+          <Text className="font-semibold text-xl">Categories</Text>
+          <Link
+            href={{
+              pathname: "/home/",
+            }}
+            className="text-orange-600 underline"
+          >
+            See All
+          </Link>
+        </View>
+        <Card item={foods[3]} handleAddToCart={addToCart} />
       </View>
     </SafeAreaView>
   );

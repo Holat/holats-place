@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,30 +11,25 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { StatusBar } from "expo-status-bar";
-import Price from "@/components/Price";
+import { Price } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import useCart from "@/hooks/useCart";
+import { StatusBar } from "expo-status-bar";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
   const [foodItem, setFoodItem] = useState<FoodItemType>();
-  const [cartItem, setCartItem] = useState<CartItemType>();
+  const [cartItem, setCartItem] = useState<CartItemType>({} as CartItemType);
   const {
     changeQuantity,
     getCartItemById,
-    removeFromCart,
     addToCart,
     cart: { items },
   } = useCart();
   const [quantity, setQuantity] = useState(0);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
-
-  function isObjEmpty(obj: CartItemType | undefined) {
-    if (obj) return Object.keys(obj).length === 0;
-    else return false;
-  }
+  const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
     try {
@@ -55,20 +50,14 @@ export default function FoodInfo() {
     setQuantity(item?.quantity || 0);
   }, [items]);
 
-  useEffect(() => {
-    if (quantity === 0 && isObjEmpty(cartItem))
-      removeFromCart(parseInt(foodId.toString()));
-    else if (quantity > 0 && !isObjEmpty(cartItem))
-      changeQuantity({ ...getCartItemById(foodId.toString()) }, quantity);
-  }, [quantity]);
-
   return (
     <View className="flex-1 flex">
       <StatusBar style="light" />
       <View className="flex-1">
         <Image
-          source={getFoodImage(`food-${foodId}`)}
+          source={getFoodImage(imgUrl)}
           className="w-full h-full"
+          cachePolicy={"disk"}
         />
         <View
           className="absolute flex-row justify-between w-full px-4"
@@ -149,7 +138,9 @@ export default function FoodInfo() {
           >
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={() => quantity > 0 && setQuantity((prev) => prev - 1)}
+              onPress={() =>
+                quantity > 0 && changeQuantity(cartItem, quantity - 1)
+              }
             >
               <Entypo color={"white"} name={"minus"} size={hp(2)} />
             </TouchableOpacity>
@@ -163,11 +154,7 @@ export default function FoodInfo() {
             </View>
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={() =>
-                isObjEmpty(cartItem)
-                  ? addToCart(foodItem)
-                  : setQuantity((prev) => prev + 1)
-              }
+              onPress={() => addToCart(foodItem)}
             >
               <Entypo color={"white"} name={"plus"} size={hp(2)} />
             </TouchableOpacity>

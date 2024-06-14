@@ -25,8 +25,9 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   return (
     <Carousel
       data={data}
-      renderItem={({ item, index }) => (
-        <FoodCard item={item} index={index} addToCart={addToCart} />
+      keyExtractor={(item) => item.id as string}
+      renderItem={({ item }) => (
+        <FoodCard item={item} key={item.id} addToCart={addToCart} />
       )}
       sliderWidth={wp(100)}
       slideStyle={{
@@ -42,14 +43,13 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
 
 const FoodCard = ({
   item,
-  index,
   addToCart,
 }: {
   item: FoodItemType;
-  index: number;
   addToCart: (food?: FoodItemType) => void;
 }) => {
   const router = useRouter();
+  const imgUrl = item.imageUrl.split("/").pop() || "";
 
   return (
     <TouchableWithoutFeedback
@@ -66,8 +66,9 @@ const FoodCard = ({
         className=" rounded-[26px] bg-white p-4"
       >
         <Image
-          source={getFoodImage(`food-${item.id}`)}
+          source={getFoodImage(imgUrl)}
           className=" flex-1 rounded-[20px] w-full"
+          cachePolicy={"disk"}
         />
         <View className=" mt-2">
           <Text className=" font-bold mb-1" style={{ fontSize: hp(2.3) }}>
