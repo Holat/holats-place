@@ -29,6 +29,15 @@ export const login = async (email: string, password: string) => {
   return data;
 };
 
+export const authenticate = async(email: string, password: string) => {
+  const { data } = await axios.post("/api/user/login", { email, password, token });
+  if(data.success){
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export const register = async (registerData: RegisterValues) => {
   const { data } = await axios.post("/api/user/register", registerData);
   //   localStorage.setItem(USER, JSON.stringify(data));
