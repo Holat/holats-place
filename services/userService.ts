@@ -4,57 +4,67 @@ import {
   FormDetails,
   ChangePassFormType,
 } from "@/constants/types";
+import { save, getValueFor, deleteItem } from "./storage/asyncStorage";
 
 const USER = "holatPlaceUser";
 
-const NewUserType = {
-  name: "Holat",
-  email: "holatolorunshola@gmail.com",
-  password: "3784",
-  address: "47 ogunfehintimi",
-  phone: "08035748555",
-  id: "12345",
-  token: "wifuf3dj93ejdmd93md93mdm9",
-};
+const apiInstance = axios.create({
+  baseURL: "https://378c-102-89-23-133.ngrok-free.app",
+  headers: {
+    "Content-Type": "application/json; charset=UTF-8",
+    "Access-Control-Allow-Origin": "*",
+  },
+});
 
-export const getUser = () => {
-  //   const userString = localStorage.getItem(USER);
-  //   return userString ? JSON.parse(userString) : null;
-  return NewUserType;
+export const getUser = async () => {
+  const userString = await getValueFor(USER);
+  return userString ? JSON.parse(userString) : null;
 };
 
 export const login = async (email: string, password: string) => {
-  const { data } = await axios.post("/api/user/login", { email, password });
-  //   localStorage.setItem(USER, JSON.stringify(data));
+  const { data } = await apiInstance.post(`/api/user/login`, {
+    email,
+    password,
+  });
+  const dataString = JSON.stringify(data);
+  await save(USER, dataString);
   return data;
 };
 
-export const authenticate = async(email: string, password: string) => {
+export const authenticate = async () => {
   const storedUser = await getUser();
 
-  if (!storedUser){
+  if (!storedUser) {
     return false;
-  }else{
-    const { data } = await apiInstance.post("/api/user/login", { storedUser.name, storedUser.password });
-    if(data.success){
+  } else {
+    const { data } = await apiInstance.post("/api/user/login", {
+      username: storedUser.name,
+      password: storedUser.password,
+    });
+    if (data.success) {
       return true;
     } else {
       return false;
     }
   }
   return false;
-}
+};
 
 export const register = async (registerData: RegisterValues) => {
-  const { data } = await axios.post("/api/user/register", registerData);
-  //   localStorage.setItem(USER, JSON.stringify(data));
+  const { data } = await apiInstance.post(`/api/user/register`, registerData);
+
+  const dataString = JSON.stringify(data);
+  await save(USER, dataString);
   return data;
 };
 
 export const updateProfile = async (user: FormDetails) => {
   try {
-    const { data } = await axios.put("/api/user/updateProfile", user);
-    // localStorage.setItem(USER, JSON.stringify(data));
+    const { data } = await apiInstance.put(`/api/user/updateProfile`, user);
+
+    const dataString = JSON.stringify(data);
+    await save(USER, dataString);
+
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -73,9 +83,9 @@ export const updateProfile = async (user: FormDetails) => {
 };
 
 export const changePassword = async (passwords: ChangePassFormType) => {
-  await axios.put("/api/user/changePassword", passwords);
+  await apiInstance.put(`/api/user/changePassword`, passwords);
 };
 
 export const logout = () => {
-  localStorage.removeItem(USER);
+  deleteItem(USER);
 };

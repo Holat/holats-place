@@ -65,6 +65,7 @@ export default function CartProvider({
 
     if (newQuantity < 1) {
       removeFromCart(food.id);
+      return;
     }
 
     const changedCartItem = {

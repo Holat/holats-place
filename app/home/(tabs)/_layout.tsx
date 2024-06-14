@@ -5,7 +5,11 @@ import CustomTabs from "@/components/CustomTabs";
 const TabLayout = () => {
   return (
     <Tabs
-      screenOptions={{ headerShown: false, tabBarActiveTintColor: "orange" }}
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "orange",
+        tabBarHideOnKeyboard: true,
+      }}
       tabBar={(props) => <CustomTabs {...props} />}
     >
       <Tabs.Screen
