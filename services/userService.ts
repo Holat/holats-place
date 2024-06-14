@@ -30,12 +30,19 @@ export const login = async (email: string, password: string) => {
 };
 
 export const authenticate = async(email: string, password: string) => {
-  const { data } = await axios.post("/api/user/login", { email, password });
-  if(data.success){
-    return true;
-  } else {
+  const storedUser = await getUser();
+
+  if (!storedUser){
     return false;
+  }else{
+    const { data } = await apiInstance.post("/api/user/login", { storedUser.name, storedUser.password });
+    if(data.success){
+      return true;
+    } else {
+      return false;
+    }
   }
+  return false;
 }
 
 export const register = async (registerData: RegisterValues) => {
