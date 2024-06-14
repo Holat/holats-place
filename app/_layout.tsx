@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useCallback } from "react";
 import { Stack } from "expo-router";
+import  authenticate  from "@/services/userService"
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
