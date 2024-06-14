@@ -10,9 +10,18 @@ import AuthProvider from "@/context/AuthProvider";
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  const [appIsReady, setAppIsReady] = useState();
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
+    (async function verify() {
+      try {
+        await authenticate();
+      } catch (e){
+        console.log(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    })();
   }, []);
 
   const onLayoutRootView = useCallback(async() => {
