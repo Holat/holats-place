@@ -8,7 +8,7 @@ import { searchApi } from "@/services/foodService";
 import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
 import useCart from "@/hooks/useCart";
-import Card from "@/components/Card";
+import { Card } from "@/components";
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");

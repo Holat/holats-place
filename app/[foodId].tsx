@@ -11,10 +11,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { StatusBar } from "expo-status-bar";
-import Price from "@/components/Price";
+import { Price } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import useCart from "@/hooks/useCart";
+import { StatusBar } from "expo-status-bar";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();

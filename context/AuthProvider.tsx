@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import * as userService from "../services/userService";
 import { AxiosError } from "axios";
 import {
@@ -7,7 +7,10 @@ import {
   RegisterValues,
   ChangePassFormType,
   AuthContextType,
+  NewUserType,
 } from "@/constants/types";
+import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -16,22 +19,45 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<UserType | null>(userService.getUser());
+  const [user, setUser] = useState<NewUserType | null>(null);
+  const getUser = async () => {
+    const storageUser = await userService.getUser();
+    storageUser ? setUser(storageUser) : setUser(null);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // const authenticate = async(email: string, password: string) {}
+
+  const showToast = (type: string, text1: string, text2: string) =>
+    Toast.show({ type, text1, text2 });
+
   const login = async (email: string, password: string) => {
     try {
-      const user = await userService.login(email, password);
-      setUser(user);
-      console.log("Login Successful");
+      const data = await userService.login(email, password);
+      setUser(data);
+      showToast("success", "Logged In", "Login Successful");
+      return true;
     } catch (error) {
       const err = error as AxiosError;
-      console.log(typeof err.response?.data === "string" && err.response?.data);
+      showToast(
+        "error",
+        "Login Error",
+        typeof err.response?.data === "string"
+          ? err.response?.data
+          : "Check you email and password"
+      );
     }
+
+    return false;
   };
 
   const register = async (data: RegisterValues) => {
     try {
-      const user = await userService.register(data);
-      setUser(user);
+      const apiData = await userService.register(data);
+      setUser(apiData);
       console.log("Sign up successful!");
     } catch (error) {
       console.log("Unsuccessful");

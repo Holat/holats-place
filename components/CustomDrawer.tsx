@@ -13,6 +13,7 @@ import {
 
 export default function CustomDrawer(props: any) {
   const { user } = useAuth();
+
   return (
     <View className=" bg-white flex-1">
       <View className="flex-row items-center justify-between">

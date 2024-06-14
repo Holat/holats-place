@@ -27,7 +27,7 @@ export default function Index() {
         style={{ width: wp(100), height: hp(100) }}
         start={{ x: 0.5, y: 0 }}
         end={{ x: 0.5, y: 0.95 }}
-        className="flex items-center pb-12 space-y-8 justify-between"
+        className="flex items-center pb-12 space-y-8 justify-between flex-1"
       >
         <Animated.Image
           entering={FadeInUp.duration(200).springify()}
@@ -38,7 +38,7 @@ export default function Index() {
         <View className=" gap-5">
           <Animated.View entering={FadeInDown.duration(100).springify()}>
             <TouchableOpacity
-              onPress={() => router.push({ pathname: "/home/" })}
+              onPress={() => router.push({ pathname: "/login" })}
               style={{ height: hp(6), width: wp(80) }}
               className=" bg-orange-500 flex items-center justify-center rounded-full  border-neutral-200"
             >
