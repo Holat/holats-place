@@ -1,14 +1,47 @@
-import { View, Text, LogBox } from "react-native";
-import React from "react";
+import { View, Text } from "react-native";
+import React, { useEffect, useCallback, useState } from "react";
 import { Stack } from "expo-router";
+import { authenticate } from "@/services/userService";
+import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import AuthProvider from "@/context/AuthProvider";
+
 import Toast, { BaseToast } from "react-native-toast-message";
 import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 
+export const unstable_settings = {
+  initialRouteName: "home",
+};
+
+SplashScreen.preventAutoHideAsync();
+
 export default function Layout() {
+  const [appIsReady, setAppIsReady] = useState(false);
+
+  useEffect(() => {
+    (async function verify() {
+      try {
+        await authenticate();
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    })();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   const toastConfig = {
     // customToast: ({text1, text2, props}: {text1: string, }) => (
     //   <View className="w-full bg-white rounded">

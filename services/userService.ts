@@ -31,6 +31,25 @@ export const login = async (email: string, password: string) => {
   return data;
 };
 
+export const authenticate = async () => {
+  const storedUser = await getUser();
+
+  if (!storedUser) {
+    return false;
+  } else {
+    const { data } = await apiInstance.post("/api/user/login", {
+      username: storedUser.name,
+      password: storedUser.password,
+    });
+    if (data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
+};
+
 export const register = async (registerData: RegisterValues) => {
   const { data } = await apiInstance.post(`/api/user/register`, registerData);
 
