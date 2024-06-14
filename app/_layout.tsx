@@ -1,12 +1,29 @@
-import { View, Text, LogBox } from "react-native";
-import React from "react";
+import { View, Text } from "react-native";
+import React, { useEffect, useCallback } from "react";
 import { Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import AuthProvider from "@/context/AuthProvider";
 
+SplashScreen.preventAutoHideAsync();
+
 export default function Layout() {
-  LogBox.ignoreLogs(["Warning: Failed prop type"]);
+  const [appIsReady, setAppIsReady] = useState();
+
+  useEffect(() => {
+  }, []);
+
+  const onLayoutRootView = useCallback(async() => {
+    if (appIsReady){
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady])
+
+  if (!appIsReady){
+    return null;
+  }
+  
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
