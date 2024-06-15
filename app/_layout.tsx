@@ -1,55 +1,30 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useCallback, useState } from "react";
-import { Stack } from "expo-router";
-import { authenticate } from "@/services/userService";
+import { Redirect, Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
-import AuthProvider from "@/context/AuthProvider";
-
 import Toast, { BaseToast } from "react-native-toast-message";
 import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
+import useAuth from "@/hooks/useAuth";
+import AuthProvider from "@/context/AuthProvider";
 
 export const unstable_settings = {
-  initialRouteName: "home",
+  initialRouteName: "(home)",
 };
 
-SplashScreen.preventAutoHideAsync();
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootLayoutNav />
+    </AuthProvider>
+  );
+}
 
-export default function Layout() {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    (async function verify() {
-      try {
-        await authenticate();
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    })();
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
-
+function RootLayoutNav() {
+  const { authInitialized, user } = useAuth();
   const toastConfig = {
-    // customToast: ({text1, text2, props}: {text1: string, }) => (
-    //   <View className="w-full bg-white rounded">
-    //     <Text>{text1}</Text>
-    //     <Text>{text2}</Text>
-    //   </View>
-    // )
-
     success: (props: BaseToastProps) => (
       <BaseToast
         {...props}
@@ -67,23 +42,23 @@ export default function Layout() {
       />
     ),
   };
+
+  if (!authInitialized && !user) return null;
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <CartProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="index" />
-            <Stack.Screen name="login" />
-            <Stack.Screen name="home" />
-            <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-          </Stack>
-          <Toast config={toastConfig} />
-        </CartProvider>
-      </AuthProvider>
+      <CartProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(home)" />
+          <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
+        </Stack>
+        <Toast config={toastConfig} />
+      </CartProvider>
     </GestureHandlerRootView>
   );
 }

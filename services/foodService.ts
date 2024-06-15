@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "https://378c-102-89-23-133.ngrok-free.app";
+const api = "https://05b3-102-89-47-133.ngrok-free.app";
 
 export const getAll = async () => {
   const { data } = await axios.get(`${api}/api/foods`);
@@ -9,8 +9,6 @@ export const getAll = async () => {
 
 export const getTopRated = async () => {
   const { data } = await axios.get(`${api}/api/foods/topRatedFoods`);
-
-  console.log(data);
   return data;
 };
 

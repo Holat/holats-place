@@ -53,7 +53,7 @@ const Login = () => {
     const isSuccess = await login(data.email, data.password);
     if (isSuccess) {
       setIsLoading(false);
-      router.replace("/home/(tabs)/");
+      router.replace("/(home)/(tabs)/");
     } else {
       setIsLoading(false);
     }
@@ -133,7 +133,7 @@ const Login = () => {
                       value={value}
                       className="text-white pl-4 py-3 pr-12"
                       editable={!isLoading}
-                      secureTextEntry={viewPassword}
+                      secureTextEntry={!viewPassword}
                     />
                     <View
                       style={{

@@ -7,29 +7,73 @@ import {
   RegisterValues,
   ChangePassFormType,
   AuthContextType,
-  NewUserType,
 } from "@/constants/types";
 import Toast from "react-native-toast-message";
-import { router } from "expo-router";
+import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
+import { getValueFor } from "@/services/storage/asyncStorage";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
+const USER = "holatPlaceUser";
 export default function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<NewUserType | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
+  const [authInitialized, setAuthInitialized] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const getUser = async () => {
-    const storageUser = await userService.getUser();
-    storageUser ? setUser(storageUser) : setUser(null);
+    const userString = await getValueFor(USER);
+    if (userString) {
+      const data = JSON.parse(userString);
+      setUser(data);
+    }
+    setAuthInitialized(true);
+  };
+
+  const useProtectedRoute = (user: UserType | null) => {
+    const [isNavigationReady, setIsNavigationIsReady] = useState(false);
+    const rootNav = useNavigationContainerRef();
+    const segments = useSegments();
+    const router = useRouter();
+
+    const authenticate = async () => {
+      let success = false;
+      user
+        ? (success = await userService.authenticate(user?.email, user?.token))
+        : (success = false);
+      return success;
+    };
+
+    useEffect(() => {
+      const unsub = rootNav?.addListener("state", (event) => {
+        setIsNavigationIsReady(true);
+      });
+
+      return function cleanup() {
+        if (unsub) unsub();
+      };
+    }, [rootNav]);
+
+    useEffect(() => {
+      (async () => {
+        if (!isNavigationReady || isAuthenticated || !authInitialized) return;
+        const inAuthGroup = segments[0] === "(auth)";
+
+        const success = await authenticate();
+        setIsAuthenticated(success);
+
+        if (!success && !inAuthGroup) router.push("/(auth)/login2");
+        else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
+      })();
+    }, [user, segments, authInitialized, isNavigationReady]);
   };
 
   useEffect(() => {
     getUser();
   }, []);
-
-  // const authenticate = async(email: string, password: string) {}
 
   const showToast = (type: string, text1: string, text2: string) =>
     Toast.show({ type, text1, text2 });
@@ -50,7 +94,6 @@ export default function AuthProvider({
           : "Check you email and password"
       );
     }
-
     return false;
   };
 
@@ -58,7 +101,7 @@ export default function AuthProvider({
     try {
       const apiData = await userService.register(data);
       setUser(apiData);
-      console.log("Sign up successful!");
+      showToast("success", "", "Sign up successful!");
     } catch (error) {
       console.log("Unsuccessful");
     }
@@ -71,7 +114,7 @@ export default function AuthProvider({
   const logout = (type: "n" | "t") => {
     userService.logout();
     setUser(null);
-
+    setIsAuthenticated(false);
     console.log("Logout Successful");
     // type === "n"
     //   ? console.log("Logout Successful")
@@ -98,9 +141,19 @@ export default function AuthProvider({
     console.log("Password Changed!");
   };
 
+  useProtectedRoute(user);
+
   return (
     <AuthContext.Provider
-      value={{ user, login, register, logout, updateProfile, changePassword }}
+      value={{
+        user,
+        authInitialized,
+        login,
+        register,
+        logout,
+        updateProfile,
+        changePassword,
+      }}
     >
       {children}
     </AuthContext.Provider>
