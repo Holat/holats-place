@@ -91,6 +91,7 @@ export interface FormDetails {
 
 export type AuthContextType = {
   user: NewUserType | null;
+  authInitialized: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (user: RegisterValues) => void;
   logout: (type: "n" | "t") => void;

@@ -81,7 +81,7 @@ export default function Home() {
               className=" items-center justify-center"
             >
               <Image
-                source={require("../../../assets/images/avatar.jpeg")}
+                source={require("@/assets/images/avatar.jpeg")}
                 className="rounded-full w-full h-full"
               />
             </TouchableOpacity>
@@ -109,7 +109,7 @@ export default function Home() {
           <Text className="font-semibold text-xl">Categories</Text>
           <Link
             href={{
-              pathname: "/home/",
+              pathname: "/",
             }}
             className="text-orange-600 underline"
           >
