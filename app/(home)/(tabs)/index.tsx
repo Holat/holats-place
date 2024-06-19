@@ -35,7 +35,6 @@ export default function Home() {
   const router = useRouter();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const [currentTag, setCurrentTag] = useState("All");
-  const [isLoading, setIsloading] = useState(true);
   const { addToCart } = useCart();
 
   const showToast = () => {
