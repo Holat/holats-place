@@ -14,7 +14,7 @@ export default function HomeLoading(){
 
   return(
     <SkeletonLoading background={"#adadad"} highlight={"#ffffff"}>
-      <View className="flex-row items-center justify-center gap-3">
+      <View className="flex-row items-center justify-center gap-3 bg-neutral-100">
         <Card width=50 height=30/>
         <Card  width=50 height=39 />
         <Card width=50 height=30/>
