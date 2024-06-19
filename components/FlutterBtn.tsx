@@ -1,25 +1,30 @@
 import { PayWithFlutterWave } from 'flutterwave-react-native';
 import useCart from "@/hooks/useCart";
 import { useRouter } from "expo-router";
+import generateTransactionRef from '@/services/generateTransactionRef.ts'
 
 interface RedirectParams {
     status: 'successful' | 'cancelled';
     transaction_id?: string;
     tx_ref: string;
 }
+// const [order, setOrder] = useState<OrderType>();
 
-
-export default function PaymentBtn(){
-    const { user } = useAuth();
-    const {
-        cart: { items, totalPrice },
-    } = useCart();
+export default function PaymentBtn({ order }){
     const router = useRouter();
+    const { clearCart } = useCart();
     
     const handleOnRedirect = ( data: RedirectParams ) => {
         if (data.status === "successful"){
+            const paymentId = data.transaction_id;
+            await pay(paymentId);
+            clearCart();
+
+            console.log("the payment was successful");
             router.push("/");
         } else{
+            
+            console.log("Payment Failed");
             router.push("/");
         }
     }
@@ -31,11 +36,13 @@ export default function PaymentBtn(){
         tx_ref: generateTransactionRef(10)
         authorization: 'FLWPUBK_TEST-da1d63d048b80ff95f0ce22da86fdd21-X',
         customer: {
-          email: user?.email
+          email: order.cart.?.email,
+          phone_number: order.cart.?.phone,
+          name: order.name,
         },
-        amount: totalPrice,
+        amount: order.cart?.totalPrice,
         currency: 'NGN',
-        payment_options: 'card'
+        payment_options: 'card,mobilemoney,ussd',
       }}
   />
   )
