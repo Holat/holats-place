@@ -15,30 +15,8 @@ export const unstable_settings = {
 };
 
 export default function Layout() {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    (async function verify() {
-      try {
-        await authenticate();
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setAppIsReady(true);
-      }
-    })();
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
-
+  const { user, authInitialized } = useAuth();
+  
   const toastConfig = {
     success: (props: BaseToastProps) => (
       <BaseToast
@@ -69,9 +47,8 @@ export default function Layout() {
               headerShown: false,
             }}
           >
-            <Stack.Screen name="index" />
-            <Stack.Screen name="login" />
-            <Stack.Screen name="home" />
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(home)" />
             <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
           </Stack>
           <Toast config={toastConfig} />
