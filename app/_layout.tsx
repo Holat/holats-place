@@ -14,16 +14,31 @@ export const unstable_settings = {
   initialRouteName: "(home)",
 };
 
-export default function RootLayout() {
-  return (
-    <AuthProvider>
-      <RootLayoutNav />
-    </AuthProvider>
-  );
-}
+export default function Layout() {
+  const [appIsReady, setAppIsReady] = useState(false);
 
-function RootLayoutNav() {
-  const { authInitialized, user } = useAuth();
+  useEffect(() => {
+    (async function verify() {
+      try {
+        await authenticate();
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    })();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   const toastConfig = {
     success: (props: BaseToastProps) => (
       <BaseToast
@@ -47,18 +62,21 @@ function RootLayoutNav() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <CartProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(home)" />
-          <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-        </Stack>
-        <Toast config={toastConfig} />
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="login" />
+            <Stack.Screen name="home" />
+            <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
+          </Stack>
+          <Toast config={toastConfig} />
+        </CartProvider>
+      </AuthProvider>
     </GestureHandlerRootView>
   );
 }
