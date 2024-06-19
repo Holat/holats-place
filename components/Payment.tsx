@@ -1,5 +1,6 @@
 import { PayWithFlutterWave } from 'flutterwave-react-native';
-import { useRouter } from ''
+import useCart from "@/hooks/useCart";
+import { useRouter } from "expo-router";
 
 interface RedirectParams {
     status: 'successful' | 'cancelled';
@@ -9,38 +10,36 @@ interface RedirectParams {
 
 
 export default function PaymentBtn(){
-  const { user } = useAuth();
-  const {} = useCart();
-  const router = useRouter();
-
-  const handleOnRedirect = ( data: RedirectParams ) => {
-    if (data.status === "successful"){
-      router.push("/");
-    } else{
-      router.push("/");
+    const { user } = useAuth();
+    const {
+        cart: { items, totalPrice },
+    } = useCart();
+    const router = useRouter();
+    
+    const handleOnRedirect = ( data: RedirectParams ) => {
+        if (data.status === "successful"){
+            router.push("/");
+        } else{
+            router.push("/");
+        }
     }
-  }
   
   return (
     <PayWithFlutterwave
       onRedirect={handleOnRedirect}
       options={{
         tx_ref: generateTransactionRef(10)
-        authorization: '[merchant public key]',
+        authorization: 'FLWPUBK_TEST-da1d63d048b80ff95f0ce22da86fdd21-X',
         customer: {
           email: user?.email
         },
-        amount: 2000,
+        amount: totalPrice,
         currency: 'NGN',
         payment_options: 'card'
       }}
   />
   )
 }
-
-// const handleOnSubmit = () => {
-  
-// }
 /**
 * dependencies {
   // If your app supports Android versions before Ice Cream Sandwich (API level 14)
