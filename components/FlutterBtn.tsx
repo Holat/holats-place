@@ -49,10 +49,9 @@ export default function PaymentBtn({ order }){
 }
 /**
 * dependencies {
-  // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+    If your app supports Android versions before Ice Cream Sandwich (API level 14)
   implementation 'com.facebook.fresco:animated-base-support:1.3.0'
 
-  // For animated GIF support
+   For animated GIF support
   implementation 'com.facebook.fresco:animated-gif:2.0.0'
-}
-/
+}**/
