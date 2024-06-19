@@ -31,14 +31,14 @@ export default function Index() {
       >
         <Animated.Image
           entering={FadeInUp.duration(200).springify()}
-          source={require("../assets/images/logo.png")}
+          source={require("../../assets/images/logo.png")}
           style={{ height: hp(8), width: hp(8), marginTop: top + 30 }}
           className="justify-start self-start ml-[30px]"
         />
         <View className=" gap-5">
           <Animated.View entering={FadeInDown.duration(100).springify()}>
             <TouchableOpacity
-              onPress={() => router.push({ pathname: "/login" })}
+              onPress={() => router.push({ pathname: "/(auth)/login" })}
               style={{ height: hp(6), width: wp(80) }}
               className=" bg-orange-500 flex items-center justify-center rounded-full  border-neutral-200"
             >

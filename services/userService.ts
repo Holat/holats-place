@@ -9,17 +9,12 @@ import { save, getValueFor, deleteItem } from "./storage/asyncStorage";
 const USER = "holatPlaceUser";
 
 const apiInstance = axios.create({
-  baseURL: "https://378c-102-89-23-133.ngrok-free.app",
+  baseURL: "https://05b3-102-89-47-133.ngrok-free.app",
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
     "Access-Control-Allow-Origin": "*",
   },
 });
-
-export const getUser = async () => {
-  const userString = await getValueFor(USER);
-  return userString ? JSON.parse(userString) : null;
-};
 
 export const login = async (email: string, password: string) => {
   const { data } = await apiInstance.post(`/api/user/login`, {
@@ -29,6 +24,29 @@ export const login = async (email: string, password: string) => {
   const dataString = JSON.stringify(data);
   await save(USER, dataString);
   return data;
+};
+
+export const authenticate = async (email: string, token: string) => {
+  if (!email || !token) {
+    return false;
+  } else {
+    const { data } = await apiInstance.post(
+      "/api/user/authenticate",
+      {
+        email: email,
+      },
+      {
+        headers: {
+          access_token: token,
+        },
+      }
+    );
+    if (data.success) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 };
 
 export const register = async (registerData: RegisterValues) => {
