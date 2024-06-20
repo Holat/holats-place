@@ -105,4 +105,6 @@ export type OrderType = {
   lat: number;
   lng: number;
   status?: string;
+  email?: string;
+  phonenumber?: string;
 } & CartType;

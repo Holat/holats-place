@@ -9,7 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
 import { getAll, getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";
-import { Tags, FoodList, Card, HomeLoading, TagsLoading } from "@/components";
+import { Tags, FoodList, Card } from "@/components";
 import useCart from "@/hooks/useCart";
 import Toast from "react-native-toast-message";
 
@@ -93,21 +93,10 @@ export default function Home() {
         </View>
       </View>
       <View className="mt-2 px-4">
-        {
-          tags.length > 0 ? (
-            <Tags tags={tags} />;
-          ) : (
-            < TagsLoading />;
-          )
-        }
-        
+        {tags.length > 0 ? <Tags tags={tags} /> : <ActivityIndicator />}
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? (
-          <FoodList data={foods} />
-        ) : (
-          <HomeLoading/>
-        )}
+        {foods.length > 0 ? <FoodList data={foods} /> : <ActivityIndicator />}
       </View>
       <View className="p-4">
         <View className="flex-row justify-between items-center mb-3">
