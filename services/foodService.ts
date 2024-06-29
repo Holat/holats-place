@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "https://ca10-102-88-34-58.ngrok-free.app";
+const api = process.env.EXPO_PUBLIC_API_URL;
 
 export const getAll = async () => {
   const { data } = await axios.get(`${api}/api/foods`);

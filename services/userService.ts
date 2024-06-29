@@ -9,7 +9,7 @@ import { save, getValueFor, deleteItem } from "./storage/asyncStorage";
 const USER = "holatPlaceUser";
 
 const apiInstance = axios.create({
-  baseURL: "https://ca10-102-88-34-58.ngrok-free.app",
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
     "Access-Control-Allow-Origin": "*",
@@ -28,7 +28,6 @@ export const login = async (email: string, password: string) => {
 };
 
 export const authenticate = async (email: string, token: string) => {
-  console.log(token);
   if (!email || !token) {
     return false;
   } else {

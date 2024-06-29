@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import generateTransactionRef from "@/services/generateTransactionRef";
 import { pay } from "@/services/orderServices";
 import { OrderType } from "@/constants/types";
+import { View } from "react-native";
 
 interface RedirectParams {
   status: "successful" | "cancelled";
@@ -31,21 +32,23 @@ export default function PaymentBtn({ order }: { order: OrderType }) {
   };
 
   return (
-    <PayWithFlutterwave
-      onRedirect={handleOnRedirect}
-      options={{
-        tx_ref: generateTransactionRef(10),
-        authorization: "FLWPUBK_TEST-da1d63d048b80ff95f0ce22da86fdd21-X",
-        customer: {
-          email: order.email || "",
-          phonenumber: order.phonenumber,
-          name: order.name,
-        },
-        amount: order.totalPrice,
-        currency: "NGN",
-        payment_options: "card,mobilemoney,ussd",
-      }}
-    />
+    <View>
+      <PayWithFlutterwave
+        onRedirect={handleOnRedirect}
+        options={{
+          tx_ref: generateTransactionRef(10),
+          authorization: process.env.EXPO_PUBLIC_API_FLUTTER_KEY || "",
+          customer: {
+            email: order.email || "",
+            phonenumber: order.phonenumber,
+            name: order.name,
+          },
+          amount: order.totalPrice,
+          currency: "NGN",
+          payment_options: "card,ussd,banktransfer",
+        }}
+      />
+    </View>
   );
 }
 /**
