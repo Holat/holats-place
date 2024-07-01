@@ -68,7 +68,7 @@ export default function AuthProvider({
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
-    }, [user, segments, authInitialized, isNavigationReady]);
+    }, [  user, segments, authInitialized, isNavigationReady ]);
   };
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function AuthProvider({
     } catch (error) {
       const err = error as AxiosError;
       showToast(
-        "error",
+        "success",
         "Login Error",
         typeof err.response?.data === "string"
           ? err.response?.data
@@ -109,7 +109,7 @@ export default function AuthProvider({
 
   /**
    *
-   * @param type n: normal logout | t: token exp logout
+   * @param type "n" => normal logout | "t" => token exp logout
    */
   const logout = (type: "n" | "t") => {
     userService.logout();

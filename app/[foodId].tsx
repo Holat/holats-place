@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getById } from "@/services/foodService";
-import { CartItemType, FoodItemType } from "@/constants/types";
+import { FoodItemType } from "@/constants/types";
 import { AntDesign, Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import {
   widthPercentageToDP as wp,
@@ -19,25 +19,17 @@ import { StatusBar } from "expo-status-bar";
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
   const [foodItem, setFoodItem] = useState<FoodItemType>();
-  const [cartItem, setCartItem] = useState<CartItemType>({} as CartItemType);
-  const {
-    changeQuantity,
-    getCartItemById,
-    addToCart,
-    cart: { items },
-  } = useCart();
-  const [quantity, setQuantity] = useState(0);
+  const { getCartItemById, addToCart} = useCart();
+  const [quantity, setQuantity] = useState(1);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
   const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
-    try {
-      const item = await getById(foodId.toString());
-      setFoodItem(item);
-    } catch (error) {
-      console.log("error getting food item", error);
-    }
+    getById(foodId.toString()).then(setFoodItem)
+      .catch((error) => {
+        console.log("error getting food item", error)
+      })
   }, [foodId]);
 
   useEffect(() => {
@@ -46,19 +38,26 @@ export default function FoodInfo() {
 
   useEffect(() => {
     const item = getCartItemById(foodId.toString());
-    setCartItem(item);
-    setQuantity(item?.quantity || 0);
-  }, [items]);
+    item && setQuantity(item.quantity);
+  }, []);
 
   return (
     <View className="flex-1 flex">
       <StatusBar style="light" />
       <View className="flex-1">
-        <Image
-          source={getFoodImage(imgUrl)}
-          className="w-full h-full"
-          cachePolicy={"disk"}
-        />
+        <View className='w-full h-full'>
+          {
+            foodItem ? <Image
+            source={getFoodImage(imgUrl)}
+            className="w-full h-full"
+            cachePolicy={"disk"}
+          /> : (
+          <View className='w-full h-full'>
+            <RoundedShimmer/>
+          </View>
+          )}
+          
+        </View>
         <View
           className="absolute flex-row justify-between w-full px-4"
           style={{ top: top + 10 }}
@@ -78,9 +77,9 @@ export default function FoodInfo() {
       >
         <View className="flex-1 pt-4 gap-4">
           <View className="flex justify-between">
-            <Text className=" font-semibold mb-1" style={{ fontSize: hp(3.5) }}>
+            {foodItem.name ?  (<Text className=" font-semibold mb-1" style={{ fontSize: hp(3.5) }}>
               {foodItem?.name}
-            </Text>
+            </Text>) : <RoundedShimmer h={20} w={200} />}
             <View>
               <Price
                 price={foodItem?.price || 0}
@@ -105,28 +104,34 @@ export default function FoodInfo() {
                 </View>
               ))}
             </View>
-            <Text className=" leading-6 text-neutral-600">
+            {foodItem ? <Text className=" leading-6 text-neutral-600">
               {foodItem?.desc}
-            </Text>
+            </Text> : (<View>
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+            </View>)}
           </View>
           <View className="flex-row items-center justify-between px-2">
             <View className="flex-row items-center gap-2">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.stars}
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={50}/>}
             </View>
             <View className="flex-row items-center gap-2">
               <Ionicons name="alarm" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.cookTime}min
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={55}/>}
             </View>
             <View className="flex-row items-center gap-2">
               <Entypo name="globe" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.origins[0]}
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={50}/>}
             </View>
           </View>
         </View>
@@ -138,9 +143,7 @@ export default function FoodInfo() {
           >
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={() =>
-                quantity > 0 && changeQuantity(cartItem, quantity - 1)
-              }
+              onPress={() => setQuantity(quantity > 1 && quantity - 1)}
             >
               <Entypo color={"white"} name={"minus"} size={hp(2)} />
             </TouchableOpacity>
@@ -154,14 +157,15 @@ export default function FoodInfo() {
             </View>
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={() => addToCart(foodItem)}
+              onPress={() => setQuantity(quantity + 1)}
             >
               <Entypo color={"white"} name={"plus"} size={hp(2)} />
             </TouchableOpacity>
           </View>
           <View className="bg-orange-100 rounded-lg h-full p-4 flex-1 items-center ml-2">
             <TouchableOpacity
-              onPress={() => addToCart(foodItem)}
+              // disable={foodItem}
+              onPress={() => addToCart(foodItem, quantity)}
               className="flex-row items-center justify-centre gap-4 w-full"
             >
               <Feather name="shopping-bag" color={"#FA6400"} size={hp(3)} />

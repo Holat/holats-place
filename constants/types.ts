@@ -48,7 +48,7 @@ export type CartContextType = {
   cart: CartType;
   removeFromCart: (foodId: number | string) => void;
   changeQuantity: (cartItem: CartItemType, newQuantity: number) => void;
-  addToCart: (food?: FoodItemType) => void;
+  addToCart: (food?: FoodItemType, quantity?: number | null) => void;
   clearCart: () => void;
   getCartItemById: (id: string | number) => CartItemType;
 };

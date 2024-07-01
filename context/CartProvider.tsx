@@ -38,7 +38,6 @@ export default function CartProvider({
     const totalCount = itemSum(
       cartItems.map((item: CartItemType) => item.quantity)
     );
-
     setTotalPrice(totalPrice);
     setTotalCount(totalCount);
 
@@ -56,7 +55,6 @@ export default function CartProvider({
     const filterCartItem = cartItems.filter(
       (item: CartItemType) => item.food.id !== foodId
     );
-
     setCartItems(filterCartItem);
   };
 
@@ -81,29 +79,27 @@ export default function CartProvider({
     );
   };
 
-  const addToCart = (food?: FoodItemType) => {
+  const addToCart = (food?: FoodItemType, quantity?: number | null) => {
     if (!food) {
       return;
     }
 
-    const cartItem = cartItems.find(
-      (item: CartItemType) => item.food.id === food.id
-    );
-
+  // const cartItem = cartItems.find(
+  //   (item: CartItemType) => item.food.id === food.id
+  // );
+    const cartItem = getCartItemById(food.id);
     if (cartItem) {
-      changeQuantity(cartItem, cartItem.quantity + 1);
+      changeQuantity(cartItem, cartItem.quantity + (quantity ? quantity : 1));
     } else {
       setCartItems([...cartItems, { food, quantity: 1, price: food?.price }]);
     }
   };
 
   const getCartItemById = (id: string | number) => {
-    let item;
-    for (const item of cartItems) {
-      if (item.food.id == id) return item;
-    }
-
-    return {} as CartItemType;
+    const cartItem = cartItems.find((item: CartItemType) => {
+      item.food.id === id
+    });
+    return cartItem;
   };
 
   const clearCart = () => {

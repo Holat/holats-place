@@ -40,6 +40,7 @@ const TabLayout = () => {
         name="profile"
         options={{
           title: "Profile",
+          headerShown: true
         }}
       />
     </Tabs>
