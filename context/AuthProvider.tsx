@@ -109,7 +109,7 @@ export default function AuthProvider({
 
   /**
    *
-   * @param type n: normal logout | t: token exp logout
+   * @param type "n" => normal logout | "t" => token exp logout
    */
   const logout = (type: "n" | "t") => {
     userService.logout();

@@ -26,8 +26,7 @@ export default function FoodInfo() {
   const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
-    getById(foodId.toString())
-      .then(setFoodItem)
+    getById(foodId.toString()).then(setFoodItem)
       .catch((error) => {
         console.log("error getting food item", error)
       })
