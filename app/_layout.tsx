@@ -14,9 +14,17 @@ export const unstable_settings = {
   initialRouteName: "(home)",
 };
 
-export default function Layout() {
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootLayoutNav />
+    </AuthProvider>
+  );
+}
+
+function RootLayoutNav() {
   const { user, authInitialized } = useAuth();
-  
+
   const toastConfig = {
     success: (props: BaseToastProps) => (
       <BaseToast

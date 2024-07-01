@@ -9,11 +9,11 @@ import { save, getValueFor, deleteItem } from "./storage/asyncStorage";
 const USER = "holatPlaceUser";
 
 const apiInstance = axios.create({
-  baseURL: "https://05b3-102-89-47-133.ngrok-free.app",
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
     "Access-Control-Allow-Origin": "*",
-    "X-Client-Type" : "app",
+    "X-Client-Type": "app",
   },
 });
 
