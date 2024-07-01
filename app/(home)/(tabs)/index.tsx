@@ -7,7 +7,7 @@ import { DrawerActions } from "@react-navigation/native";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
-import { getAll, getAllTags, getTopRated } from "@/services/foodService";
+import { getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";
 import { Tags, FoodList, Card } from "@/components";
 import useCart from "@/hooks/useCart";

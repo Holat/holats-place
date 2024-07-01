@@ -84,9 +84,9 @@ export default function CartProvider({
       return;
     }
 
-    // const cartItem = cartItems.find(
-    //   (item: CartItemType) => item.food.id === food.id
-    // );
+  // const cartItem = cartItems.find(
+  //   (item: CartItemType) => item.food.id === food.id
+  // );
     const cartItem = getCartItemById(food.id);
     if (cartItem) {
       changeQuantity(cartItem, cartItem.quantity + (quantity ? quantity : 1));

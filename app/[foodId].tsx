@@ -46,11 +46,19 @@ export default function FoodInfo() {
     <View className="flex-1 flex">
       <StatusBar style="light" />
       <View className="flex-1">
-        <Image
-          source={getFoodImage(imgUrl)}
-          className="w-full h-full"
-          cachePolicy={"disk"}
-        />
+        <View className='w-full h-full'>
+          {
+            foodItem ? <Image
+            source={getFoodImage(imgUrl)}
+            className="w-full h-full"
+            cachePolicy={"disk"}
+          /> : (
+          <View className='w-full h-full'>
+            <RoundedShimmer/>
+          </View>
+          )}
+          
+        </View>
         <View
           className="absolute flex-row justify-between w-full px-4"
           style={{ top: top + 10 }}
@@ -70,9 +78,9 @@ export default function FoodInfo() {
       >
         <View className="flex-1 pt-4 gap-4">
           <View className="flex justify-between">
-            <Text className=" font-semibold mb-1" style={{ fontSize: hp(3.5) }}>
+            {foodItem.name ?  (<Text className=" font-semibold mb-1" style={{ fontSize: hp(3.5) }}>
               {foodItem?.name}
-            </Text>
+            </Text>) : <RoundedShimmer h={20} w={200} />}
             <View>
               <Price
                 price={foodItem?.price || 0}
@@ -97,28 +105,34 @@ export default function FoodInfo() {
                 </View>
               ))}
             </View>
-            <Text className=" leading-6 text-neutral-600">
+            {foodItem ? <Text className=" leading-6 text-neutral-600">
               {foodItem?.desc}
-            </Text>
+            </Text> : (<View>
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+              <RoundedShimmer h={15} />
+            </View>)}
           </View>
           <View className="flex-row items-center justify-between px-2">
             <View className="flex-row items-center gap-2">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.stars}
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={50}/>}
             </View>
             <View className="flex-row items-center gap-2">
               <Ionicons name="alarm" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.cookTime}min
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={55}/>}
             </View>
             <View className="flex-row items-center gap-2">
               <Entypo name="globe" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
                 {foodItem?.origins[0]}
-              </Text>
+              </Text> : <RoundedShimmer h={20} w={50}/>}
             </View>
           </View>
         </View>
