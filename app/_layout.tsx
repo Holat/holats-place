@@ -1,11 +1,9 @@
-import { View, Text } from "react-native";
-import React, { useEffect, useCallback, useState } from "react";
 import { Redirect, Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import Toast, { BaseToast } from "react-native-toast-message";
-import "@/interceptors/networkErrorInterceptor";app/_layout.tsx
+import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 import useAuth from "@/hooks/useAuth";
 import AuthProvider from "@/context/AuthProvider";
@@ -32,7 +30,7 @@ function RootLayoutNav() {
         style={{
           width: "95%",
           backgroundColor: "white",
-          borderLeftColor: "#FA6400",
+          borderLeftColor: "white",
         }}
         contentContainerStyle={{
           width: "100%",
@@ -45,7 +43,6 @@ function RootLayoutNav() {
   };
 
   if (!authInitialized && !user) return null;
-  console.log(isAuthenticated, user);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
@@ -59,7 +56,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(home)" />
             <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
           </Stack>
-          <Toast config={toastConfig} />
+          <Toast config={toastConfig} visibilityTime={2000} />
         </CartProvider>
       </AuthProvider>
     </GestureHandlerRootView>

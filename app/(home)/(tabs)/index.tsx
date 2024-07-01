@@ -70,7 +70,7 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-neutral-100">
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <View className=" flex-col items-center self-center pt-1">
         <View className="flex-row justify-between items-center w-full px-5">
           <TouchableOpacity

@@ -84,9 +84,9 @@ export default function CartProvider({
       return;
     }
 
-  // const cartItem = cartItems.find(
-  //   (item: CartItemType) => item.food.id === food.id
-  // );
+    // const cartItem = cartItems.find(
+    //   (item: CartItemType) => item.food.id === food.id
+    // );
     const cartItem = getCartItemById(food.id);
     if (cartItem) {
       changeQuantity(cartItem, cartItem.quantity + (quantity ? quantity : 1));
@@ -97,7 +97,7 @@ export default function CartProvider({
 
   const getCartItemById = (id: string | number) => {
     const cartItem = cartItems.find((item: CartItemType) => {
-      item.food.id === id
+      item.food.id === id;
     });
     return cartItem;
   };
