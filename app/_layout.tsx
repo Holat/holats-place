@@ -5,7 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import Toast, { BaseToast } from "react-native-toast-message";
-import "@/interceptors/networkErrorInterceptor";
+import "@/interceptors/networkErrorInterceptor";app/_layout.tsx
 import { BaseToastProps } from "react-native-toast-message";
 import useAuth from "@/hooks/useAuth";
 import AuthProvider from "@/context/AuthProvider";
@@ -45,7 +45,7 @@ function RootLayoutNav() {
   };
 
   if (!authInitialized && !user) return null;
-
+  console.log(isAuthenticated, user);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>

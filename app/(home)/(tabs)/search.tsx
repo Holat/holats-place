@@ -9,10 +9,12 @@ import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
 import useCart from "@/hooks/useCart";
 import { Card } from "@/components";
+import SearchLoading from '@/components';
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");
   const [items, setItems] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const { addToCart } = useCart();
 
   const handleAddToCart = (item: FoodItemType) => {
@@ -20,10 +22,13 @@ const Search = () => {
   };
 
   const searchFood = useCallback(() => {
+    setIsLoading(true);
     searchApi(searchInputTerm)
       .then(setItems)
       .catch((error) => {
         console.log("error", error);
+      }).finally(() => {
+        setIsLoading(false)
       });
   }, [searchInputTerm]);
 
@@ -81,6 +86,13 @@ const Search = () => {
           gap: 18,
           paddingHorizontal: 18,
           paddingVertical: 10,
+        }}
+        ListEmptyComponent={() => {
+          return isLoading ? <SearchLoading/> : (
+          <View className='flex-1 items-center justify-center'>
+            <AntDesign name='search1' size={26}/>
+            <Text className='mt-1'>Search For Foods</Text>
+          </View>);
         }}
       />
     </SafeAreaView>

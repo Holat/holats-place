@@ -65,10 +65,10 @@ export default function AuthProvider({
         const success = await authenticate();
         setIsAuthenticated(success);
 
-        if (!success && !inAuthGroup) router.push("/(auth)/login2");
+        if (!success && !inAuthGroup) {router.push("/(auth)/login2"); console.log('redirected to login', authInitialized, success, inAuthGroup)}
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
-    }, [user, segments, authInitialized, isNavigationReady]);
+    }, [  user, segments, authInitialized, isNavigationReady ]);
   };
 
   useEffect(() => {
