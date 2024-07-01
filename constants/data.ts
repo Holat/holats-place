@@ -171,12 +171,12 @@ export const getFoodImage = (name: string) => {
 };
 
 export const sample_tags = [
-  { name: "All", count: 6 },
-  { name: "Fast Food", count: 4 },
-  { name: "Pizza", count: 2 },
-  { name: "Lunch", count: 3 },
-  { name: "Hamburger", count: 1 },
-  { name: "Dessert", count: 1 },
-  { name: "Dinner", count: 3 },
-  { name: "Pasta", count: 1 },
+  { name: "All" },
+  { name: "Fast Food" },
+  { name: "Pizza" },
+  { name: "Lunch" },
+  { name: "Hamburger" },
+  { name: "Dessert" },
+  { name: "Dinner" },
+  { name: "Pasta" },
 ];
