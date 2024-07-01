@@ -65,7 +65,7 @@ export default function AuthProvider({
         const success = await authenticate();
         setIsAuthenticated(success);
 
-        if (!success && !inAuthGroup) {router.push("/(auth)/login2"); console.log('redirected to login', authInitialized, success, inAuthGroup)}
+        if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
     }, [  user, segments, authInitialized, isNavigationReady ]);
@@ -87,7 +87,7 @@ export default function AuthProvider({
     } catch (error) {
       const err = error as AxiosError;
       showToast(
-        "error",
+        "success",
         "Login Error",
         typeof err.response?.data === "string"
           ? err.response?.data

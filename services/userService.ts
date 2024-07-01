@@ -4,7 +4,7 @@ import {
   FormDetails,
   ChangePassFormType,
 } from "@/constants/types";
-import { save, getValueFor, deleteItem } from "./storage/asyncStorage";
+import { save, deleteItem } from "./storage/asyncStorage";
 
 const USER = "holatPlaceUser";
 
