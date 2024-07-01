@@ -42,7 +42,7 @@ const Tag = ({
 }) => {
   return (
     <Pressable
-      className="bg-neutral-200 rounded-3xl px-4 py-1 mr-3"
+      className="bg-neutral-200 rounded-3xl mr-3 items-center justify-center"
       style={{
         backgroundColor: item === currentTag ? "#fed7aa" : "white",
         borderColor: item === currentTag ? "#FA6400" : "transparent",
@@ -53,10 +53,12 @@ const Tag = ({
         shadowOpacity: 0.1,
         shadowRadius: 5,
         elevation: 3,
+        height: 36,
+        width: 80,
       }}
       onPress={() => handleSetTag(item)}
     >
-      <Text className="text-base">{item}</Text>
+      <Text className="text-base text-center">{item}</Text>
     </Pressable>
   );
 };

@@ -25,7 +25,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   return (
     <Carousel
       data={data}
-      keyExtractor={(item) => item.id as string}
+      keyExtractor={(item) => item?.id as string}
       renderItem={({ item }) => (
         <FoodCard item={item} key={item.id} addToCart={addToCart} />
       )}
@@ -63,20 +63,22 @@ const FoodCard = ({
     >
       <View
         style={{ width: wp(50), height: hp(39) }}
-        className=" rounded-[26px] bg-white p-4"
+        className=" rounded-[20px] bg-white p-4"
       >
-        <Image
-          source={getFoodImage(imgUrl)}
-          className=" flex-1 rounded-[20px] w-full"
-          cachePolicy={"disk"}
-        />
-        <View className=" mt-2">
-          <Text className=" font-bold mb-1" style={{ fontSize: hp(2.3) }}>
-            {item.name}
-          </Text>
-          <StarRating stars={item.stars} size={13} />
+        <View className="w-full flex-1 rounded-[10px]" style={{ height: 175 }}>
+          <Image
+            source={getFoodImage(imgUrl)}
+            className="w-full h-full rounded-[10px]"
+            cachePolicy={"disk"}
+          />
         </View>
-
+        <View className=" mt-2">
+          <Text className=" font-bold" style={{ fontSize: hp(2.3) }}>
+            {item?.name}
+          </Text>
+          <View className="h-1" />
+          <StarRating stars={item?.stars} size={13} />
+        </View>
         <View className=" mt-4 flex-row justify-between items-center">
           <Price price={item.price} fontSize={hp(2.3)} />
           <TouchableOpacity

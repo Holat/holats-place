@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text, ActivityIndicator } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -9,7 +9,14 @@ import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
 import { getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";
-import { Tags, FoodList, Card } from "@/components";
+import {
+  Tags,
+  FoodList,
+  Card,
+  HomeLoading,
+  HomeCardLoading,
+  TagsLoading,
+} from "@/components";
 import useCart from "@/hooks/useCart";
 import Toast from "react-native-toast-message";
 
@@ -32,9 +39,9 @@ const reducer = (state: FoodType, action: IAction) => {
 };
 export default function Home() {
   const navigation = useNavigation();
-  const router = useRouter();
+  // const router = useRouter();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
-  const [currentTag, setCurrentTag] = useState("All");
+  // const [currentTag, setCurrentTag] = useState("All");
   const { addToCart } = useCart();
 
   const showToast = () => {
@@ -42,7 +49,6 @@ export default function Home() {
       type: "success",
       text1: "Network Error",
       text2: "Please check your internet connection and try again.",
-      // topOffset: hp(6),
     });
   };
 
@@ -93,10 +99,10 @@ export default function Home() {
         </View>
       </View>
       <View className="mt-2 px-4">
-        {tags.length > 0 ? <Tags tags={tags} /> : <ActivityIndicator />}
+        {tags.length > 0 ? <Tags tags={tags} /> : <TagsLoading />}
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? <FoodList data={foods} /> : <ActivityIndicator />}
+        {foods.length > 0 ? <FoodList data={foods} /> : <HomeLoading />}
       </View>
       <View className="p-4">
         <View className="flex-row justify-between items-center mb-3">
@@ -110,7 +116,11 @@ export default function Home() {
             See All
           </Link>
         </View>
-        <Card item={foods[3]} handleAddToCart={addToCart} />
+        {foods[3] ? (
+          <Card item={foods[3]} handleAddToCart={addToCart} />
+        ) : (
+          <HomeCardLoading />
+        )}
       </View>
     </SafeAreaView>
   );
