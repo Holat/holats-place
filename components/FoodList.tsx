@@ -25,9 +25,13 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   return (
     <Carousel
       data={data}
-      keyExtractor={(item) => item?.id as string}
-      renderItem={({ item }) => (
-        <FoodCard item={item} key={item.id} addToCart={addToCart} />
+      keyExtractor={(item, index) => `${item?.id}${index}` as string}
+      renderItem={({ item, index }) => (
+        <FoodCard
+          item={item}
+          key={`${item?.id}${index}`}
+          addToCart={addToCart}
+        />
       )}
       sliderWidth={wp(100)}
       slideStyle={{
@@ -37,6 +41,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
       }}
       firstItem={2}
       itemWidth={wp(52)}
+      // loop
     />
   );
 }

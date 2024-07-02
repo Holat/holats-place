@@ -2,11 +2,20 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 import useAuth from "@/hooks/useAuth";
 import { ScrollView } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Profile() {
   const { user } = useAuth();
+  const { bottom, top } = useSafeAreaInsets();
+
   return (
-    <ScrollView contentContainerStyle={{ alignItems: "center", padding: 8 }}>
+    <ScrollView
+      contentContainerStyle={{
+        alignItems: "center",
+        padding: 8,
+      }}
+      style={{ marginBottom: 100 }}
+    >
       <View className="bg-white p-4 w-full rounded-lg">
         <View className="items-center">
           <View className="w-20 h-20 mb-2">
@@ -24,6 +33,11 @@ export default function Profile() {
         <DetailsD title="Email" text={user?.email} b />
         <DetailsD title="Contact" text={user?.phone} b />
         <DetailsD title="Address" text={user?.address} />
+      </View>
+      <View className="flex-1 bg-white rounded-lg mt-2 py-4 px-4 w-full">
+        <View>
+          <Text className="text-red-600 font-semibold text-base">Logout</Text>
+        </View>
       </View>
     </ScrollView>
   );
