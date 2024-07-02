@@ -11,7 +11,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Price } from "@/components";
+import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import useCart from "@/hooks/useCart";
 import { StatusBar } from "expo-status-bar";
@@ -19,17 +19,19 @@ import { StatusBar } from "expo-status-bar";
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
   const [foodItem, setFoodItem] = useState<FoodItemType>();
-  const { getCartItemById, addToCart} = useCart();
+  const { getCartItemById, addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
   const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
-    getById(foodId.toString()).then(setFoodItem)
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    getById(foodId.toString())
+      .then(setFoodItem)
       .catch((error) => {
-        console.log("error getting food item", error)
-      })
+        console.log("error getting food item", error);
+      });
   }, [foodId]);
 
   useEffect(() => {
@@ -45,18 +47,18 @@ export default function FoodInfo() {
     <View className="flex-1 flex">
       <StatusBar style="light" />
       <View className="flex-1">
-        <View className='w-full h-full'>
-          {
-            foodItem ? <Image
-            source={getFoodImage(imgUrl)}
-            className="w-full h-full"
-            cachePolicy={"disk"}
-          /> : (
-          <View className='w-full h-full'>
-            <RoundedShimmer/>
-          </View>
+        <View className="w-full h-full">
+          {foodItem ? (
+            <Image
+              source={getFoodImage(imgUrl)}
+              className="w-full h-full"
+              cachePolicy={"disk"}
+            />
+          ) : (
+            <View className="w-full h-full">
+              <RoundedShimmer />
+            </View>
           )}
-          
         </View>
         <View
           className="absolute flex-row justify-between w-full px-4"
@@ -77,9 +79,16 @@ export default function FoodInfo() {
       >
         <View className="flex-1 pt-4 gap-4">
           <View className="flex justify-between">
-            {foodItem.name ?  (<Text className=" font-semibold mb-1" style={{ fontSize: hp(3.5) }}>
-              {foodItem?.name}
-            </Text>) : <RoundedShimmer h={20} w={200} />}
+            {foodItem ? (
+              <Text
+                className=" font-semibold mb-1"
+                style={{ fontSize: hp(3.5) }}
+              >
+                {foodItem?.name}
+              </Text>
+            ) : (
+              <RoundedShimmer h={20} w={200} />
+            )}
             <View>
               <Price
                 price={foodItem?.price || 0}
@@ -104,34 +113,50 @@ export default function FoodInfo() {
                 </View>
               ))}
             </View>
-            {foodItem ? <Text className=" leading-6 text-neutral-600">
-              {foodItem?.desc}
-            </Text> : (<View>
-              <RoundedShimmer h={15} />
-              <RoundedShimmer h={15} />
-              <RoundedShimmer h={15} />
-              <RoundedShimmer h={15} />
-              <RoundedShimmer h={15} />
-            </View>)}
+            {foodItem ? (
+              <Text className=" leading-6 text-neutral-600">
+                {foodItem?.desc}
+              </Text>
+            ) : (
+              <View>
+                <RoundedShimmer h={15} />
+                <RoundedShimmer h={15} />
+                <RoundedShimmer h={15} />
+                <RoundedShimmer h={15} />
+                <RoundedShimmer h={15} />
+              </View>
+            )}
           </View>
           <View className="flex-row items-center justify-between px-2">
             <View className="flex-row items-center gap-2">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
-                {foodItem?.stars}
-              </Text> : <RoundedShimmer h={20} w={50}/>}
+              {foodItem ? (
+                <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                  {foodItem?.stars}
+                </Text>
+              ) : (
+                <RoundedShimmer h={20} w={50} />
+              )}
             </View>
             <View className="flex-row items-center gap-2">
               <Ionicons name="alarm" size={hp(3)} color={"#FA6400"} />
-              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
-                {foodItem?.cookTime}min
-              </Text> : <RoundedShimmer h={20} w={55}/>}
+              {foodItem ? (
+                <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                  {foodItem?.cookTime}min
+                </Text>
+              ) : (
+                <RoundedShimmer h={20} w={55} />
+              )}
             </View>
             <View className="flex-row items-center gap-2">
               <Entypo name="globe" size={hp(3)} color={"#FA6400"} />
-              {foodItem ? <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
-                {foodItem?.origins[0]}
-              </Text> : <RoundedShimmer h={20} w={50}/>}
+              {foodItem ? (
+                <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                  {foodItem?.origins[0]}
+                </Text>
+              ) : (
+                <RoundedShimmer h={20} w={50} />
+              )}
             </View>
           </View>
         </View>
@@ -143,7 +168,7 @@ export default function FoodInfo() {
           >
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={() => setQuantity(quantity > 1 && quantity - 1)}
+              onPress={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
             >
               <Entypo color={"white"} name={"minus"} size={hp(2)} />
             </TouchableOpacity>

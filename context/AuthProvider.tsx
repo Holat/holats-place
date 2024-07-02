@@ -14,7 +14,7 @@ import { getValueFor } from "@/services/storage/asyncStorage";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-const USER = "holatPlaceUser";
+const USER = process.env.EXPO_PUBLIC_USER;
 export default function AuthProvider({
   children,
 }: {
@@ -25,7 +25,7 @@ export default function AuthProvider({
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const getUser = async () => {
-    const userString = await getValueFor(USER);
+    const userString = await getValueFor(USER || "");
     if (userString) {
       const data = JSON.parse(userString);
       setUser(data);
@@ -39,12 +39,17 @@ export default function AuthProvider({
     const segments = useSegments();
     const router = useRouter();
 
+    // const authenticate = async () => {
+    //   let success = false;
+    //   user
+    //     ? (success = await userService.authenticate(user?.email, user?.token))
+    //     : (success = false);
+    //   return success;
+    // };
+
     const authenticate = async () => {
-      let success = false;
-      user
-        ? (success = await userService.authenticate(user?.email, user?.token))
-        : (success = false);
-      return success;
+      if (user) return true;
+      else return false;
     };
 
     useEffect(() => {
@@ -65,10 +70,12 @@ export default function AuthProvider({
         const success = await authenticate();
         setIsAuthenticated(success);
 
+        console.log(inAuthGroup, success);
+
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
-    }, [  user, segments, authInitialized, isNavigationReady ]);
+    }, [user, segments, authInitialized, isNavigationReady]);
   };
 
   useEffect(() => {
@@ -115,6 +122,7 @@ export default function AuthProvider({
     userService.logout();
     setUser(null);
     setIsAuthenticated(false);
+    setAuthInitialized(false);
     console.log("Logout Successful");
     // type === "n"
     //   ? console.log("Logout Successful")

@@ -1,19 +1,19 @@
-import { TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View, Text } from "react-native";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, FontAwesome6, AntDesign } from "@expo/vector-icons";
+import { FontAwesome6, AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { searchApi } from "@/services/foodService";
 import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
 import useCart from "@/hooks/useCart";
-import { Card } from "@/components";
-import SearchLoading from '@/components';
+import { Card, SearchLoading } from "@/components";
+import Toast from "react-native-toast-message";
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");
-  const [items, setItems] = useState();
+  const [items, setItems] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { addToCart } = useCart();
 
@@ -21,15 +21,25 @@ const Search = () => {
     addToCart(item);
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Network Error",
+      text2: "Please check your internet connection and try again.",
+      topOffset: hp(6),
+    });
+  };
+
   const searchFood = useCallback(() => {
-    setIsLoading(true);
-    searchApi(searchInputTerm)
-      .then(setItems)
-      .catch((error) => {
-        console.log("error", error);
-      }).finally(() => {
-        setIsLoading(false)
-      });
+    if (searchInputTerm.trim().length > 0) {
+      setIsLoading(true);
+      searchApi(searchInputTerm)
+        .then(setItems)
+        .catch((error) => showToast())
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else setItems(null);
   }, [searchInputTerm]);
 
   return (
@@ -37,7 +47,7 @@ const Search = () => {
       <View className="w-full flex-row items-center justify-center gap-4 pt-6 px-2">
         <View>
           <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons color={"black"} name={"chevron-back"} size={hp(4)} />
+            <AntDesign color={"black"} name={"left"} size={hp(4)} />
           </TouchableOpacity>
         </View>
         <View
@@ -88,11 +98,14 @@ const Search = () => {
           paddingVertical: 10,
         }}
         ListEmptyComponent={() => {
-          return isLoading ? <SearchLoading/> : (
-          <View className='flex-1 items-center justify-center'>
-            <AntDesign name='search1' size={26}/>
-            <Text className='mt-1'>Search For Foods</Text>
-          </View>);
+          return isLoading ? (
+            <SearchLoading />
+          ) : (
+            <View className="flex-1 flex items-center justify-center mt-20">
+              <AntDesign name="search1" size={26} color={"#cccccc"} />
+              <Text className="mt-1 text-neutral-400">Search For Foods</Text>
+            </View>
+          );
         }}
       />
     </SafeAreaView>

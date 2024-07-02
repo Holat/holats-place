@@ -50,7 +50,7 @@ export type CartContextType = {
   changeQuantity: (cartItem: CartItemType, newQuantity: number) => void;
   addToCart: (food?: FoodItemType, quantity?: number | null) => void;
   clearCart: () => void;
-  getCartItemById: (id: string | number) => CartItemType;
+  getCartItemById: (id: string | number) => CartItemType | undefined;
 };
 
 export type NewUserType = {

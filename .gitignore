@@ -44,12 +44,3 @@ expo-env.d.ts
 #vscode
 *.vscode
 note.txt
-
-
-
-
-
-#ListEmptyComponent
-# issue: Loop on initial login on a new device (Login <----> Home)
-# EXPO_PUBLIC_CART_KEY=holatPlaceAppCart      EXPO_PUBLIC_USER =holatPlaceAppUser --> add to the env variables
-# Liking food

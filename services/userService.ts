@@ -8,6 +8,8 @@ import { save, deleteItem } from "./storage/asyncStorage";
 
 const USER = "holatPlaceUser";
 
+console.log();
+
 const apiInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
@@ -19,7 +21,7 @@ const apiInstance = axios.create({
 
 export const login = async (email: string, password: string) => {
   const { data } = await apiInstance.post(`/api/user/login`, {
-    email,
+    email: email.trim(),
     password,
   });
   const dataString = JSON.stringify(data);
@@ -34,7 +36,7 @@ export const authenticate = async (email: string, token: string) => {
     const { data } = await apiInstance.post(
       "/api/user/authenticate",
       {
-        email: email,
+        email: email.trim(),
       },
       {
         headers: {
