@@ -25,13 +25,9 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   return (
     <Carousel
       data={data}
-      keyExtractor={(item, index) => `${item?.id}${index}` as string}
+      keyExtractor={(item) => item?.id as string}
       renderItem={({ item, index }) => (
-        <FoodCard
-          item={item}
-          key={`${item?.id}${index}`}
-          addToCart={addToCart}
-        />
+        <FoodCard item={item} key={item?.id} addToCart={addToCart} />
       )}
       sliderWidth={wp(100)}
       slideStyle={{
@@ -39,7 +35,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
         alignItems: "center",
         backgroundColor: "transparent",
       }}
-      firstItem={2}
+      firstItem={3}
       itemWidth={wp(52)}
       // loop
     />
@@ -70,28 +66,30 @@ const FoodCard = ({
         style={{ width: wp(50), height: hp(39) }}
         className=" rounded-[20px] bg-white p-4"
       >
-        <View className="w-full flex-1 rounded-[10px]" style={{ height: 175 }}>
+        <View className="w-full rounded-[10px]">
           <Image
             source={getFoodImage(imgUrl)}
-            className="w-full h-full rounded-[10px]"
+            className="w-full h-40 rounded-[10px]"
             cachePolicy={"disk"}
           />
         </View>
-        <View className=" mt-2">
-          <Text className=" font-bold" style={{ fontSize: hp(2.3) }}>
-            {item?.name}
-          </Text>
-          <View className="h-1" />
-          <StarRating stars={item?.stars} size={13} />
-        </View>
-        <View className=" mt-4 flex-row justify-between items-center">
-          <Price price={item.price} fontSize={hp(2.3)} />
-          <TouchableOpacity
-            className=" bg-orange-500 rounded-lg p-2"
-            onPress={() => addToCart(item)}
-          >
-            <Entypo color={"white"} name={"plus"} size={hp(2)} />
-          </TouchableOpacity>
+        <View className="flex flex-1 justify-between">
+          <View className=" mt-2">
+            <Text className=" font-bold" style={{ fontSize: hp(2.3) }}>
+              {item?.name}
+            </Text>
+            <View className="h-1" />
+            <StarRating stars={item?.stars} size={13} />
+          </View>
+          <View className=" mt-4 flex-row justify-between items-center">
+            <Price price={item.price} fontSize={hp(2.3)} />
+            <TouchableOpacity
+              className=" bg-orange-500 rounded-lg p-2"
+              onPress={() => addToCart(item)}
+            >
+              <Entypo color={"white"} name={"plus"} size={hp(2)} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>

@@ -1,7 +1,8 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { TagTypes } from "@/constants/types";
 import { Link, router } from "expo-router";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Tags = ({ tags }: { tags: TagTypes[] }) => {
   const [currentTag, setCurrentTag] = useState("All");
@@ -19,7 +20,7 @@ const Tags = ({ tags }: { tags: TagTypes[] }) => {
       {tags &&
         tags.map(({ name }: { name: string }, index: number) => (
           <Tag
-            key={index}
+            key={name + index}
             item={name}
             currentTag={currentTag}
             handleSetTag={handleSetTag}
@@ -42,7 +43,7 @@ const Tag = ({
 }) => {
   return (
     <Pressable
-      className="bg-neutral-200 rounded-3xl mr-3 items-center justify-center"
+      className="bg-neutral-200 rounded-3xl mr-3 items-center justify-center flex px-2"
       style={{
         backgroundColor: item === currentTag ? "#fed7aa" : "white",
         borderColor: item === currentTag ? "#FA6400" : "transparent",
@@ -58,7 +59,13 @@ const Tag = ({
       }}
       onPress={() => handleSetTag(item)}
     >
-      <Text className="text-base text-center">{item}</Text>
+      <Text
+        className="text-base text-center"
+        ellipsizeMode="tail"
+        numberOfLines={1}
+      >
+        {item}
+      </Text>
     </Pressable>
   );
 };

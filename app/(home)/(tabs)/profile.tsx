@@ -16,7 +16,7 @@ export default function Profile() {
       }}
       style={{ marginBottom: 100 }}
     >
-      <View className="bg-white p-4 w-full rounded-lg">
+      <View className="bg-white p-4 w-full rounded-2xl">
         <View className="items-center">
           <View className="w-20 h-20 mb-2">
             <Image
@@ -28,13 +28,13 @@ export default function Profile() {
           <Text className="text-neutral-600">{user?.email}</Text>
         </View>
       </View>
-      <View className="mt-2 bg-white w-full rounded-lg py-4 px-2">
+      <View className="mt-2 bg-white w-full rounded-2xl py-4 px-2">
         <DetailsD title="Name" text={user?.name} b />
         <DetailsD title="Email" text={user?.email} b />
         <DetailsD title="Contact" text={user?.phone} b />
         <DetailsD title="Address" text={user?.address} />
       </View>
-      <View className="flex-1 bg-white rounded-lg mt-2 py-4 px-4 w-full">
+      <View className="flex-1 bg-white rounded-2xl mt-2 py-4 px-4 w-full">
         <View>
           <Text className="text-red-600 font-semibold text-base">Logout</Text>
         </View>

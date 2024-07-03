@@ -116,8 +116,8 @@ export default function Home() {
             See All
           </Link>
         </View>
-        {foods[3] ? (
-          <Card item={foods[3]} handleAddToCart={addToCart} />
+        {foods[0] ? (
+          <Card item={foods[0]} handleAddToCart={() => addToCart(foods[0])} />
         ) : (
           <HomeCardLoading />
         )}

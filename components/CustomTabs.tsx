@@ -6,7 +6,7 @@ const CustomTabs = ({ state, descriptors, navigation }: any) => {
   return (
     <View
       style={styles.shadow}
-      className="bottom-0 w-full self-center bg-white pt-2 pb-4 absolute flex-row"
+      className="bottom-0 w-full self-center bg-white pt-2 pb-4 absolute flex-row rounded-t-3xl"
     >
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
@@ -58,7 +58,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
 
     elevation: 6,
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30,
   },
 });

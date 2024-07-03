@@ -35,7 +35,7 @@ const FoodListSkeletonCard = ({ type }: { type: "s" | "b" }) => {
       }}
       className=" rounded-[20px] bg-white p-4"
     >
-      <View className="w-full flex-1 rounded-[10px] justify-center items-center overflow-hidden ">
+      <View className="w-full h-40 rounded-[10px] justify-center items-center overflow-hidden ">
         <View className="absolute z-10">
           <Ionicons name="image-outline" size={42} color={"white"} />
         </View>

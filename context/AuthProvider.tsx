@@ -70,7 +70,7 @@ export default function AuthProvider({
         const success = await authenticate();
         setIsAuthenticated(success);
 
-        console.log(inAuthGroup, success);
+        // console.log(inAuthGroup, success);
 
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
@@ -80,7 +80,7 @@ export default function AuthProvider({
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [isAuthenticated]);
 
   const showToast = (type: string, text1: string, text2: string) =>
     Toast.show({ type, text1, text2 });

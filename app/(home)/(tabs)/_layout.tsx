@@ -22,6 +22,7 @@ const TabLayout = () => {
         name="cart"
         options={{
           title: "Cart",
+          // headerShown: true,
         }}
       />
       <Tabs.Screen
@@ -40,7 +41,7 @@ const TabLayout = () => {
         name="profile"
         options={{
           title: "Profile",
-          headerShown: true
+          headerShown: true,
         }}
       />
     </Tabs>
