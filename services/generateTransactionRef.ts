@@ -11,7 +11,7 @@ export default function generateTransactionRef(length: number) {
   const randomComplexNumber = Array.from({ length: 16 }, () => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    return chars.charAt(Math.floor(Math.random() * chars.length));
+    return chars.charAt(Math.floor(Math.random() * length));
   }).join("");
   const result = `${randomComplexNumber}${dateTimeString}`;
   return `flw_tx_ref_${result}`;

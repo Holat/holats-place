@@ -15,7 +15,6 @@ import { getFoodImage } from "@/constants/data";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   heightPercentageToDP as hp,
-  // widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";

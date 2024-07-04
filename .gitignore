@@ -44,3 +44,8 @@ expo-env.d.ts
 #vscode
 *.vscode
 note.txt
+
+
+# <Picker/>  -- try this
+# AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs
+# https://blog.logrocket.com/google-places-autocomplete-components-react-native/

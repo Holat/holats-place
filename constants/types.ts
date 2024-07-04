@@ -104,7 +104,6 @@ export type OrderType = {
   address?: string;
   lat: number;
   lng: number;
-  status?: string;
   email?: string;
   phonenumber?: string;
 } & CartType;
