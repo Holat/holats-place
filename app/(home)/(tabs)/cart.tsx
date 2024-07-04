@@ -13,9 +13,7 @@ import { CartItemType } from "@/constants/types";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
-import {
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 

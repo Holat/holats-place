@@ -1,9 +1,8 @@
 import axios from "axios";
 import { OrderType } from "@/constants/types";
-import axios, { AxiosError } from "axios";
 import { getValueFor } from "./storage/asyncStorage";
 
-const USER = process.env.EXPO_PUBLIC_USER;
+const USER = process.env.EXPO_PUBLIC_USER || "";
 const apiInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
@@ -14,13 +13,13 @@ const apiInstance = axios.create({
 });
 
 apiInstance.interceptors.request.use(
-  (req) => {
-    const user = getValueFor(USER);
+  async (req) => {
+    const user = await getValueFor(USER);
     const token = user && JSON.parse(user).token;
-    if(token) req.headers["access_token"] = token;
+    if (token) req.headers["access_token"] = token;
     return req;
   },
-  (error) => Promise.reject(error);
+  (error) => Promise.reject(error)
 );
 
 export const createOrder = async (order: OrderType) => {
