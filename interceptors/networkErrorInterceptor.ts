@@ -12,7 +12,6 @@ const showToast = () => {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error(error.toJSON());
     if (!error.response) showToast();
     return Promise.reject(error);
   }

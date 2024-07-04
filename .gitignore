@@ -45,7 +45,7 @@ expo-env.d.ts
 *.vscode
 note.txt
 
-
+# https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJneQ1fBO5t4kRf8mTw4ieb4Q&key=AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs
 # <Picker/>  -- try this
 # AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs
 # https://blog.logrocket.com/google-places-autocomplete-components-react-native/
