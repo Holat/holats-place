@@ -17,8 +17,7 @@ const CheckOut = () => {
       phonenumber
     }
   );
-
-  const [orderItem, setOrderItem] = useState({
+  const [order, setOrder] = useState({
     ...cart,
     ...userDetails,
     email,
@@ -27,6 +26,17 @@ const CheckOut = () => {
     lng: 0,
   });
  const { location } = useLocation();
+
+
+  const onSubmit = async () => {
+    if (order.lat === 0 && order.lng === 0) {
+      toast.warning("Please select your location on the map", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    l; 
+    await createOrder({ ...order });
+  };
 
   return (
     <SafeAreaView className='flex-1'>
@@ -50,7 +60,7 @@ const CheckOut = () => {
           </View>
         </ScrollView>
         <View>
-          <PaymentBtn order={orderItem}/>
+          <PaymentBtn order={order}/>
         </View>
      </View>
     </SafeAreaView>

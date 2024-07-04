@@ -7,9 +7,6 @@ import {
 import { save, deleteItem } from "./storage/asyncStorage";
 
 const USER = "holatPlaceUser";
-
-console.log();
-
 const apiInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
