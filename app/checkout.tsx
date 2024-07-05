@@ -29,13 +29,27 @@ const CheckOut = () => {
   });
   //  const { location } = useLocation();
 
+  const onAddressSelect = async (item) => {
+    const {place_id} = item;
+    const location = await getAddressLatLng( place_id , GOOGLE_API_KEY);
+
+    if (location){
+      setOrder((prevItem) => {
+        ...prevItem,
+        address: item.formatted_address
+        lat: location.lat,
+        lng: location.lng
+      })
+    }else {
+      console.log("Error setting location pls try again")
+    }
+  }
+
   const onSubmit = async () => {
-    // if (order.lat === 0 && order.lng === 0) {
-    //   toast.warning("Please select your location on the map", {
-    //     position: toast.POSITION.TOP_RIGHT,
-    //   });
-    //   return;
-    // ;
+    if (order.lat === 0 && order.lng === 0) {
+      console.log("Location not set");
+      return;
+    }
     await createOrder({ ...order });
   };
 
