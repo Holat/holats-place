@@ -15,15 +15,11 @@ const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const CheckOut = () => {
   const { cart } = useCart();
   const { user } = useAuth();
-  const [userDetails, setUserDetails] = useState({
-    address: user?.address,
-    phonenumber: user?.phone,
-  });
   const [order, setOrder] = useState({
     ...cart,
-    ...userDetails,
     email: user?.email,
     address: user?.address,
+    phonenumber: user?.phone
     lat: 0,
     lng: 0,
   });
@@ -61,8 +57,8 @@ const CheckOut = () => {
           style={{ padding: 16 }}
         >
           <View className="flex-1 pt-4">
-            <DetailsD title={"Name"} text={user?.name} t />
-            <DetailsD title={"Email"} text={user?.email} t />
+            <DetailsD title={"Name"} text={order?.name} t />
+            <DetailsD title={"Email"} text={order?.email} t />
             {/* <DetailsD title={"Contact"} text={user?.phone} t />
             <DetailsD title={"Address"} text={user?.address} t /> */}
             <View className="pl-2 mt-2">
