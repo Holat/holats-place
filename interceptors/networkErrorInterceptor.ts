@@ -1,18 +1,14 @@
 import axios from "axios";
-import Toast from "react-native-toast-message";
-
-const showToast = () => {
-  Toast.show({
-    type: "success",
-    text1: "Network Error",
-    text2: "Please check your internet connection and try again.",
-  });
-};
+import showToast from "@/services/ToastM";
 
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (!error.response) showToast();
+    if (!error.response)
+      showToast(
+        "Network Error",
+        "Please check your internet connection and try again."
+      );
     return Promise.reject(error);
   }
 );

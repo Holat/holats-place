@@ -9,7 +9,6 @@ import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
 import useCart from "@/hooks/useCart";
 import { Card, SearchLoading } from "@/components";
-import Toast from "react-native-toast-message";
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");
@@ -21,21 +20,12 @@ const Search = () => {
     addToCart(item);
   };
 
-  const showToast = () => {
-    Toast.show({
-      type: "success",
-      text1: "Network Error",
-      text2: "Please check your internet connection and try again.",
-      topOffset: hp(6),
-    });
-  };
-
   const searchFood = useCallback(() => {
     if (searchInputTerm.trim().length > 0) {
       setIsLoading(true);
       searchApi(searchInputTerm)
         .then(setItems)
-        .catch((error) => showToast())
+        .catch((error) => console.log(error))
         .finally(() => {
           setIsLoading(false);
         });

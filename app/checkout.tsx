@@ -1,52 +1,47 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { PaymentBtn } from "@/components";
 import useCart from "@/hooks/useCart";
-import { useRouter } from "expo-router";
 import { OrderType } from "@/constants/types";
 // import useLocation from '@/hooks/useLocation';
 import { Price } from "@/components";
 import useAuth from "@/hooks/useAuth";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createOrder } from "@/services/orderServices";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
+import {
+  GooglePlaceDetail,
+  GooglePlacesAutocomplete,
+} from "react-native-google-places-autocomplete";
 
 const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const CheckOut = () => {
   const { cart } = useCart();
   const { user } = useAuth();
-  const [order, setOrder] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+  const [order, setOrder] = useState<OrderType>({
     ...cart,
+    name: user?.name,
     email: user?.email,
     address: user?.address,
-    phonenumber: user?.phone
+    phonenumber: user?.phone,
     lat: 0,
     lng: 0,
   });
   //  const { location } = useLocation();
 
-  const onAddressSelect = async (item) => {
-    const {place_id} = item;
-    const location = await getAddressLatLng( place_id , GOOGLE_API_KEY);
+  const handleIsLoading = (b: boolean) => setIsLoading(b);
 
-    if (location){
-      setOrder((prevItem) => {
-        ...prevItem,
-        address: item.formatted_address
-        lat: location.lat,
-        lng: location.lng
-      })
-    }else {
-      console.log("Error setting location pls try again")
-    }
-  }
+  const onAddressSelect = (details: GooglePlaceDetail | null) => {
+    if (!details) return;
+    const { formatted_address, geometry } = details;
+    setOrder({
+      ...order,
+      address: formatted_address,
+      lat: geometry.location.lat,
+      lng: geometry.location.lng,
+    });
 
-  const onSubmit = async () => {
-    if (order.lat === 0 && order.lng === 0) {
-      console.log("Location not set");
-      return;
-    }
-    await createOrder({ ...order });
+    console.log(order);
   };
 
   return (
@@ -59,15 +54,14 @@ const CheckOut = () => {
           <View className="flex-1 pt-4">
             <DetailsD title={"Name"} text={order?.name} t />
             <DetailsD title={"Email"} text={order?.email} t />
-            {/* <DetailsD title={"Contact"} text={user?.phone} t />
-            <DetailsD title={"Address"} text={user?.address} t /> */}
             <View className="pl-2 mt-2">
               <Text className="font-bold text-sm ml-1 text-neutral-500 mb-2">
                 Phone Number
                 <Text className="text-red-500">*</Text>
               </Text>
               <TextInput
-                placeholder={user?.phone}
+                placeholder="Phone Number"
+                defaultValue={user?.phone}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
               />
             </View>
@@ -83,7 +77,8 @@ const CheckOut = () => {
                   components: "country:ng",
                 }}
                 placeholder="Search Delivery Address"
-                onPress={(item) => console.log(item)}
+                fetchDetails={true}
+                onPress={(_, details) => onAddressSelect(details)}
                 styles={{
                   container: {
                     flex: 0,
@@ -163,11 +158,6 @@ const DetailsD = ({
           <Text className="font-bold text-base text-neutral-500">{title}</Text>
         </View>
         <View>
-          {t ? (
-            <Text className="text-neutral-500 font-semibold">{text}</Text>
-          ) : (
-            <Price price={text as number} fontSize={18} />
-          )}
           {t ? (
             <Text className="text-neutral-500 font-semibold">{text}</Text>
           ) : (

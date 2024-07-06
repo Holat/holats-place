@@ -17,7 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Controller, useForm } from "react-hook-form";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
+import showToast from "@/services/ToastM";
 import { useRouter } from "expo-router";
 import useAuth from "@/hooks/useAuth";
 import { Ionicons } from "@expo/vector-icons";
@@ -39,15 +39,6 @@ const Login = () => {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
-  const showToast = () => {
-    Toast.show({
-      type: "error",
-      text1: "Login Error",
-      text2: "Email and Password is required",
-      // topOffset: hp(6),
-    });
-  };
-
   const onSubmit = async (data: { email: string; password: string }) => {
     setIsLoading(true);
     const isSuccess = await login(data.email, data.password);
@@ -61,7 +52,7 @@ const Login = () => {
 
   useEffect(() => {
     if (errors.email || errors.password) {
-      showToast();
+      showToast("Login Error", "Email and Password Required");
     }
   }, [errors]);
 

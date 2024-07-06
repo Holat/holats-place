@@ -3,7 +3,6 @@ import { OrderType } from "@/constants/types";
 import { getValueFor } from "./storage/asyncStorage";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
-const GOOGLE_API_KEY = process.env.
 const apiInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
@@ -55,14 +54,3 @@ export const getAllStatus = async () => {
   const { data } = await apiInstance.get(`/api/orders/allStatus`);
   return data;
 };
-
-export const getAddressLatLng = async (addressId: string, key: string) => {
-  const { data } = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${addressId}&key=${key}`);
-  let location;
-  if ( data ){
-    const { geometry.location: { lng, lat } } = data;
-    location = { lng, lat };
-  }
-  return location;
-  // https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJneQ1fBO5t4kRf8mTw4ieb4Q&key=AIzaSyAKKj0qdxXVnidSbvBEBZC5aQEcxciRJOs
-}

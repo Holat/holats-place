@@ -18,7 +18,6 @@ import {
   TagsLoading,
 } from "@/components";
 import useCart from "@/hooks/useCart";
-import Toast from "react-native-toast-message";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -44,28 +43,16 @@ export default function Home() {
   // const [currentTag, setCurrentTag] = useState("All");
   const { addToCart } = useCart();
 
-  const showToast = () => {
-    Toast.show({
-      type: "success",
-      text1: "Network Error",
-      text2: "Please check your internet connection and try again.",
-    });
-  };
-
   useEffect(() => {
     const loadedFoods = getTopRated();
     loadedFoods
       .then((foodItems) => dispatch({ type: FOODS_LOADED, payload: foodItems }))
-      .catch(() => {
-        showToast();
-      });
+      .catch((error) => console.log(error));
 
     const tags = getAllTags();
     tags
       .then((tag) => dispatch({ type: TAGS_LOADED, payload: tag }))
-      .catch(() => {
-        showToast();
-      });
+      .catch((error) => console.log(error));
   }, []);
 
   return (

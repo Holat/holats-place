@@ -8,7 +8,7 @@ import {
   ChangePassFormType,
   AuthContextType,
 } from "@/constants/types";
-import Toast from "react-native-toast-message";
+import showToast from "@/services/ToastM";
 import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
 import { getValueFor } from "@/services/storage/asyncStorage";
 
@@ -82,19 +82,15 @@ export default function AuthProvider({
     getUser();
   }, [isAuthenticated]);
 
-  const showToast = (type: string, text1: string, text2: string) =>
-    Toast.show({ type, text1, text2 });
-
   const login = async (email: string, password: string) => {
     try {
       const data = await userService.login(email, password);
       setUser(data);
-      showToast("success", "Logged In", "Login Successful");
+      showToast("Logged In", "Login Successful");
       return true;
     } catch (error) {
       const err = error as AxiosError;
       showToast(
-        "success",
         "Login Error",
         typeof err.response?.data === "string"
           ? err.response?.data
@@ -108,7 +104,7 @@ export default function AuthProvider({
     try {
       const apiData = await userService.register(data);
       setUser(apiData);
-      showToast("success", "", "Sign up successful!");
+      showToast("", "Sign up successful!");
     } catch (error) {
       console.log("Unsuccessful");
     }
