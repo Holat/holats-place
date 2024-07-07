@@ -1,4 +1,4 @@
-import { PayWithFlutterwave, FlutterwaveInit } from "flutterwave-react-native";
+import { PayWithFlutterwave } from "flutterwave-react-native";
 import useCart from "@/hooks/useCart";
 import { useRouter } from "expo-router";
 import generateTransactionRef from "@/services/generateTransactionRef";
@@ -12,19 +12,27 @@ interface RedirectParams {
   tx_ref: string;
 }
 
-export default function PaymentBtn({ order }: { order: OrderType }) {
+export default function PaymentBtn({
+  order,
+  handleIsLoading,
+}: {
+  order: OrderType;
+  handleIsLoading: (b: boolean) => void;
+}) {
   const router = useRouter();
   const { clearCart } = useCart();
 
   const handleOnRedirect = async (data: RedirectParams) => {
+    handleIsLoading(true);
     if (data.status === "successful") {
       const paymentId = data.transaction_id || Date();
       await pay(paymentId);
       clearCart();
-      router.push("/(home)/(tabs)/");
+      handleIsLoading(false);
+      router.push("/(home)/orders");
     } else {
-      console.log("Payment Failed");
-      // router.push("/");
+      handleIsLoading(false);
+      router.push("/cart");
     }
   };
 

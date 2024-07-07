@@ -39,46 +39,59 @@ const Cart = () => {
           <Text className="text-lg font-bold">Cart</Text>
         </View>
         <Pressable
+          disabled={items.length === 0 || !items}
           onPress={clearCart}
           className="flex-row rounded-lg items-center  bg-white p-3 h-full"
         >
           <Text className="font-semibold mr-1">Clear Cart</Text>
         </Pressable>
       </View>
-      <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl overflow-hidden">
-        <ScrollView
-          className="mt-1 flex-1"
-          contentContainerStyle={{
-            paddingHorizontal: 8,
-            paddingTop: 8,
-          }}
-        >
-          {items.map((item) => (
-            <Card
-              key={item.food.id}
-              item={item}
-              removeFromCart={removeFromCart}
-              changeQuantity={changeQuantity}
-            />
-          ))}
-        </ScrollView>
-        <View className="p-3">
-          <View className="flex-row items-center justify-between pl-1">
-            <View>
-              <Text className="text-neutral-500">Total</Text>
-              <Price price={totalPrice} fontSize={18} />
+      {items.length > 0 ? (
+        <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl overflow-hidden">
+          <ScrollView
+            className="mt-1 flex-1"
+            contentContainerStyle={{
+              paddingHorizontal: 8,
+              paddingTop: 8,
+            }}
+          >
+            {items.map((item) => (
+              <Card
+                key={item.food.id}
+                item={item}
+                removeFromCart={removeFromCart}
+                changeQuantity={changeQuantity}
+              />
+            ))}
+          </ScrollView>
+          <View className="p-3">
+            <View className="flex-row items-center justify-between pl-1">
+              <View>
+                <Text className="text-neutral-500">Total</Text>
+                <Price price={totalPrice} fontSize={18} />
+              </View>
+              <Pressable
+                onPress={() => router.push("/checkout")}
+                className="bg-[#FA6400] rounded-2xl py-3 px-12"
+              >
+                <Text className="text-white font-semibold text-base">
+                  Check Out
+                </Text>
+              </Pressable>
             </View>
-            <Pressable
-              onPress={() => router.push("/checkout")}
-              className="bg-[#FA6400] rounded-2xl py-3 px-12"
-            >
-              <Text className="text-white font-semibold text-base">
-                Check Out
-              </Text>
-            </Pressable>
           </View>
         </View>
-      </View>
+      ) : (
+        <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl items-center justify-center">
+          <Image
+            source={require("@/assets/images/emtc.png")}
+            className="w-56 h-56"
+          />
+          <Text className="font-semibold text-lg text-neutral-300">
+            Your cart empty!
+          </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

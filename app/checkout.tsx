@@ -1,4 +1,10 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { PaymentBtn } from "@/components";
 import useCart from "@/hooks/useCart";
@@ -40,12 +46,21 @@ const CheckOut = () => {
       lat: geometry.location.lat,
       lng: geometry.location.lng,
     });
-
-    console.log(order);
   };
+  console.log(order.items);
 
   return (
     <SafeAreaView className="flex-1">
+      {isLoading && (
+        <View
+          className="flex-1 absolute w-full h-full z-20 items-center justify-center"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <ActivityIndicator color={"#FA6400"} size={35} />
+        </View>
+      )}
       <View className="flex-1 m-2">
         <View
           className="flex-1 bg-white rounded-3xl mb-2"
@@ -133,7 +148,7 @@ const CheckOut = () => {
           <DetailsD title={"Grand Total"} text={cart.totalPrice + 1000} b />
         </View>
         <View>
-          <PaymentBtn order={order} />
+          <PaymentBtn order={order} handleIsLoading={handleIsLoading} />
         </View>
       </View>
     </SafeAreaView>
