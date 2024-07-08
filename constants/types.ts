@@ -64,6 +64,7 @@ export type NewUserType = {
 export type UserType = NewUserType & {
   id: string | number;
   token: string;
+  favourites?: [string] | null
 };
 
 export type RegisterValues = {

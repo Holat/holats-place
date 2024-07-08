@@ -19,7 +19,7 @@ const NavigationIcon = ({
         return "search1";
       case "Profile":
         return "user";
-      case "Settings":
+      case "Favourites":
         return "hearto";
       default:
         return "appstore-o";

@@ -8,6 +8,8 @@ import { BaseToastProps } from "react-native-toast-message";
 import useAuth from "@/hooks/useAuth";
 import AuthProvider from "@/context/AuthProvider";
 
+SplashScreen.preventAutoHideAsync();
+
 export const unstable_settings = {
   initialRouteName: "(home)",
 };
@@ -41,25 +43,30 @@ function RootLayoutNav() {
       />
     ),
   };
+  
+  const onLayoutRootView = useCallback(async () => {
+    if (authInitialized && user) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
 
   if (!authInitialized && !user) return null;
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <CartProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="(auth)" />
-            <Stack.Screen name="(home)" />
-            <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-            <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
-          </Stack>
-          <Toast config={toastConfig} visibilityTime={2000} />
-        </CartProvider>
-      </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <CartProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(home)" />
+          <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
+          <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
+        </Stack>
+        <Toast config={toastConfig} visibilityTime={2000} />
+      </CartProvider>
     </GestureHandlerRootView>
   );
 }

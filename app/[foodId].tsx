@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getById } from "@/services/foodService";
+import { addFavourite, removeFavorite } from "@/services/favouriteServices";
 import { FoodItemType } from "@/constants/types";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import {
@@ -17,6 +18,7 @@ import { StatusBar } from "expo-status-bar";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
+  const [optimisticLike, setOptimisicLike] = useState(false) 
   const [foodItem, setFoodItem] = useState<FoodItemType>();
   const { getCartItemById, addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -40,6 +42,19 @@ export default function FoodInfo() {
     const item = getCartItemById(foodId.toString());
     item && setQuantity(item.quantity);
   }, []);
+
+  const handleLikePress = async() => {
+    setOptimisicLike((prev) => !prev);
+
+    let user;
+    if (optimisticLike){
+      user = await addFavourite(foodId);
+      console.log(user.favourites);
+    } else {
+      user = await removeFavorite(foodId);
+      console.log(user.favourites);
+    }
+  }
 
   return (
     <View className="flex-1 flex">
@@ -65,8 +80,11 @@ export default function FoodInfo() {
           <TouchableOpacity onPress={() => router.back()}>
             <AntDesign color={"white"} name={"left"} size={hp(4)} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign color={"white"} name={"hearto"} size={hp(4)} />
+          <TouchableOpacity onPress={handleLikePress}>
+            {
+              optimisticLike ? <AntDesign color={"#FA6400"} name={"heart"} size={hp(4)} /> :
+              <AntDesign color={"white"} name={"hearto"} size={hp(4)} />
+            }
           </TouchableOpacity>
         </View>
       </View>

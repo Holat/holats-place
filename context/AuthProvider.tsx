@@ -39,18 +39,20 @@ export default function AuthProvider({
     const segments = useSegments();
     const router = useRouter();
 
-    // const authenticate = async () => {
-    //   let success = false;
-    //   user
-    //     ? (success = await userService.authenticate(user?.email, user?.token))
-    //     : (success = false);
-    //   return success;
-    // };
-
     const authenticate = async () => {
+      let success = false;
       if (user) return true;
-      else return false;
+
+      user
+        ? (success = await userService.authenticate(user?.email, user?.token))
+        : (success = false);
+      return success;
     };
+
+    // const authenticate = async () => {
+    //   if (user) return true;
+    //   else return false;
+    // };
 
     useEffect(() => {
       const unsub = rootNav?.addListener("state", (event) => {

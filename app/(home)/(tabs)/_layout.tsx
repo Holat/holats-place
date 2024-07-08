@@ -32,9 +32,9 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="favourites"
         options={{
-          title: "Settings",
+          title: "Favourites",
         }}
       />
       <Tabs.Screen
