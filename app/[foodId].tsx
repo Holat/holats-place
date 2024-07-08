@@ -15,15 +15,17 @@ import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import useCart from "@/hooks/useCart";
 import { StatusBar } from "expo-status-bar";
+import useAuth from "@/hooks/useAuth";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
-  const [optimisticLike, setOptimisicLike] = useState(false) 
+  const [optimisticLike, setOptimisticLike] = useState(false);
   const [foodItem, setFoodItem] = useState<FoodItemType>();
   const { getCartItemById, addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
+  const { favFoods, toggleFavorite } = useAuth();
   const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
@@ -41,20 +43,17 @@ export default function FoodInfo() {
   useEffect(() => {
     const item = getCartItemById(foodId.toString());
     item && setQuantity(item.quantity);
+
+    if (favFoods.includes(foodId as string)) {
+      setOptimisticLike(true);
+    }
   }, []);
 
-  const handleLikePress = async() => {
-    setOptimisicLike((prev) => !prev);
-
-    let user;
-    if (optimisticLike){
-      user = await addFavourite(foodId);
-      console.log(user.favourites);
-    } else {
-      user = await removeFavorite(foodId);
-      console.log(user.favourites);
-    }
-  }
+  const handleLikePress = async () => {
+    const currentLike = optimisticLike;
+    setOptimisticLike(!currentLike);
+    toggleFavorite(foodId as string);
+  };
 
   return (
     <View className="flex-1 flex">
@@ -81,10 +80,11 @@ export default function FoodInfo() {
             <AntDesign color={"white"} name={"left"} size={hp(4)} />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleLikePress}>
-            {
-              optimisticLike ? <AntDesign color={"#FA6400"} name={"heart"} size={hp(4)} /> :
+            {optimisticLike ? (
+              <AntDesign color={"#FA6400"} name={"heart"} size={hp(4)} />
+            ) : (
               <AntDesign color={"white"} name={"hearto"} size={hp(4)} />
-            }
+            )}
           </TouchableOpacity>
         </View>
       </View>

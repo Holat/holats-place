@@ -64,12 +64,11 @@ export type NewUserType = {
 export type UserType = NewUserType & {
   id: string | number;
   token: string;
-  favourites?: [string] | null
+  favourites?: [string] | null;
 };
 
 export type RegisterValues = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   mobileNumber: string;
   address: string;
@@ -93,11 +92,13 @@ export interface FormDetails {
 export type AuthContextType = {
   user: NewUserType | null;
   authInitialized: boolean;
+  favFoods: string[];
   login: (email: string, password: string) => Promise<boolean>;
   register: (user: RegisterValues) => void;
   logout: (type: "n" | "t") => void;
   updateProfile: (user: FormDetails) => void;
   changePassword: (passwords: ChangePassFormType) => void;
+  toggleFavorite: (d: string) => void;
 };
 
 export type OrderType = {

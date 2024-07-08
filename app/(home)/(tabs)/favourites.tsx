@@ -1,37 +1,51 @@
-import { Button, Pressable, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Pressable, Text, View, TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getFavourites } from "@/services/favouriteServices";
-import showToast from "@/services/ToastM";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FoodItemType } from "@/constants/types";
 import useCart from "@/hooks/useCart";
 import { ScrollView } from "react-native-gesture-handler";
+import { getFoodImage } from "@/constants/data";
+import { Image } from "expo-image";
+import { Price } from "@/components";
+import { Entypo } from "@expo/vector-icons";
 
 const Fav = () => {
   const { addToCart } = useCart();
   const [fav, setFav] = useState<FoodItemType[]>();
-  const handleAddToCart = (item) => useCart(item);
+  const handleAddToCart = (item: FoodItemType) => addToCart(item);
 
   useEffect(() => {
     getFavourites()
       .then(setFav)
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       });
   }, []);
 
   return (
     <SafeAreaView className="flex-1 px-4">
       <ScrollView className="m-2">
-        {
-          fav.map(({item }) => <FavCard key={item.id} item={item} handleAddToCart={handleAddToCart}/>)
-        }
+        {fav?.map((item) => (
+          <FavCard
+            key={item.id}
+            item={item}
+            handleAddToCart={handleAddToCart}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-const FavCard = ({item, handleAddToCart}: {item: FoodItemType, handleAddToCart: (item: FoodItemType) => void }) => {
+const FavCard = ({
+  item,
+  handleAddToCart,
+}: {
+  item: FoodItemType;
+  handleAddToCart: (item: FoodItemType) => void;
+}) => {
   const imgUrl = item.imageUrl.split("/").pop() || "";
 
   return (
@@ -49,15 +63,15 @@ const FavCard = ({item, handleAddToCart}: {item: FoodItemType, handleAddToCart: 
           <Price price={item.price} />
         </View>
         <View>
-        <TouchableOpacity
-              className=" bg-orange-500 rounded-lg p-2"
-              onPress={() => handleAddToCart(item)}
-            >
-              <Entypo color={"white"} name={"plus"} size={hp(2)} />
-            </TouchableOpacity>
+          <TouchableOpacity
+            className=" bg-orange-500 rounded-lg p-2"
+            onPress={() => handleAddToCart(item)}
+          >
+            <Entypo color={"white"} name={"plus"} size={hp(2)} />
+          </TouchableOpacity>
         </View>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 export default Fav;

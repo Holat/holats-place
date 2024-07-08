@@ -11,6 +11,12 @@ import {
 import showToast from "@/services/ToastM";
 import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
 import { getValueFor } from "@/services/storage/asyncStorage";
+import {
+  addFavourite,
+  getFavoriteFoods,
+  removeFavorite,
+  setFavoriteFoods,
+} from "@/services/favouriteServices";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -23,6 +29,7 @@ export default function AuthProvider({
   const [user, setUser] = useState<UserType | null>(null);
   const [authInitialized, setAuthInitialized] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [favFoods, setFavFoods] = useState<string[]>([]);
 
   const getUser = async () => {
     const userString = await getValueFor(USER || "");
@@ -33,6 +40,11 @@ export default function AuthProvider({
     setAuthInitialized(true);
   };
 
+  const loadFavorites = async () => {
+    const storedFavorites = await getFavoriteFoods();
+    setFavFoods(storedFavorites);
+  };
+
   const useProtectedRoute = (user: UserType | null) => {
     const [isNavigationReady, setIsNavigationIsReady] = useState(false);
     const rootNav = useNavigationContainerRef();
@@ -41,7 +53,7 @@ export default function AuthProvider({
 
     const authenticate = async () => {
       let success = false;
-      if (user) return true;
+      if (!user) return success;
 
       user
         ? (success = await userService.authenticate(user?.email, user?.token))
@@ -80,8 +92,24 @@ export default function AuthProvider({
     }, [user, segments, authInitialized, isNavigationReady]);
   };
 
+  const toggleFavorite = async (foodId: string) => {
+    let updatedFavorites;
+    if (favFoods?.includes(foodId)) {
+      updatedFavorites = favFoods.filter((id) => id !== foodId);
+      setFavFoods(updatedFavorites);
+      await setFavoriteFoods(updatedFavorites);
+      await removeFavorite(foodId);
+    } else {
+      updatedFavorites = [...favFoods, foodId];
+      setFavFoods(updatedFavorites);
+      await setFavoriteFoods(updatedFavorites);
+      await addFavourite(foodId);
+    }
+  };
+
   useEffect(() => {
     getUser();
+    loadFavorites();
   }, [isAuthenticated]);
 
   const login = async (email: string, password: string) => {
@@ -153,12 +181,14 @@ export default function AuthProvider({
     <AuthContext.Provider
       value={{
         user,
+        favFoods,
         authInitialized,
         login,
         register,
         logout,
         updateProfile,
         changePassword,
+        toggleFavorite,
       }}
     >
       {children}

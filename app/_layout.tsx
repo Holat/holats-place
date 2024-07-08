@@ -7,6 +7,8 @@ import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 import useAuth from "@/hooks/useAuth";
 import AuthProvider from "@/context/AuthProvider";
+import { LayoutChangeEvent } from "react-native";
+import { useCallback } from "react";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -43,13 +45,12 @@ function RootLayoutNav() {
       />
     ),
   };
-  
+
   const onLayoutRootView = useCallback(async () => {
     if (authInitialized && user) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady]);
-
+  }, [authInitialized, user]);
 
   if (!authInitialized && !user) return null;
   return (

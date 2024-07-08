@@ -1,7 +1,25 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Image } from "expo-image";
+import Animated, { FadeInUp } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { router } from "expo-router";
+import { register } from "@/services/userService";
+import { RegisterValues } from "@/constants/types";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,14 +31,25 @@ const Register = () => {
   } = useForm({
     defaultValues: {
       name: "",
-      contact: "",
+      mobileNumber: "", //contact
       address: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
-  
+
+  const onSubmit = async (data: RegisterValues) => {
+    setIsLoading(true);
+    const isSuccess = await register(data);
+    if (isSuccess) {
+      setIsLoading(false);
+      router.replace("/(home)/(tabs)/");
+    } else {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View className="flex-1">
       <Image
@@ -41,14 +70,14 @@ const Register = () => {
           keyboardVerticalOffset={12}
           className="flex-1 items-center justify-between w-full p-5 gap-4"
         >
-          <View className="self-start">
-            <Animated.Image
-              entering={FadeInUp.duration(200).springify()}
+          {/* <View className="self-start">
+            <Image
+              // entering={FadeInUp.duration(200).springify()}
               source={require("@/assets/images/logo.png")}
               style={{ height: hp(8), width: hp(8), marginTop: top }}
               className=""
             />
-          </View>
+          </View> */}
           <View className="w-full gap-y-4 flex">
             <View>
               <Controller
@@ -90,7 +119,7 @@ const Register = () => {
                     editable={!isLoading}
                   />
                 )}
-                name="contact"
+                name="mobileNumber"
               />
               {errors.email && (
                 <Text className="text-red-600 mt-1 w-full text-right">
@@ -174,7 +203,11 @@ const Register = () => {
             <View>
               <Controller
                 control={control}
-                rules={{ required: true, validate: (value, formValues) => value === formValues["password"] }}
+                rules={{
+                  required: true,
+                  validate: (value, formValues) =>
+                    value === formValues["password"],
+                }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <View>
                     <TextInput
@@ -244,4 +277,11 @@ const Register = () => {
 
 export default Register;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  input: {
+    borderColor: "#CCCCCC",
+    borderWidth: 1.5,
+    borderRadius: 10,
+    color: "white",
+  },
+});

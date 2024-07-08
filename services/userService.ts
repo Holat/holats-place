@@ -6,7 +6,7 @@ import {
 } from "@/constants/types";
 import { save, deleteItem } from "./storage/asyncStorage";
 
-const USER = "holatPlaceUser";
+const USER = process.env.EXPO_PUBLIC_USER || "";
 const apiInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   headers: {
