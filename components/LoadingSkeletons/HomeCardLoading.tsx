@@ -4,10 +4,13 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import RoundedShimmer, { ShimmerPlaceHolder } from "./RoundedShimmer";
 import { Ionicons } from "@expo/vector-icons";
 
-const HomeCardLoading = () => {
+const HomeCardLoading = ({ theme }) => {
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut}>
-      <View className="flex-row bg-white rounded-xl overflow-hidden">
+      <View
+        className="flex-row rounded-xl bg-white overflow-hidden"
+        // style={{ backgroundColor: background }}
+      >
         <View style={styles.container}>
           <ShimmerPlaceHolder style={{ height: 120, width: "100%" }} />
           <View className="absolute z-10">

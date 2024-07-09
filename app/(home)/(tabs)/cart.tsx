@@ -60,7 +60,7 @@ const Cart = () => {
                 key={item.food.id}
                 item={item}
                 removeFromCart={removeFromCart}
-                changeQuantity={changeQuantity}
+                // changeQuantity={changeQuantity}
               />
             ))}
           </ScrollView>
@@ -101,32 +101,28 @@ export default Cart;
 const Card = ({
   item,
   removeFromCart,
-  changeQuantity,
 }: {
   item: CartItemType;
   removeFromCart: (id: string | number) => void;
-  changeQuantity: (id: CartItemType, n: number) => void;
 }) => {
   const {
     food: { imageUrl, name, id },
-    quantity: initialQuantity,
+    quantity,
     price,
   } = item;
-  const [quantity, setQuantity] = useState(initialQuantity);
+  const router = useRouter();
   const imgUrl = imageUrl?.split("/").pop() || "";
 
-  const handleQuantityIncrease = useCallback(() => {
-    setQuantity(quantity + 1);
-    changeQuantity(item, quantity);
-  }, [quantity]);
-
-  const handleQuantityDecrease = useCallback(() => {
-    setQuantity(quantity > 1 ? quantity - 1 : 1);
-    changeQuantity(item, quantity);
-  }, [quantity]);
-
   return (
-    <View className="rounded-2xl mb-2 p-2 flex-row ">
+    <Pressable
+      className="rounded-2xl mb-2 p-2 flex-row "
+      onPress={() =>
+        router.push({
+          pathname: "/[foodId]",
+          params: { foodId: item.id },
+        })
+      }
+    >
       <View className="mr-3">
         <Image
           source={getFoodImage(imgUrl)}
@@ -150,31 +146,9 @@ const Card = ({
               color={"#FA6400"}
             />
           </Pressable>
-          <View className="flex-row justify-between items-center w-24 p-1">
-            <TouchableOpacity
-              className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={handleQuantityDecrease}
-            >
-              <AntDesign color={"white"} name={"minus"} size={hp(2)} />
-            </TouchableOpacity>
-            <View>
-              <Text
-                className="text-neutral-800 font-semibold"
-                style={{ fontSize: hp(2) }}
-              >
-                {quantity}
-              </Text>
-            </View>
-            <TouchableOpacity
-              className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
-              onPress={handleQuantityIncrease}
-            >
-              <AntDesign color={"white"} name={"plus"} size={hp(2)} />
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -190,3 +164,41 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+
+/* 
+  changeQuantity,
+    const [quantity, setQuantity] = useState(initialQuantity);
+    changeQuantity: (id: CartItemType, n: number) => void;
+    const handleQuantityIncrease = useCallback(() => {
+      setQuantity(quantity + 1);
+      changeQuantity(item, quantity);
+    }, [quantity]);
+
+    const handleQuantityDecrease = useCallback(() => {
+      setQuantity(quantity > 1 ? quantity - 1 : 1);
+      changeQuantity(item, quantity);
+    }, [quantity]);
+
+
+  <View className="flex-row justify-between items-center w-24 p-1">
+    <TouchableOpacity
+      className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
+      onPress={handleQuantityDecrease}
+    >
+      <AntDesign color={"white"} name={"minus"} size={hp(2)} />
+    </TouchableOpacity>
+    <View>
+      <Text
+        className="text-neutral-800 font-semibold"
+        style={{ fontSize: hp(2) }}
+      >
+        {quantity}
+      </Text>
+    </View>
+    <TouchableOpacity
+      className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
+      onPress={handleQuantityIncrease}
+    >
+      <AntDesign color={"white"} name={"plus"} size={hp(2)} />
+    </TouchableOpacity>
+  </View> */

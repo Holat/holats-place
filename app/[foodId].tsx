@@ -88,15 +88,18 @@ export default function FoodInfo() {
           </TouchableOpacity>
         </View>
       </View>
-      <View className="flex-1 bg-white" />
+      <View className="flex-1" />
       <View
-        className="flex-1 p-4 flex justify-between absolute bottom-0 bg-white rounded-t-3xl w-full"
-        style={{ height: "55%" }}
+        className="flex-1 p-4 flex justify-between absolute bottom-0 rounded-t-3xl w-full"
+        style={{ height: "55%", backgroundColor: theme.background }}
       >
         <View className="flex-1 pt-2 mb-8 flex justify-between">
           <View className="flex items-start mb-5">
             {foodItem ? (
-              <Text className=" font-semibold" style={{ fontSize: hp(3.5) }}>
+              <Text
+                className=" font-semibold"
+                style={{ fontSize: hp(3.5), color: theme.text }}
+              >
                 {foodItem?.name}
               </Text>
             ) : (
@@ -155,11 +158,25 @@ export default function FoodInfo() {
             )}
           </View>
           <View className="flex-row items-center justify-between px-2">
-            <View className="flex-row items-center">
+            <ItemD name={"star"} item={foodItem?.stars} color={theme.text} />
+            <ItemD
+              name={"clockcircleo"}
+              item={foodItem?.cookTime}
+              color={theme.text}
+            />
+            <ItemD
+              name={"enviroment"}
+              item={foodItem?.origins[0]}
+              color={theme.text}
+            />
+            {/* <View className="flex-row items-center">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
               <View className="ml-2">
                 {foodItem ? (
-                  <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                  <Text
+                    className="font-bold"
+                    style={{ fontSize: hp(2.3), color: theme.text }}
+                  >
                     {foodItem?.stars}
                   </Text>
                 ) : (
@@ -171,7 +188,10 @@ export default function FoodInfo() {
               <AntDesign name="clockcircleo" size={hp(3)} color={"#FA6400"} />
               <View className="ml-2">
                 {foodItem ? (
-                  <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                  <Text
+                    className="font-bold"
+                    style={{ fontSize: hp(2.3), color: theme.text }}
+                  >
                     {foodItem?.cookTime}min
                   </Text>
                 ) : (
@@ -190,7 +210,7 @@ export default function FoodInfo() {
                   <RoundedShimmer h={20} w={50} />
                 )}
               </View>
-            </View>
+            </View> */}
           </View>
         </View>
 
@@ -240,3 +260,28 @@ export default function FoodInfo() {
     </View>
   );
 }
+
+const ItemD = ({
+  name,
+  item,
+  color,
+}: {
+  name: string;
+  item?: string;
+  color: string;
+}) => {
+  return (
+    <View className="flex-row items-center">
+      <AntDesign name={name} size={hp(3)} color={"#FA6400"} />
+      <View className="ml-2">
+        {foodItem ? (
+          <Text className="font-bold" style={{ fontSize: hp(2.3), color }}>
+            {name}
+          </Text>
+        ) : (
+          <RoundedShimmer h={20} w={50} />
+        )}
+      </View>
+    </View>
+  );
+};

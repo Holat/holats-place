@@ -2,7 +2,6 @@ import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
 
-// https://bright-constantly-cod.ngrok-free.app
 export const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 const RoundedShimmer = ({
   w,

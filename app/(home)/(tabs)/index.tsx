@@ -89,7 +89,11 @@ export default function Home() {
         {tags.length > 0 ? <Tags tags={tags} /> : <TagsLoading />}
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? <FoodList data={foods} /> : <HomeLoading />}
+        {foods.length > 0 ? (
+          <FoodList data={foods} />
+        ) : (
+          <HomeLoading theme={theme} />
+        )}
       </View>
       <View className="p-4">
         <View className="flex-row justify-between items-center mb-3">
