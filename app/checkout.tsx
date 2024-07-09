@@ -7,11 +7,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { PaymentBtn } from "@/components";
-import useCart from "@/hooks/useCart";
 import { OrderType } from "@/constants/types";
 // import useLocation from '@/hooks/useLocation';
 import { Price } from "@/components";
-import useAuth from "@/hooks/useAuth";
+import { useAuth, useTheme, useCart } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -23,6 +22,7 @@ const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const CheckOut = () => {
   const { cart } = useCart();
   const { user } = useAuth();
+  const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const [order, setOrder] = useState<OrderType>({
     ...cart,
@@ -47,8 +47,6 @@ const CheckOut = () => {
       lng: geometry.location.lng,
     });
   };
-  console.log(order.items);
-
   return (
     <SafeAreaView className="flex-1">
       {isLoading && (
@@ -63,8 +61,8 @@ const CheckOut = () => {
       )}
       <View className="flex-1 m-2">
         <View
-          className="flex-1 bg-white rounded-3xl mb-2"
-          style={{ padding: 16 }}
+          className="flex-1 rounded-3xl mb-2"
+          style={{ padding: 16, backgroundColor: theme.background }}
         >
           <View className="flex-1 pt-4">
             <DetailsD title={"Name"} text={order?.name} t />
@@ -75,6 +73,7 @@ const CheckOut = () => {
                 <Text className="text-red-500">*</Text>
               </Text>
               <TextInput
+                style={{color: theme.text}}
                 placeholder="Phone Number"
                 defaultValue={user?.phone}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
@@ -99,6 +98,7 @@ const CheckOut = () => {
                     flex: 0,
                   },
                   textInput: {
+                    style={{color: theme.text}}
                     borderWidth: 1,
                     borderRadius: 12,
                     backgroundColor: "#F5F5F5",
@@ -122,6 +122,7 @@ const CheckOut = () => {
                 Nearest Bus Stop
               </Text>
               <TextInput
+                style={{color: theme.text}}
                 placeholder={"Nearest Bus Stop"}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
               />
@@ -131,6 +132,7 @@ const CheckOut = () => {
                 Zip/Postal Code
               </Text>
               <TextInput
+                style={{color: theme.text}}
                 placeholder={"Zip/Postal Code"}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
               />
@@ -141,7 +143,7 @@ const CheckOut = () => {
             </View> */}
           </View>
         </View>
-        <View className="rounded-3xl bg-white px-3 py-4 mb-2">
+        <View className="rounded-3xl bg-white px-3 py-4 mb-2" style={{ backgroundColor: theme.background }}>
           <DetailsD title={"Sub total"} text={cart.totalPrice} />
           <DetailsD title={"Tax"} text={0} />
           <DetailsD title={"Delivery Fee"} text={1000} />

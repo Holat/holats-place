@@ -109,3 +109,17 @@ export type OrderType = {
   email?: string;
   phonenumber?: string;
 } & CartType;
+
+export type ThemeType = {
+  text: string;
+  background: string;
+  tint: string;
+  tabIconDefault: string;
+  tabIconSelected: string;
+  brandC: string;
+};
+
+export type ThemeContextType = {
+  theme: ThemeType;
+  setTheme: (b: "light" | "dark" | "default") => void;
+};

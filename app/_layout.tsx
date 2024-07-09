@@ -5,10 +5,10 @@ import CartProvider from "@/context/CartProvider";
 import Toast, { BaseToast } from "react-native-toast-message";
 import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
-import useAuth from "@/hooks/useAuth";
 import AuthProvider from "@/context/AuthProvider";
 import { LayoutChangeEvent } from "react-native";
 import { useCallback } from "react";
+import { useAuth, useTheme } from "@/hooks";
 
 SplashScreen.preventAutoHideAsync();
 

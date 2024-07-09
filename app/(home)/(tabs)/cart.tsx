@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { Price } from "@/components";
-import useCart from "@/hooks/useCart";
+import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { CartItemType } from "@/constants/types";
 import { Image } from "expo-image";

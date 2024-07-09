@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import React from "react";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
 
 export default function _layout() {
   const { user, logout } = useAuth();

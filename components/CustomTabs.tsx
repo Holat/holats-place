@@ -1,6 +1,7 @@
 import { StyleSheet, View, Pressable } from "react-native";
 import React from "react";
 import NavigationIcon from "./NavigationIcon";
+import { useTheme } from "@/hooks";
 
 const CustomTabs = ({ state, descriptors, navigation }: any) => {
   return (

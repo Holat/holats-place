@@ -13,12 +13,12 @@ import {
 } from "react-native-responsive-screen";
 import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
-import useCart from "@/hooks/useCart";
 import { StatusBar } from "expo-status-bar";
-import useAuth from "@/hooks/useAuth";
+import { useAuth, useTheme, useCart } from "@/hooks";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
+  const { theme } = useTheme();
   const [optimisticLike, setOptimisticLike] = useState(false);
   const [foodItem, setFoodItem] = useState<FoodItemType>();
   const { getCartItemById, addToCart } = useCart();

@@ -1,5 +1,5 @@
 import { PayWithFlutterwave } from "flutterwave-react-native";
-import useCart from "@/hooks/useCart";
+import { useCart } from "@/hooks";
 import { useRouter } from "expo-router";
 import generateTransactionRef from "@/services/generateTransactionRef";
 import { createOrder, pay } from "@/services/orderServices";

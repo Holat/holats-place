@@ -17,7 +17,7 @@ import {
   HomeCardLoading,
   TagsLoading,
 } from "@/components";
-import useCart from "@/hooks/useCart";
+import { useCart } from "@/hooks";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";

@@ -4,7 +4,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import useAuth from "@/hooks/useAuth";
+import { useAuth, useTheme } from "@/hooks";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

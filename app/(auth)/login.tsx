@@ -19,7 +19,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import showToast from "@/services/ToastM";
 import { useRouter } from "expo-router";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";
 
 const Login = () => {

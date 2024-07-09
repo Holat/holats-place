@@ -7,8 +7,8 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { searchApi } from "@/services/foodService";
 import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
-import useCart from "@/hooks/useCart";
 import { Card, SearchLoading } from "@/components";
+import { useTheme, useCart } from "@/hooks";
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");

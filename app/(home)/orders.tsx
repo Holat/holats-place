@@ -10,6 +10,7 @@ import { getFoodImage } from "@/constants/data";
 import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTheme } from "@/hooks";
 
 type OrderHistoryType = {
   _id: string;

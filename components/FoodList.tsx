@@ -16,11 +16,12 @@ import StarRating from "./Star";
 import Carousel from "react-native-snap-carousel";
 import { FoodItemType } from "@/constants/types";
 import { getFoodImage } from "@/constants/data";
-import useCart from "@/hooks/useCart";
 import { Entypo } from "@expo/vector-icons";
+import { useAuth, useTheme } from "@/hooks";
 
 export default function FoodList({ data }: { data: FoodItemType[] }) {
   const { addToCart } = useCart();
+  const { theme } = useTheme();
 
   return (
     <Carousel

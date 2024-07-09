@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getFavourites } from "@/services/favouriteServices";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FoodItemType } from "@/constants/types";
-import useCart from "@/hooks/useCart";
+import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { getFoodImage } from "@/constants/data";
 import { Image } from "expo-image";
@@ -26,7 +26,10 @@ const Fav = () => {
 
   return (
     <SafeAreaView className="flex-1 px-4">
-      <ScrollView className="m-2">
+      <View className="m-2 p-2 bg-white rounded-lg">
+        <Text className="text-center">Favourite Foods</Text>
+      </View>
+      <ScrollView className="mb-24 mx-2 mt-2">
         {fav?.map((item) => (
           <FavCard
             key={item.id}

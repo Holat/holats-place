@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import * as userService from "../services/userService";
+import * as userService from "@/services/userService";
+import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
+import * as favService from "@/services/favouriteServices"
 import { AxiosError } from "axios";
 import {
   UserType,
@@ -9,18 +11,10 @@ import {
   AuthContextType,
 } from "@/constants/types";
 import showToast from "@/services/ToastM";
-import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
 import { getValueFor } from "@/services/storage/asyncStorage";
-import {
-  addFavourite,
-  getFavoriteFoods,
-  removeFavorite,
-  setFavoriteFoods,
-} from "@/services/favouriteServices";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-const USER = process.env.EXPO_PUBLIC_USER;
 export default function AuthProvider({
   children,
 }: {
@@ -28,22 +22,8 @@ export default function AuthProvider({
 }) {
   const [user, setUser] = useState<UserType | null>(null);
   const [authInitialized, setAuthInitialized] = useState<boolean>(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [favFoods, setFavFoods] = useState<string[]>([]);
-
-  const getUser = async () => {
-    const userString = await getValueFor(USER || "");
-    if (userString) {
-      const data = JSON.parse(userString);
-      setUser(data);
-    }
-    setAuthInitialized(true);
-  };
-
-  const loadFavorites = async () => {
-    const storedFavorites = await getFavoriteFoods();
-    setFavFoods(storedFavorites);
-  };
 
   const useProtectedRoute = (user: UserType | null) => {
     const [isNavigationReady, setIsNavigationIsReady] = useState(false);
@@ -54,22 +34,15 @@ export default function AuthProvider({
     const authenticate = async () => {
       let success = false;
       if (!user) return success;
-
       user
         ? (success = await userService.authenticate(user?.email, user?.token))
         : (success = false);
       return success;
     };
 
-    // const authenticate = async () => {
-    //   if (user) return true;
-    //   else return false;
-    // };
-
     useEffect(() => {
-      const unsub = rootNav?.addListener("state", (event) => {
-        setIsNavigationIsReady(true);
-      });
+      const unsub = rootNav?.addListener("state", (event) => 
+        setIsNavigationIsReady(true));
 
       return function cleanup() {
         if (unsub) unsub();
@@ -80,37 +53,39 @@ export default function AuthProvider({
       (async () => {
         if (!isNavigationReady || isAuthenticated || !authInitialized) return;
         const inAuthGroup = segments[0] === "(auth)";
-
         const success = await authenticate();
+
         setIsAuthenticated(success);
-
-        // console.log(inAuthGroup, success);
-
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
     }, [user, segments, authInitialized, isNavigationReady]);
   };
 
+  const loadFavorites = async () => {
+    const storedFavorites = await favService.getFavoriteFoods();
+    setFavFoods(storedFavorites);
+  };
+
+  useEffect(() => {
+    userService.getUser();
+    setAuthInitialized(true);
+    loadFavorites();
+  }, [isAuthenticated]);
+  
   const toggleFavorite = async (foodId: string) => {
     let updatedFavorites;
     if (favFoods?.includes(foodId)) {
       updatedFavorites = favFoods.filter((id) => id !== foodId);
       setFavFoods(updatedFavorites);
-      await setFavoriteFoods(updatedFavorites);
-      await removeFavorite(foodId);
+      await favService.removeFavorite(foodId);
     } else {
       updatedFavorites = [...favFoods, foodId];
       setFavFoods(updatedFavorites);
-      await setFavoriteFoods(updatedFavorites);
-      await addFavourite(foodId);
+      await favService.addFavourite(foodId);
     }
+    await favService.setFavoriteFoods(updatedFavorites);
   };
-
-  useEffect(() => {
-    getUser();
-    loadFavorites();
-  }, [isAuthenticated]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -135,13 +110,10 @@ export default function AuthProvider({
       const apiData = await userService.register(data);
       setUser(apiData);
       showToast("", "Sign up successful!");
-    } catch (error) {
-      console.log("Unsuccessful");
-    }
+    } catch (error) showToast("", "Sign up Unsuccessful!");
   };
 
   /**
-   *
    * @param type "n" => normal logout | "t" => token exp logout
    */
   const logout = (type: "n" | "t") => {
@@ -149,12 +121,11 @@ export default function AuthProvider({
     setUser(null);
     setIsAuthenticated(false);
     setAuthInitialized(false);
-    console.log("Logout Successful");
-    // type === "n"
-    //   ? console.log("Logout Successful")
-    //   : type === "t"
-    //   ? console.log("Session expired")
-    //   : null;
+    type === "n"
+      ? console.log("Logout Successful")
+      : type === "t"
+      ? console.log("Session expired")
+      : null;
   };
 
   const updateProfile = async (user: FormDetails) => {
@@ -172,11 +143,10 @@ export default function AuthProvider({
   const changePassword = async (passwords: ChangePassFormType) => {
     await userService.changePassword(passwords);
     logout("n");
-    console.log("Password Changed!");
+    showToast("Password Changed!");
   };
 
   useProtectedRoute(user);
-
   return (
     <AuthContext.Provider
       value={{
