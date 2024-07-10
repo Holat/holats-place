@@ -26,6 +26,7 @@ export default function Orders() {
   const [orders, setOrders] = useState<OrderHistoryType[]>();
   const [currentStatus, setCurrentStatus] = useState("");
   const router = useRouter();
+  const { theme } = useTheme();
 
   useEffect(() => {
     getAll(currentStatus)
@@ -36,23 +37,27 @@ export default function Orders() {
   }, [currentStatus]);
 
   return (
-    <SafeAreaView className="flex-1">
-      <View className="flex-row items-center pl-2 pr-3 py-2 bg-white mx-2 rounded-lg self-start">
-        <Pressable onPress={() => router.back()}>
-          <AntDesign color={"black"} name={"left"} size={24} />
-        </Pressable>
-        <Text className="font-bold text-lg ml-2">Orders</Text>
-      </View>
-      <ScrollView className="m-2" showsVerticalScrollIndicator={false}>
-        {orders ? (
-          orders.map((item) => <OrderSummaryCard key={item._id} item={item} />)
-        ) : (
-          <View className="mb-4">
-            <Text>Empty</Text>
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <View className="flex-1" style={{ background: theme.background }}>
+      <SafeAreaView className="flex-1">
+        <View className="flex-row items-center pl-2 pr-3 py-2 bg-white mx-2 rounded-lg self-start">
+          <Pressable onPress={() => router.back()}>
+            <AntDesign color={"black"} name={"left"} size={24} />
+          </Pressable>
+          <Text className="font-bold text-lg ml-2">Orders</Text>
+        </View>
+        <ScrollView className="m-2" showsVerticalScrollIndicator={false}>
+          {orders ? (
+            orders.map((item) => (
+              <OrderSummaryCard key={item._id} item={item} />
+            ))
+          ) : (
+            <View className="mb-4">
+              <Text>Empty</Text>
+            </View>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 }
 

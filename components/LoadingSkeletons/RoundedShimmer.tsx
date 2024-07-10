@@ -1,6 +1,7 @@
 import { createShimmerPlaceholder } from "react-native-shimmer-placeholder";
 import { LinearGradient } from "expo-linear-gradient";
 import { View } from "react-native";
+import { useTheme } from "@/hooks";
 
 export const ShimmerPlaceHolder = createShimmerPlaceholder(LinearGradient);
 const RoundedShimmer = ({
@@ -12,6 +13,8 @@ const RoundedShimmer = ({
   h?: number;
   r?: boolean;
 }) => {
+  const { value } = useTheme();
+
   return (
     <View className={` ${r ? "rounded-3xl" : "rounded-lg"} overflow-hidden`}>
       <ShimmerPlaceHolder

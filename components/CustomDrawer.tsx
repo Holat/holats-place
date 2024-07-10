@@ -4,7 +4,6 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { useAuth, useTheme } from "@/hooks";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,6 +12,7 @@ import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
+//  style={{ color: theme.text }}
 export default function CustomDrawer(props: any) {
   const { user, logout } = props;
 
@@ -26,7 +26,7 @@ export default function CustomDrawer(props: any) {
       <View className="flex-row items-center justify-between p-3">
         <View>
           <Text className="font-bold text-lg">{user?.name}</Text>
-          <Text>{user?.email}</Text>
+          <Text className="text-neutral-600">{user?.email}</Text>
         </View>
         <View
           className=" rounded-full overflow-hidden"
@@ -54,7 +54,7 @@ export default function CustomDrawer(props: any) {
         className="flex-row items-center p-5"
       >
         <Ionicons color={"#FA6400"} name={"log-out-outline"} size={hp(4)} />
-        <Text className="ml-3 font-bold text-lg">Log Out</Text>
+        <Text className="text-neutral-600 ml-3 font-bold text-lg">Log Out</Text>
       </Pressable>
     </SafeAreaView>
   );
