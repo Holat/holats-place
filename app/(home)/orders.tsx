@@ -1,5 +1,5 @@
 import { Price } from "@/components";
-import { CartItemType } from "@/constants/types";
+import { CartItemType, ThemeType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
@@ -43,12 +43,17 @@ export default function Orders() {
           <Pressable onPress={() => router.back()}>
             <AntDesign color={"black"} name={"left"} size={24} />
           </Pressable>
-          <Text className="font-bold text-lg ml-2">Orders</Text>
+          <Text
+            className="font-bold text-lg ml-2"
+            style={{ color: theme.text }}
+          >
+            Orders
+          </Text>
         </View>
         <ScrollView className="m-2" showsVerticalScrollIndicator={false}>
           {orders ? (
             orders.map((item) => (
-              <OrderSummaryCard key={item._id} item={item} />
+              <OrderSummaryCard key={item._id} item={item} theme={theme} />
             ))
           ) : (
             <View className="mb-4">
@@ -61,7 +66,13 @@ export default function Orders() {
   );
 }
 
-const OrderSummaryCard = ({ item }: { item: OrderHistoryType }) => {
+const OrderSummaryCard = ({
+  item,
+  theme,
+}: {
+  item: OrderHistoryType;
+  theme: ThemeType;
+}) => {
   const { status, totalCount, totalPrice, createdAt, _id, items, address } =
     item;
   const [showDetails, setShowDetails] = useState(false);
@@ -72,10 +83,15 @@ const OrderSummaryCard = ({ item }: { item: OrderHistoryType }) => {
   };
 
   return (
-    <View className="bg-white rounded-lg mb-2">
+    <View
+      className="rounded-lg mb-2"
+      style={{ backgroundColor: theme.background }}
+    >
       <View className="p-4">
         <View className="flex items-start mb-2">
-          <Text className="text-lg font-bold">Order #{_id}</Text>
+          <Text className="text-lg font-bold" style={{ color: theme.text }}>
+            Order #{_id}
+          </Text>
           <View
             style={{
               backgroundColor:
@@ -106,17 +122,28 @@ const OrderSummaryCard = ({ item }: { item: OrderHistoryType }) => {
             </Text>
           </View>
         </View>
-        <Text className="text-sm font-semibold">
+        <Text className="text-sm font-semibold" style={{ color: theme.text }}>
           Total: <Price price={totalPrice} />
         </Text>
         <View className="flex-row items-start justify-between">
           <View className="">
-            <Text className="text-sm font-semibold">Items: {totalCount}</Text>
-            <Text className="text-sm font-semibold">Order Date: {date}</Text>
+            <Text
+              className="text-sm font-semibold"
+              style={{ color: theme.text }}
+            >
+              Items: {totalCount}
+            </Text>
+            <Text
+              className="text-sm font-semibold"
+              style={{ color: theme.text }}
+            >
+              Order Date: {date}
+            </Text>
             <Text
               className="text-sm font-semibold"
               ellipsizeMode="tail"
               numberOfLines={1}
+              style={{ color: theme.text }}
             >
               Address: {address}
             </Text>
@@ -137,7 +164,9 @@ const OrderSummaryCard = ({ item }: { item: OrderHistoryType }) => {
             </View>
             <View className="flex justify-between flex-1">
               <View>
-                <Text className="text-base">{item.food.name}</Text>
+                <Text className="text-base" style={{ color: theme.text }}>
+                  {item.food.name}
+                </Text>
                 <Text className="font-semibold text-neutral-400">
                   x{item.quantity}
                 </Text>

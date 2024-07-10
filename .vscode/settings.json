@@ -8,5 +8,8 @@
     "Ionicons",
     "Pressable",
     "shoppingcart"
+  ],
+  "githubPullRequests.ignoredPullRequestBranches": [
+    "main"
   ]
 }
