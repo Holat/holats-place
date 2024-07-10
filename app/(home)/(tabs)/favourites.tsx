@@ -13,6 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 
 const Fav = () => {
   const { addToCart } = useCart();
+  const { theme } = useTheme();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
 
@@ -25,20 +26,27 @@ const Fav = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 px-4">
-      <View className="p-2 bg-white rounded-lg">
-        <Text className="text-center">Favourite Foods</Text>
-      </View>
-      <ScrollView className="mb-24 mx-2 mt-2">
-        {fav?.map((item) => (
-          <FavCard
-            key={item.id}
-            item={item}
-            handleAddToCart={handleAddToCart}
-          />
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+      <SafeAreaView className="flex-1 px-4">
+        <View
+          className="m-2 p-2 rounded-lg"
+          style={{ backgroundColor: theme.bkg2 }}
+        >
+          <Text className="text-center" style={{ color: theme.text }}>
+            Favourite Foods
+          </Text>
+        </View>
+        <ScrollView className="mb-24 mx-2 mt-2">
+          {fav?.map((item) => (
+            <FavCard
+              key={item.id}
+              item={item}
+              handleAddToCart={handleAddToCart}
+            />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </View>
   );
 };
 

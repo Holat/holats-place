@@ -6,6 +6,8 @@ import { useAuth } from "@/hooks";
 
 export default function _layout() {
   const { user, logout } = useAuth();
+  const { theme } = useTheme();
+
   return (
     <Drawer
       screenOptions={{
@@ -20,6 +22,10 @@ export default function _layout() {
         },
         drawerLabelStyle: {
           fontSize: 16,
+          color: theme.text,
+        },
+        drawerStyle: {
+          backgroundColor: theme.bkg2,
         },
       }}
       drawerContent={(props) => (
