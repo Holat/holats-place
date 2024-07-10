@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
-import { lightTheme, darkTheme } from "../constants/Colors.ts";
+import { lightTheme, darkTheme } from "@/constants/Colors";
 import { ThemeContextType, ThemeType } from "@/constants/types";
-import { getValueFor, save } from "./storage/asyncStorage";
+import { getValueFor, save } from "@/services/storage/asyncStorage";
 
-export const ThemeContext = createContext<ThemeContextType>();
+export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 const USER_T = "HolatUserTheme";
 export default function ThemeProvider({
@@ -12,20 +12,21 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [value, setValue] = useState("light");
-  const [theme, setTheme] = useState<ThemeType>(lightTheme);
-  const sysTheme = useColorScheme();
+  const [value, setValue] = useState<"light" | "dark" | "default">("dark");
+  const [theme, setCTheme] = useState<ThemeType>(darkTheme);
+  const sysTheme = useColorScheme() || "dark";
 
-  useEffect(() => {
-    (async () => {
-      const val = await getValueFor(USER_T);
-      val && setValue(val);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const val = await getValueFor(USER_T);
+  //     val && setValue(val);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     if (value === "default") {
-      setTheme(getTheme(sysTheme));
+      setCTheme(getTheme(sysTheme));
+      setValue(sysTheme);
     }
   }, [sysTheme]);
 
@@ -39,13 +40,14 @@ export default function ThemeProvider({
 
     setValue(val);
     const newTheme = getTheme(val);
-    setTheme(newTheme);
+    setCTheme(newTheme);
     await save(USER_T, val);
   };
 
   return (
     <ThemeContext.Provider
       value={{
+        value,
         theme,
         setTheme,
       }}

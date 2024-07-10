@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import * as userService from "@/services/userService";
 import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
-import * as favService from "@/services/favouriteServices"
+import * as favService from "@/services/favouriteServices";
 import { AxiosError } from "axios";
 import {
   UserType,
@@ -14,7 +14,7 @@ import showToast from "@/services/ToastM";
 import { getValueFor } from "@/services/storage/asyncStorage";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
-
+const USER = process.env.EXPO_PUBLIC_USER || "";
 export default function AuthProvider({
   children,
 }: {
@@ -24,6 +24,15 @@ export default function AuthProvider({
   const [authInitialized, setAuthInitialized] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [favFoods, setFavFoods] = useState<string[]>([]);
+
+  const getUser = async () => {
+    const userString = await getValueFor(USER || "");
+    if (userString) {
+      const data = JSON.parse(userString);
+      setUser(data);
+      setAuthInitialized(true);
+    }
+  };
 
   const useProtectedRoute = (user: UserType | null) => {
     const [isNavigationReady, setIsNavigationIsReady] = useState(false);
@@ -41,8 +50,9 @@ export default function AuthProvider({
     };
 
     useEffect(() => {
-      const unsub = rootNav?.addListener("state", (event) => 
-        setIsNavigationIsReady(true));
+      const unsub = rootNav?.addListener("state", (event) =>
+        setIsNavigationIsReady(true)
+      );
 
       return function cleanup() {
         if (unsub) unsub();
@@ -68,11 +78,10 @@ export default function AuthProvider({
   };
 
   useEffect(() => {
-    userService.getUser();
-    setAuthInitialized(true);
+    getUser();
     loadFavorites();
   }, [isAuthenticated]);
-  
+
   const toggleFavorite = async (foodId: string) => {
     let updatedFavorites;
     if (favFoods?.includes(foodId)) {
@@ -110,7 +119,9 @@ export default function AuthProvider({
       const apiData = await userService.register(data);
       setUser(apiData);
       showToast("", "Sign up successful!");
-    } catch (error) showToast("", "Sign up Unsuccessful!");
+    } catch (error) {
+      showToast("", "Sign up Unsuccessful!");
+    }
   };
 
   /**

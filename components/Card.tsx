@@ -10,15 +10,17 @@ import {
 } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { FoodItemType } from "@/constants/types";
+import { FoodItemType, ThemeType } from "@/constants/types";
 import { useRouter } from "expo-router";
 
 const Card = ({
   item,
   handleAddToCart,
+  theme,
 }: {
   item: FoodItemType;
   handleAddToCart: (item: FoodItemType) => void;
+  theme: ThemeType;
 }) => {
   const router = useRouter();
   const imgUrl = item?.imageUrl.split("/").pop() || "";
@@ -33,13 +35,14 @@ const Card = ({
       }}
     >
       <View
-        className="flex-row bg-white rounded-xl overflow-hidden"
+        className="flex-row rounded-xl overflow-hidden"
         style={{
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 1 },
           shadowOpacity: 0.1,
           shadowRadius: 5,
           elevation: 3,
+          backgroundColor: theme.bkg2,
         }}
       >
         {/* <View className="w-24" style={{}}></View>
@@ -51,17 +54,27 @@ const Card = ({
             className="w-full"
             contentFit="cover"
           />
-          <View style={styles.triangleCorner}></View>
+          <View
+            style={[styles.triangleCorner, { borderBottomColor: theme.bkg2 }]}
+          ></View>
         </View>
         <View className="flex-1 p-3">
-          <Text numberOfLines={1} ellipsizeMode="middle" className="text-lg">
+          <Text
+            numberOfLines={1}
+            style={{ color: theme.text }}
+            ellipsizeMode="middle"
+            className="text-lg"
+          >
             {item?.name}
           </Text>
-          <Price price={item?.price} fontSize={hp(2)} />
+          <Price price={item?.price} fontSize={hp(2)} color={theme.text} />
           <View className="flex-row items-center mt-3">
             <View className="flex-row items-center gap-2 flex-1">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+              <Text
+                className="font-bold"
+                style={{ fontSize: hp(2.3), color: theme.text }}
+              >
                 {item?.stars}
               </Text>
             </View>
@@ -99,6 +112,5 @@ const styles = StyleSheet.create({
     borderLeftWidth: 30,
     borderBottomWidth: 120,
     borderLeftColor: "transparent",
-    borderBottomColor: "white",
   },
 });

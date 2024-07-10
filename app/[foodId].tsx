@@ -4,7 +4,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { getById } from "@/services/foodService";
-import { addFavourite, removeFavorite } from "@/services/favouriteServices";
 import { FoodItemType } from "@/constants/types";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import {
@@ -169,48 +168,6 @@ export default function FoodInfo() {
               item={foodItem?.origins[0]}
               color={theme.text}
             />
-            {/* <View className="flex-row items-center">
-              <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text
-                    className="font-bold"
-                    style={{ fontSize: hp(2.3), color: theme.text }}
-                  >
-                    {foodItem?.stars}
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={50} />
-                )}
-              </View>
-            </View>
-            <View className="flex-row items-center">
-              <AntDesign name="clockcircleo" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text
-                    className="font-bold"
-                    style={{ fontSize: hp(2.3), color: theme.text }}
-                  >
-                    {foodItem?.cookTime}min
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={55} />
-                )}
-              </View>
-            </View>
-            <View className="flex-row items-center">
-              <AntDesign name="enviroment" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
-                    {foodItem?.origins[0]}
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={50} />
-                )}
-              </View>
-            </View> */}
           </View>
         </View>
 
@@ -266,17 +223,17 @@ const ItemD = ({
   item,
   color,
 }: {
-  name: string;
-  item?: string;
+  name: "star" | "enviroment" | "clockcircleo";
+  item?: string | number;
   color: string;
 }) => {
   return (
     <View className="flex-row items-center">
       <AntDesign name={name} size={hp(3)} color={"#FA6400"} />
       <View className="ml-2">
-        {foodItem ? (
+        {item ? (
           <Text className="font-bold" style={{ fontSize: hp(2.3), color }}>
-            {name}
+            {item}
           </Text>
         ) : (
           <RoundedShimmer h={20} w={50} />
@@ -285,3 +242,46 @@ const ItemD = ({
     </View>
   );
 };
+
+/* <View className="flex-row items-center">
+              <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
+              <View className="ml-2">
+                {foodItem ? (
+                  <Text
+                    className="font-bold"
+                    style={{ fontSize: hp(2.3), color: theme.text }}
+                  >
+                    {foodItem?.stars}
+                  </Text>
+                ) : (
+                  <RoundedShimmer h={20} w={50} />
+                )}
+              </View>
+            </View>
+            <View className="flex-row items-center">
+              <AntDesign name="clockcircleo" size={hp(3)} color={"#FA6400"} />
+              <View className="ml-2">
+                {foodItem ? (
+                  <Text
+                    className="font-bold"
+                    style={{ fontSize: hp(2.3), color: theme.text }}
+                  >
+                    {foodItem?.cookTime}min
+                  </Text>
+                ) : (
+                  <RoundedShimmer h={20} w={55} />
+                )}
+              </View>
+            </View>
+            <View className="flex-row items-center">
+              <AntDesign name="enviroment" size={hp(3)} color={"#FA6400"} />
+              <View className="ml-2">
+                {foodItem ? (
+                  <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
+                    {foodItem?.origins[0]}
+                  </Text>
+                ) : (
+                  <RoundedShimmer h={20} w={50} />
+                )}
+              </View>
+            </View> */

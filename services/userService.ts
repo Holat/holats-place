@@ -16,14 +16,6 @@ const apiInstance = axios.create({
   },
 });
 
-export const getUser = async () => {
-  const userString = await getValueFor(USER || "");
-  if (userString) {
-    const data = JSON.parse(userString);
-    setUser(data);
-  }
-};
-
 export const login = async (email: string, password: string) => {
   const { data } = await apiInstance.post(`/api/user/login`, {
     email: email.trim(),

@@ -17,7 +17,7 @@ import {
   HomeCardLoading,
   TagsLoading,
 } from "@/components";
-import { useCart } from "@/hooks";
+import { useCart, useTheme } from "@/hooks";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -38,10 +38,9 @@ const reducer = (state: FoodType, action: IAction) => {
 };
 export default function Home() {
   const navigation = useNavigation();
-  // const router = useRouter();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
-  // const [currentTag, setCurrentTag] = useState("All");
   const { addToCart } = useCart();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const loadedFoods = getTopRated();
@@ -56,14 +55,21 @@ export default function Home() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-neutral-100">
+    <SafeAreaView
+      className="flex-1"
+      style={{ backgroundColor: theme.background }}
+    >
       <StatusBar style="dark" />
       <View className=" flex-col items-center self-center pt-1">
         <View className="flex-row justify-between items-center w-full px-5">
           <TouchableOpacity
             onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
           >
-            <FontAwesome6 name="bars-staggered" color={"black"} size={hp(3)} />
+            <FontAwesome6
+              name="bars-staggered"
+              color={theme.text}
+              size={hp(3)}
+            />
           </TouchableOpacity>
           <View className="flex-row justify-between items-center gap-3">
             <TouchableOpacity>
@@ -81,23 +87,28 @@ export default function Home() {
           </View>
         </View>
         <View className="self-start mt-3 pl-4">
-          <Text className="text-4xl font-light">Get Your Food</Text>
-          <Text className="text-4xl font-semibold">Delivered!</Text>
+          <Text className="text-4xl font-light" style={{ color: theme.text }}>
+            Get Your Food
+          </Text>
+          <Text
+            className="text-4xl font-semibold"
+            style={{ color: theme.text }}
+          >
+            Delivered!
+          </Text>
         </View>
       </View>
       <View className="mt-2 px-4">
         {tags.length > 0 ? <Tags tags={tags} /> : <TagsLoading />}
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? (
-          <FoodList data={foods} />
-        ) : (
-          <HomeLoading theme={theme} />
-        )}
+        {foods.length > 0 ? <FoodList data={foods} /> : <HomeLoading />}
       </View>
       <View className="p-4">
         <View className="flex-row justify-between items-center mb-3">
-          <Text className="font-semibold text-xl">Categories</Text>
+          <Text className="font-semibold text-xl" style={{ color: theme.text }}>
+            Categories
+          </Text>
           <Link
             href={{
               pathname: "/",
@@ -108,7 +119,11 @@ export default function Home() {
           </Link>
         </View>
         {foods[0] ? (
-          <Card item={foods[0]} handleAddToCart={() => addToCart(foods[0])} />
+          <Card
+            item={foods[0]}
+            handleAddToCart={() => addToCart(foods[0])}
+            theme={theme}
+          />
         ) : (
           <HomeCardLoading />
         )}

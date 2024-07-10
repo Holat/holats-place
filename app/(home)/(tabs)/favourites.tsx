@@ -26,7 +26,7 @@ const Fav = () => {
 
   return (
     <SafeAreaView className="flex-1 px-4">
-      <View className="m-2 p-2 bg-white rounded-lg">
+      <View className="p-2 bg-white rounded-lg">
         <Text className="text-center">Favourite Foods</Text>
       </View>
       <ScrollView className="mb-24 mx-2 mt-2">
@@ -60,12 +60,12 @@ const FavCard = ({
           contentFit="cover"
         />
       </View>
-      <View>
+      <View className="flex-1">
         <View>
           <Text className="text-base">{item.name}</Text>
           <Price price={item.price} />
         </View>
-        <View>
+        <View className="items-end">
           <TouchableOpacity
             className=" bg-orange-500 rounded-lg p-2"
             onPress={() => handleAddToCart(item)}

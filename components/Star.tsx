@@ -12,13 +12,13 @@ const StarRating = ({ stars, size }: { stars: number; size: number }) => {
 
     const images = {
       "star-full": {
-        image: require("../assets/star-full.jpg"),
+        image: require("../assets/star-full.png"),
       },
       "star-half": {
-        image: require("../assets/star-half.jpg"),
+        image: require("../assets/star-half.png"),
       },
       "star-empty": {
-        image: require("../assets/star-empty.jpg"),
+        image: require("../assets/star-empty.png"),
       },
     };
 

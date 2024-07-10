@@ -6,9 +6,9 @@ import Toast, { BaseToast } from "react-native-toast-message";
 import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 import AuthProvider from "@/context/AuthProvider";
-import { LayoutChangeEvent } from "react-native";
 import { useCallback } from "react";
 import { useAuth, useTheme } from "@/hooks";
+import ThemeProvider from "@/context/ThemeProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,19 +55,21 @@ function RootLayoutNav() {
   if (!authInitialized && !user) return null;
   return (
     <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <CartProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(home)" />
-          <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-          <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
-        </Stack>
-        <Toast config={toastConfig} visibilityTime={2000} />
-      </CartProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(home)" />
+            <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
+            <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
+          </Stack>
+          <Toast config={toastConfig} visibilityTime={2000} />
+        </CartProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }

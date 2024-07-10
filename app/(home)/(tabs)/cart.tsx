@@ -25,74 +25,91 @@ const Cart = () => {
     changeQuantity,
   } = useCart();
   const router = useRouter();
+  const { theme } = useTheme();
 
   return (
-    <SafeAreaView className="flex-1">
-      <View className="flex-row px-2 mt-2 items-center justify-between">
-        <View className="flex-row  rounded-lg items-center  bg-white p-2 h-full">
-          <Text className="text-neutral-500 ">Count</Text>
-          <View className="bg-[#FA6400] rounded w-6 h-6 items-center justify-center ml-2">
-            <Text className="text-white font-bold">{totalCount}</Text>
-          </View>
-        </View>
-        <View className="flex-1 bg-white rounded-lg mx-2 items-center py-2">
-          <Text className="text-lg font-bold">Cart</Text>
-        </View>
-        <Pressable
-          disabled={items.length === 0 || !items}
-          onPress={clearCart}
-          className="flex-row rounded-lg items-center  bg-white p-3 h-full"
-        >
-          <Text className="font-semibold mr-1">Clear Cart</Text>
-        </Pressable>
-      </View>
-      {items.length > 0 ? (
-        <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl overflow-hidden">
-          <ScrollView
-            className="mt-1 flex-1"
-            contentContainerStyle={{
-              paddingHorizontal: 8,
-              paddingTop: 8,
-            }}
+    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+      <SafeAreaView className="flex-1">
+        <View className="flex-row px-2 mt-2 items-center justify-between">
+          <View
+            className="flex-row  rounded-lg items-center  p-2 h-full"
+            style={{ backgroundColor: theme.bkg2 }}
           >
-            {items.map((item) => (
-              <Card
-                key={item.food.id}
-                item={item}
-                removeFromCart={removeFromCart}
-                // changeQuantity={changeQuantity}
-              />
-            ))}
-          </ScrollView>
-          <View className="p-3">
-            <View className="flex-row items-center justify-between pl-1">
-              <View>
-                <Text className="text-neutral-500">Total</Text>
-                <Price price={totalPrice} fontSize={18} />
-              </View>
-              <Pressable
-                onPress={() => router.push("/checkout")}
-                className="bg-[#FA6400] rounded-2xl py-3 px-12"
-              >
-                <Text className="text-white font-semibold text-base">
-                  Check Out
-                </Text>
-              </Pressable>
+            <Text className="text-neutral-500 ">Count</Text>
+            <View className="bg-[#FA6400] rounded w-6 h-6 items-center justify-center ml-2">
+              <Text className="text-white font-bold">{totalCount}</Text>
             </View>
           </View>
+          <View
+            className="flex-1  rounded-lg mx-2 items-center py-2"
+            style={{ backgroundColor: theme.bkg2 }}
+          >
+            <Text style={{ color: theme.text }} className="text-lg font-bold">
+              Cart
+            </Text>
+          </View>
+          <Pressable
+            disabled={items.length === 0 || !items}
+            onPress={clearCart}
+            className="flex-row rounded-lg items-center  p-3 h-full"
+            style={{ backgroundColor: theme.bkg2 }}
+          >
+            <Text className="font-semibold mr-1" style={{ color: theme.text }}>
+              Clear Cart
+            </Text>
+          </Pressable>
         </View>
-      ) : (
-        <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl items-center justify-center">
-          <Image
-            source={require("@/assets/images/emtc.png")}
-            className="w-56 h-56"
-          />
-          <Text className="font-semibold text-lg text-neutral-300">
-            Your cart empty!
-          </Text>
-        </View>
-      )}
-    </SafeAreaView>
+        {items.length > 0 ? (
+          <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl overflow-hidden">
+            <ScrollView
+              className="mt-1 flex-1"
+              contentContainerStyle={{
+                paddingHorizontal: 8,
+                paddingTop: 8,
+              }}
+            >
+              {items.map((item) => (
+                <Card
+                  key={item.food.id}
+                  item={item}
+                  removeFromCart={removeFromCart}
+                  // changeQuantity={changeQuantity}
+                />
+              ))}
+            </ScrollView>
+            <View className="p-3">
+              <View className="flex-row items-center justify-between pl-1">
+                <View>
+                  <Text className="text-neutral-500">Total</Text>
+                  <Price price={totalPrice} fontSize={18} />
+                </View>
+                <Pressable
+                  onPress={() => router.push("/checkout")}
+                  className="bg-[#FA6400] rounded-2xl py-3 px-12"
+                >
+                  <Text className="text-white font-semibold text-base">
+                    Check Out
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View
+            className="mt-2 flex-1 mb-24 rounded-3xl items-center justify-center"
+            style={{ backgroundColor: theme.bkg2 }}
+          >
+            <Image
+              source={require("@/assets/images/cart-cross-svgrepo-com (1).png")}
+              className="w-52 h-52 opacity-80"
+            />
+            <Text className="font-semibold text-lg text-neutral-300">
+              Your cart empty!
+            </Text>
+          </View>
+        )}
+      </SafeAreaView>
+    </View>
   );
 };
 
@@ -119,7 +136,7 @@ const Card = ({
       onPress={() =>
         router.push({
           pathname: "/[foodId]",
-          params: { foodId: item.id },
+          params: { foodId: id },
         })
       }
     >

@@ -26,17 +26,18 @@ const NavigationIcon = ({
     }
   })(label);
 
+  // change tab ui
+  // <View style={label === "Search" && styles.search}>
+  //  isFocused && label !== "Search"
+  //    ? "#FA6400"
+  //    : label === "Search"
+  //    ? "white"
+  //    : "#959595";
   return (
-    <View style={label === "Search" && styles.search}>
+    <View>
       <AntDesign
         name={iconName as any}
-        color={
-          isFocused && label !== "Search"
-            ? "#FA6400"
-            : label === "Search"
-            ? "white"
-            : "#959595"
-        }
+        color={isFocused ? "#FA6400" : "#959595"}
         size={26}
       />
     </View>

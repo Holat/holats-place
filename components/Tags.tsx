@@ -43,9 +43,9 @@ const Tag = ({
 }) => {
   return (
     <Pressable
-      className="bg-neutral-200 rounded-3xl mr-3 items-center justify-center flex px-2"
+      className="rounded-3xl mr-3 items-center justify-center flex px-2"
       style={{
-        backgroundColor: item === currentTag ? "#fed7aa" : "white",
+        backgroundColor: item === currentTag ? "#1E1E1E" : "#1E1E1E",
         borderColor: item === currentTag ? "#FA6400" : "transparent",
         marginVertical: 4,
         borderWidth: 1,
@@ -60,7 +60,7 @@ const Tag = ({
       onPress={() => handleSetTag(item)}
     >
       <Text
-        className="text-base text-center"
+        className="text-base text-center text-white"
         ellipsizeMode="tail"
         numberOfLines={1}
       >
@@ -69,5 +69,5 @@ const Tag = ({
     </Pressable>
   );
 };
-
+// #fed7aa
 const styles = StyleSheet.create({});

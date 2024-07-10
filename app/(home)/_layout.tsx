@@ -28,7 +28,7 @@ export default function _layout() {
     >
       <Drawer.Screen name="(tabs)" options={{ drawerLabel: "Home" }} />
       <Drawer.Screen name="profile" options={{ drawerLabel: "Profile" }} />
-      <Drawer.Screen name="orders" options={{ drawerLabel: "Order History" }} />
+      <Drawer.Screen name="orders" options={{ drawerLabel: "Orders" }} />
     </Drawer>
   );
 }

@@ -73,7 +73,7 @@ const CheckOut = () => {
                 <Text className="text-red-500">*</Text>
               </Text>
               <TextInput
-                style={{color: theme.text}}
+                style={{ color: theme.text }}
                 placeholder="Phone Number"
                 defaultValue={user?.phone}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
@@ -98,7 +98,7 @@ const CheckOut = () => {
                     flex: 0,
                   },
                   textInput: {
-                    style={{color: theme.text}}
+                    color: theme.text,
                     borderWidth: 1,
                     borderRadius: 12,
                     backgroundColor: "#F5F5F5",
@@ -122,7 +122,7 @@ const CheckOut = () => {
                 Nearest Bus Stop
               </Text>
               <TextInput
-                style={{color: theme.text}}
+                style={{ color: theme.text }}
                 placeholder={"Nearest Bus Stop"}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
               />
@@ -132,7 +132,7 @@ const CheckOut = () => {
                 Zip/Postal Code
               </Text>
               <TextInput
-                style={{color: theme.text}}
+                style={{ color: theme.text }}
                 placeholder={"Zip/Postal Code"}
                 className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
               />
@@ -143,7 +143,10 @@ const CheckOut = () => {
             </View> */}
           </View>
         </View>
-        <View className="rounded-3xl bg-white px-3 py-4 mb-2" style={{ backgroundColor: theme.background }}>
+        <View
+          className="rounded-3xl bg-white px-3 py-4 mb-2"
+          style={{ backgroundColor: theme.background }}
+        >
           <DetailsD title={"Sub total"} text={cart.totalPrice} />
           <DetailsD title={"Tax"} text={0} />
           <DetailsD title={"Delivery Fee"} text={1000} />

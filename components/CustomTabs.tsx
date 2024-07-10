@@ -4,10 +4,11 @@ import NavigationIcon from "./NavigationIcon";
 import { useTheme } from "@/hooks";
 
 const CustomTabs = ({ state, descriptors, navigation }: any) => {
+  const { theme } = useTheme();
   return (
     <View
-      style={styles.shadow}
-      className="bottom-0 w-full self-center bg-white pt-2 pb-4 absolute flex-row rounded-t-3xl"
+      style={[styles.shadow, { backgroundColor: theme.bkg2 }]}
+      className="bottom-0 w-full self-center py-6 absolute flex-row rounded-t-2xl"
     >
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];

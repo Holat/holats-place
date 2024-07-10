@@ -113,13 +113,15 @@ export type OrderType = {
 export type ThemeType = {
   text: string;
   background: string;
+  bkg2: string;
   tint: string;
   tabIconDefault: string;
   tabIconSelected: string;
-  brandC: string;
+  accent: string;
 };
 
 export type ThemeContextType = {
+  value: "light" | "dark" | "default";
   theme: ThemeType;
   setTheme: (b: "light" | "dark" | "default") => void;
 };
