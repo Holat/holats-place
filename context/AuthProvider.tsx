@@ -70,8 +70,8 @@ export default function AuthProvider({
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
-      setAuthReady(true);
     }, [user, segments, authInitialized, isNavigationReady]);
+    setAuthReady(true);
   };
 
   const loadFavorites = async () => {

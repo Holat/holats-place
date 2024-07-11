@@ -47,6 +47,7 @@ function RootLayoutNav() {
   };
 
   useEffect(() => {
+    conssole.log(authReady);
     (async () => {
       if (authReady) await SplashScreen.hideAsync();
     })();
