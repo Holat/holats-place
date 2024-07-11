@@ -46,16 +46,15 @@ function RootLayoutNav() {
     ),
   };
 
-  console.log(authReady);
-  const onLayoutRootView = useCallback(async () => {
-    if (authReady) {
-      await SplashScreen.hideAsync();
-    }
+  useEffect(() => {
+    (async () => {
+      if (authReady) await SplashScreen.hideAsync();
+    })();
   }, [authReady]);
 
   if (!authInitialized && !user) return null;
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} onLayout={onLayoutRootView}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider>
         <CartProvider>
           <Stack
