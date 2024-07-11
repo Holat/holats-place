@@ -17,7 +17,11 @@ import Animated from "react-native-reanimated";
 
 export default function FoodList({ data }: { data: FoodItemType[] }) {
   const { addToCart } = useCart();
-  const { rBkg2Style, rTextStyle } = useTheme();
+  const {
+    rBkg2Style,
+    rTextStyle,
+    theme: { text },
+  } = useTheme();
 
   return (
     <Carousel
@@ -30,6 +34,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
           addToCart={addToCart}
           rBkg2Style={rBkg2Style}
           rTextStyle={rTextStyle}
+          color={text}
         />
       )}
       sliderWidth={wp(100)}
@@ -45,7 +50,13 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   );
 }
 
-const FoodCard = ({ item, addToCart, theme }: FoodCardItemType) => {
+const FoodCard = ({
+  item,
+  addToCart,
+  rBkg2Style,
+  rTextStyle,
+  color,
+}: FoodCardItemType) => {
   const router = useRouter();
   const imgUrl = item.imageUrl.split("/").pop() || "";
 
@@ -88,7 +99,7 @@ const FoodCard = ({ item, addToCart, theme }: FoodCardItemType) => {
             <StarRating stars={item?.stars} size={13} />
           </View>
           <View className=" mt-4 flex-row justify-between items-center">
-            <Price price={item.price} fontSize={hp(2.3)} color={theme.text} />
+            <Price price={item.price} fontSize={hp(2.3)} color={color} />
             <TouchableOpacity
               className=" bg-orange-500 rounded-lg p-2"
               onPress={() => addToCart(item)}

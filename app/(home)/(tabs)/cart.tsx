@@ -9,7 +9,7 @@ import React, { useCallback, useState } from "react";
 import { Price } from "@/components";
 import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
-import { CartItemType } from "@/constants/types";
+import { CartCardType, CartItemType } from "@/constants/types";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -30,9 +30,9 @@ const Cart = () => {
   return (
     <Animated.View className="flex-1" style={rStyle}>
       <SafeAreaView className="flex-1">
-        <View className="flex-row px-2 mt-2 items-center justify-between">
+        <View className="flex-row px-2 mt-2 items-stretch justify-between">
           <Animated.View
-            className="flex-row  rounded-lg items-center  p-2 h-full"
+            className="flex-row  rounded-lg items-center  p-2"
             style={rBkg2Style}
           >
             <Text className="text-neutral-500 ">Count</Text>
@@ -48,11 +48,11 @@ const Cart = () => {
               Cart
             </Animated.Text>
           </Animated.View>
-          <Animated.View style={rBkg2Style} className="h-full">
+          <Animated.View style={rBkg2Style} className="rounded-lg">
             <Pressable
               disabled={items.length === 0 || !items}
               onPress={clearCart}
-              className="flex-row rounded-lg items-center  p-3 h-full"
+              className="flex-row  items-center  p-3"
             >
               <Animated.Text className="font-semibold mr-1" style={rTextStyle}>
                 Clear Cart
@@ -61,7 +61,7 @@ const Cart = () => {
           </Animated.View>
         </View>
         {items.length > 0 ? (
-          <AnimatedView
+          <Animated.View
             className="mt-2 flex-1 mb-20 rounded-3xl overflow-hidden"
             style={rBkg2Style}
           >
@@ -78,6 +78,7 @@ const Cart = () => {
                   item={item}
                   removeFromCart={removeFromCart}
                   rTextStyle={rTextStyle}
+                  color={theme.text}
                 />
               ))}
             </ScrollView>
@@ -97,7 +98,7 @@ const Cart = () => {
                 </Pressable>
               </View>
             </View>
-          </AnimatedView>
+          </Animated.View>
         ) : (
           <Animated.View
             className="mt-2 flex-1 mb-20 rounded-3xl items-center justify-center"
@@ -127,7 +128,7 @@ const Cart = () => {
 
 export default Cart;
 
-const Card = ({ item, removeFromCart, rTextStyle }: CartCardType) => {
+const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
   const {
     food: { imageUrl, name, id },
     quantity,

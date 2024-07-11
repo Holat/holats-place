@@ -1,5 +1,5 @@
 import { Price } from "@/components";
-import { ThemeType, OrderHistoryType } from "@/constants/types";
+import { ThemeType, OrderHistoryType, OrderCardType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";

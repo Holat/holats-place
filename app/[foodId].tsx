@@ -14,10 +14,11 @@ import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import { StatusBar } from "expo-status-bar";
 import { useAuth, useTheme, useCart } from "@/hooks";
+import Animated from "react-native-reanimated";
 
 export default function FoodInfo() {
   const { foodId } = useLocalSearchParams();
-  const { theme } = useTheme();
+  const { theme, rStyle, rTextStyle } = useTheme();
   const [optimisticLike, setOptimisticLike] = useState(false);
   const [foodItem, setFoodItem] = useState<FoodItemType>();
   const { getCartItemById, addToCart } = useCart();

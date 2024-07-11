@@ -2,9 +2,12 @@ import { Tabs } from "expo-router";
 import React from "react";
 import CustomTabs from "@/components/CustomTabs";
 import { useTheme } from "@/hooks";
+import Animated from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TabLayout = () => {
-  const { theme } = useTheme();
+  const { rBkg2Style, rTextStyle } = useTheme();
+  const { top } = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -12,12 +15,6 @@ const TabLayout = () => {
         headerShown: false,
         tabBarActiveTintColor: "orange",
         tabBarHideOnKeyboard: true,
-        headerStyle: {
-          backgroundColor: theme.bkg2,
-        },
-        headerTitleStyle: {
-          color: theme.text,
-        },
       }}
       tabBar={(props) => <CustomTabs {...props} />}
     >
@@ -51,6 +48,19 @@ const TabLayout = () => {
         options={{
           title: "Profile",
           headerShown: true,
+          header: (props) => (
+            <Animated.View
+              style={[rBkg2Style, { paddingTop: top + 2 }]}
+              className="px-3 pb-2"
+            >
+              <Animated.Text
+                style={rTextStyle}
+                className={"font-bold text-xl capitalize m-2"}
+              >
+                {props.route.name}
+              </Animated.Text>
+            </Animated.View>
+          ),
         }}
       />
     </Tabs>

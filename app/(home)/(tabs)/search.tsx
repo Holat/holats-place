@@ -93,6 +93,7 @@ const Search = () => {
               key={item.id}
               rBkg2Style={rBkg2Style}
               rTextStyle={rTextStyle}
+              color={[theme.text, theme.bkg2]}
             />
           )}
           showsVerticalScrollIndicator={false}

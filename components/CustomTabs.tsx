@@ -7,7 +7,7 @@ import Animated from "react-native-reanimated";
 const CustomTabs = ({ state, descriptors, navigation }: any) => {
   const { rBkg2Style } = useTheme();
   return (
-    <View
+    <Animated.View
       style={[styles.shadow, rBkg2Style]}
       className="bottom-0 w-full self-center py-6 absolute flex-row rounded-t-2xl"
     >
@@ -44,7 +44,7 @@ const CustomTabs = ({ state, descriptors, navigation }: any) => {
           </View>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 

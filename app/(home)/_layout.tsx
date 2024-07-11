@@ -3,7 +3,6 @@ import React from "react";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
 import { useAuth, useTheme } from "@/hooks";
-import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
 export default function _layout() {
   const { user, logout } = useAuth();

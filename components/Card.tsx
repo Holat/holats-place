@@ -13,6 +13,7 @@ const Card = ({
   handleAddToCart,
   rBkg2Style,
   rTextStyle,
+  color,
 }: FoodCardType) => {
   const router = useRouter();
   const imgUrl = item?.imageUrl.split("/").pop() || "";
@@ -46,7 +47,9 @@ const Card = ({
             className="w-full"
             contentFit="cover"
           />
-          <Animated.View style={[styles.triangleCorner, rTextStyle]} />
+          <Animated.View
+            style={[styles.triangleCorner, { borderBottomColor: color[1] }]}
+          />
         </View>
         <View className="flex-1 p-3">
           <Animated.Text
@@ -57,7 +60,7 @@ const Card = ({
           >
             {item?.name}
           </Animated.Text>
-          <Price price={item?.price} fontSize={hp(2)} color={theme.text} />
+          <Price price={item?.price} fontSize={hp(2)} color={color[0]} />
           <View className="flex-row items-center mt-3">
             <View className="flex-row items-center gap-2 flex-1">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />

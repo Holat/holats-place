@@ -31,8 +31,13 @@ export default function AuthProvider({
     if (userString) {
       const data = JSON.parse(userString);
       setUser(data);
-      setAuthInitialized(true);
     }
+    setAuthInitialized(true);
+  };
+
+  const loadFavorites = async () => {
+    const storedFavorites = await favService.getFavoriteFoods();
+    setFavFoods(storedFavorites);
   };
 
   const useProtectedRoute = (user: UserType | null) => {
@@ -69,20 +74,18 @@ export default function AuthProvider({
         setIsAuthenticated(success);
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
+
+        if (success) await loadFavorites();
+        setAuthReady(true);
       })();
     }, [user, segments, authInitialized, isNavigationReady]);
-    setAuthReady(true);
-  };
-
-  const loadFavorites = async () => {
-    const storedFavorites = await favService.getFavoriteFoods();
-    setFavFoods(storedFavorites);
   };
 
   useEffect(() => {
-    getUser();
-    loadFavorites();
-  }, [isAuthenticated]);
+    (async () => {
+      await getUser();
+    })();
+  }, [authInitialized]);
 
   const toggleFavorite = async (foodId: string) => {
     let updatedFavorites;

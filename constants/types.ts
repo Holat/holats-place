@@ -1,4 +1,4 @@
-import { AnimatedStyleProp } from "react-native-reanimated";
+import { AnimatedStyle } from "react-native-reanimated";
 
 export type FoodItemType = {
   id: number | string;
@@ -152,34 +152,37 @@ export type ThemeContextType = {
   value: ThemeValueType;
   theme: ThemeType;
   setTheme: (b: "light" | "dark" | "default") => void;
-  rStyle: AnimatedStyleProp;
-  rBkg2Style: AnimatedStyleProp;
-  rTextStyle: AnimatedStyleProp;
+  rStyle: AnimatedStyle;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
 };
 
 export type FoodCardType = {
   item: FoodItemType;
   handleAddToCart: (item: FoodItemType) => void;
-  rBkg2Style: AnimatedStyleProp;
-  rTextStyle: AnimatedStyleProp;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+  color: string[];
 };
 
 export type FoodCardItemType = {
   item: FoodItemType;
   addToCart: (food?: FoodItemType) => void;
-  rBkg2Style: AnimatedStyleProp;
-  rTextStyle: AnimatedStyleProp;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+  color: string;
 };
 
 export type CartCardType = {
   item: CartItemType;
   removeFromCart: (id: string | number) => void;
-  rTextStyle: AnimatedStyleProp;
+  rTextStyle: AnimatedStyle;
+  color: string;
 };
 
 export type OrderCardType = {
   item: OrderHistoryType;
   theme: ThemeType;
-  rBkg2Style: AnimatedStyleProp;
-  rTextStyle: AnimatedStyleProp;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
 };

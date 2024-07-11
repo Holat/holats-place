@@ -44,6 +44,7 @@ export default function PaymentBtn({
   };
 
   const onPaymentInit = async () => {
+    console.log("clicked");
     const data = await createOrder({ ...order });
     console.log(data);
   };
@@ -65,6 +66,10 @@ export default function PaymentBtn({
           amount: order.totalPrice,
           currency: "NGN",
           payment_options: "card,ussd,banktransfer",
+          // customizations: {
+          //   title: "Holat's Place",
+          //   logo: "../assets/images/icon.png",
+          // },
         }}
       />
     </View>

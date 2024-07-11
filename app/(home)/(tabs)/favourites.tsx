@@ -14,10 +14,9 @@ import Animated from "react-native-reanimated";
 
 const Fav = () => {
   const { addToCart } = useCart();
-  const { theme, value } = useTheme();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
-  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
+  const { theme, rStyle, rTextStyle, value } = useTheme();
 
   useEffect(() => {
     getFavourites()

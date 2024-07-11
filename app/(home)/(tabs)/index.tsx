@@ -1,8 +1,8 @@
 import { View, TouchableOpacity } from "react-native";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
@@ -56,7 +56,7 @@ export default function Home() {
   }, []);
 
   return (
-    <Animated.View style={rStyle}>
+    <Animated.View style={rStyle} className="flex-1">
       <SafeAreaView className="flex-1">
         <View className=" flex-col items-center self-center pt-1">
           <View className="flex-row justify-between items-center w-full px-5">
@@ -135,6 +135,7 @@ export default function Home() {
               handleAddToCart={() => addToCart(foods[0])}
               rBkg2Style={rBkg2Style}
               rTextStyle={rTextStyle}
+              color={[theme.text, theme.bkg2]}
             />
           ) : (
             <HomeCardLoading backgroundColor={theme.bkg2} />
