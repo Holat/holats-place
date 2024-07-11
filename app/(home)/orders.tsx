@@ -1,5 +1,5 @@
 import { Price } from "@/components";
-import { CartItemType, ThemeType } from "@/constants/types";
+import { ThemeType, OrderHistoryType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
@@ -11,22 +11,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/hooks";
-
-type OrderHistoryType = {
-  _id: string;
-  address: string;
-  totalPrice: number;
-  totalCount: number;
-  createdAt: string;
-  status: string;
-  items: CartItemType[];
-};
+import Animated from "react-native-reanimated";
 
 export default function Orders() {
   const [orders, setOrders] = useState<OrderHistoryType[]>();
-  const [currentStatus, setCurrentStatus] = useState("");
+  const [currentStatus, setCurrentStatus] = useState<string>("");
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, value, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   useEffect(() => {
     getAll(currentStatus)
@@ -37,26 +28,29 @@ export default function Orders() {
   }, [currentStatus]);
 
   return (
-    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+    <Animated.View className="flex-1" style={rStyle}>
       <SafeAreaView className="flex-1">
-        <View
+        <Animated.View
           className="flex-row items-center pl-2 pr-3 py-2 mx-2 rounded-lg self-start"
-          style={{ backgroundColor: theme.bkg2 }}
+          style={rBkg2Style}
         >
           <Pressable onPress={() => router.back()}>
             <AntDesign color={theme.text} name={"left"} size={24} />
           </Pressable>
-          <Text
-            className="font-bold text-lg ml-2"
-            style={{ color: theme.text }}
-          >
+          <Animated.Text className="font-bold text-lg ml-2" style={rTextStyle}>
             Orders
-          </Text>
-        </View>
+          </Animated.Text>
+        </Animated.View>
         <ScrollView className="m-2" showsVerticalScrollIndicator={false}>
           {orders ? (
             orders.map((item) => (
-              <OrderSummaryCard key={item._id} item={item} theme={theme} />
+              <OrderSummaryCard
+                key={item._id}
+                item={item}
+                theme={theme}
+                rBkg2Style={rBkg2Style}
+                rTextStyle={rTextStyle}
+              />
             ))
           ) : (
             <View className="mb-4">
@@ -65,28 +59,27 @@ export default function Orders() {
           )}
         </ScrollView>
       </SafeAreaView>
-    </View>
+    </Animated.View>
   );
 }
 
 const OrderSummaryCard = ({
   item,
   theme,
-}: {
-  item: OrderHistoryType;
-  theme: ThemeType;
-}) => {
+  rBkg2Style,
+  rTextStyle,
+}: OrderCardType) => {
   const { status, totalCount, totalPrice, createdAt, _id, items, address } =
     item;
   const date = formatDate(createdAt);
 
   return (
-    <View className="rounded-lg mb-2" style={{ backgroundColor: theme.bkg2 }}>
+    <Animated.View className="rounded-lg mb-2" style={rBkg2Style}>
       <View className="p-4">
         <View className="flex items-start mb-2">
-          <Text className="text-lg font-bold" style={{ color: theme.text }}>
+          <Animated.Text className="text-lg font-bold" style={rTextStyle}>
             Order #{_id}
-          </Text>
+          </Animated.Text>
           <View
             style={{
               backgroundColor:
@@ -100,7 +93,7 @@ const OrderSummaryCard = ({
             }}
             className="px-2 py-1 rounded-lg mt-1"
           >
-            <Text
+            <Animated.Text
               style={{
                 color:
                   status === "PAYED"
@@ -114,34 +107,28 @@ const OrderSummaryCard = ({
               className="font-bold"
             >
               {status}
-            </Text>
+            </Animated.Text>
           </View>
         </View>
-        <Text className="text-sm font-semibold" style={{ color: theme.text }}>
+        <Animated.Text className="text-sm font-semibold" style={rTextStyle}>
           Total: <Price price={totalPrice} />
-        </Text>
+        </Animated.Text>
         <View className="flex-row items-start justify-between">
           <View className="">
-            <Text
-              className="text-sm font-semibold"
-              style={{ color: theme.text }}
-            >
+            <Animated.Text className="text-sm font-semibold" style={rTextStyle}>
               Items: {totalCount}
-            </Text>
-            <Text
-              className="text-sm font-semibold"
-              style={{ color: theme.text }}
-            >
+            </Animated.Text>
+            <Animated.Text className="text-sm font-semibold" style={rTextStyle}>
               Order Date: {date}
-            </Text>
-            <Text
+            </Animated.Text>
+            <Animated.Text
               className="text-sm font-semibold"
               ellipsizeMode="tail"
               numberOfLines={1}
-              style={{ color: theme.text }}
+              style={rTextStyle}
             >
               Address: {address}
-            </Text>
+            </Animated.Text>
           </View>
         </View>
       </View>
@@ -159,9 +146,9 @@ const OrderSummaryCard = ({
             </View>
             <View className="flex justify-between flex-1">
               <View>
-                <Text className="text-base" style={{ color: theme.text }}>
+                <Animated.Text className="text-base" style={rTextStyle}>
                   {item.food.name}
-                </Text>
+                </Animated.Text>
                 <Text className="font-semibold text-neutral-400">
                   x{item.quantity}
                 </Text>
@@ -171,7 +158,7 @@ const OrderSummaryCard = ({
           </View>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 // 001a66

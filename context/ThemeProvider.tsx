@@ -3,6 +3,12 @@ import { useColorScheme } from "react-native";
 import { lightTheme, darkTheme } from "@/constants/Colors";
 import { ThemeContextType, ThemeType, ThemeValueType } from "@/constants/types";
 import { getValueFor, save } from "@/services/storage/asyncStorage";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
@@ -15,6 +21,38 @@ export default function ThemeProvider({
   const [value, setValue] = useState<ThemeValueType>("dark");
   const [theme, setCTheme] = useState<ThemeType>(darkTheme);
   const sysTheme = useColorScheme() || "dark";
+
+  // const progress = useSharedValue(0);
+  const progress = useDerivedValue(() => {
+    return value === "dark" ? withTiming(1) : withTiming(0);
+  }, [theme]);
+
+  const rStyle = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [0, 1],
+      [lightTheme.background, darkTheme.background]
+    );
+    return { backgroundColor };
+  });
+
+  const rBkg2Style = useAnimatedStyle(() => {
+    const backgroundColor = interpolateColor(
+      progress.value,
+      [0, 1],
+      [lightTheme.bkg2, darkTheme.bkg2]
+    );
+    return { backgroundColor };
+  });
+
+  const rTextStyle = useAnimatedStyle(() => {
+    const color = interpolateColor(
+      progress.value,
+      [0, 1],
+      [lightTheme.text, darkTheme.text]
+    );
+    return { color };
+  });
 
   useEffect(() => {
     (async () => {
@@ -53,6 +91,9 @@ export default function ThemeProvider({
         value,
         theme,
         setTheme,
+        rStyle,
+        rBkg2Style,
+        rTextStyle,
       }}
     >
       {children}

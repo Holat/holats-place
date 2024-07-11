@@ -2,12 +2,13 @@ import { StyleSheet, View, Pressable } from "react-native";
 import React from "react";
 import NavigationIcon from "./NavigationIcon";
 import { useTheme } from "@/hooks";
+import Animated from "react-native-reanimated";
 
 const CustomTabs = ({ state, descriptors, navigation }: any) => {
-  const { theme } = useTheme();
+  const { rBkg2Style } = useTheme();
   return (
     <View
-      style={[styles.shadow, { backgroundColor: theme.bkg2 }]}
+      style={[styles.shadow, rBkg2Style]}
       className="bottom-0 w-full self-center py-6 absolute flex-row rounded-t-2xl"
     >
       {state.routes.map((route: any, index: number) => {

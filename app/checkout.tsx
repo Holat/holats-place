@@ -6,10 +6,8 @@ import {
   View,
 } from "react-native";
 import React, { useState } from "react";
-import { PaymentBtn } from "@/components";
 import { OrderType } from "@/constants/types";
-// import useLocation from '@/hooks/useLocation';
-import { Price } from "@/components";
+import { Price, PaymentBtn } from "@/components";
 import { useAuth, useTheme, useCart } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
 

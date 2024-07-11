@@ -88,19 +88,19 @@ export default function FoodInfo() {
         </View>
       </View>
       <View className="flex-1" />
-      <View
+      <Animated.View
         className="flex-1 p-4 flex justify-between absolute bottom-0 rounded-t-3xl w-full"
-        style={{ height: "55%", backgroundColor: theme.background }}
+        style={[{ height: "55%" }, rStyle]}
       >
         <View className="flex-1 pt-2 mb-8 flex justify-between">
           <View className="flex items-start mb-5">
             {foodItem ? (
-              <Text
+              <Animated.Text
                 className=" font-semibold"
-                style={{ fontSize: hp(3.5), color: theme.text }}
+                style={[{ fontSize: hp(3.5) }, rTextStyle]}
               >
                 {foodItem?.name}
-              </Text>
+              </Animated.Text>
             ) : (
               <RoundedShimmer h={20} w={200} />
             )}
@@ -217,7 +217,7 @@ export default function FoodInfo() {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -249,46 +249,3 @@ const ItemD = ({
     </View>
   );
 };
-
-/* <View className="flex-row items-center">
-              <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text
-                    className="font-bold"
-                    style={{ fontSize: hp(2.3), color: theme.text }}
-                  >
-                    {foodItem?.stars}
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={50} />
-                )}
-              </View>
-            </View>
-            <View className="flex-row items-center">
-              <AntDesign name="clockcircleo" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text
-                    className="font-bold"
-                    style={{ fontSize: hp(2.3), color: theme.text }}
-                  >
-                    {foodItem?.cookTime}min
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={55} />
-                )}
-              </View>
-            </View>
-            <View className="flex-row items-center">
-              <AntDesign name="enviroment" size={hp(3)} color={"#FA6400"} />
-              <View className="ml-2">
-                {foodItem ? (
-                  <Text className="font-bold" style={{ fontSize: hp(2.3) }}>
-                    {foodItem?.origins[0]}
-                  </Text>
-                ) : (
-                  <RoundedShimmer h={20} w={50} />
-                )}
-              </View>
-            </View> */

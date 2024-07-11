@@ -10,12 +10,14 @@ import { getFoodImage } from "@/constants/data";
 import { Image } from "expo-image";
 import { Price } from "@/components";
 import { Entypo } from "@expo/vector-icons";
+import Animated from "react-native-reanimated";
 
 const Fav = () => {
   const { addToCart } = useCart();
   const { theme, value } = useTheme();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
+  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   useEffect(() => {
     getFavourites()
@@ -26,7 +28,7 @@ const Fav = () => {
   }, []);
 
   return (
-    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+    <Animated.View className="flex-1" style={rStyle}>
       <SafeAreaView className="flex-1 px-2">
         <View
           className="m-2 py-3 rounded-lg"
@@ -36,12 +38,12 @@ const Fav = () => {
             borderWidth: 1,
           }}
         >
-          <Text
+          <Animated.Text
             className="text-center font-bold text-base"
-            style={{ color: theme.text }}
+            style={rTextStyle}
           >
             Favourite Foods
-          </Text>
+          </Animated.Text>
         </View>
         <ScrollView className="mb-20 mx-2 mt-2">
           {fav?.map((item) => (
@@ -54,7 +56,7 @@ const Fav = () => {
           ))}
         </ScrollView>
       </SafeAreaView>
-    </View>
+    </Animated.View>
   );
 };
 

@@ -46,10 +46,10 @@ const NavigationIcon = ({
 
 export default NavigationIcon;
 
-const styles = StyleSheet.create({
-  search: {
-    backgroundColor: "#FA6400",
-    borderRadius: 50,
-    padding: 20,
-  },
-});
+// const styles = StyleSheet.create({
+//   search: {
+//     backgroundColor: "#FA6400",
+//     borderRadius: 50,
+//     padding: 20,
+//   },
+// });

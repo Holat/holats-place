@@ -9,13 +9,14 @@ import { FlatList } from "react-native-gesture-handler";
 import { FoodItemType } from "@/constants/types";
 import { Card, SearchLoading } from "@/components";
 import { useTheme, useCart } from "@/hooks";
+import Animated from "react-native-reanimated";
 
 const Search = () => {
   const [searchInputTerm, setSearchInputTerm] = useState("");
   const [items, setItems] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { addToCart } = useCart();
-  const { theme } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   const handleAddToCart = (item: FoodItemType) => {
     addToCart(item);
@@ -34,7 +35,7 @@ const Search = () => {
   }, [searchInputTerm]);
 
   return (
-    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+    <Animated.View className="flex-1" style={rStyle}>
       <SafeAreaView className="flex-1">
         <View className="w-full flex-row items-center justify-center gap-4 pt-6 px-2">
           <View>
@@ -42,16 +43,18 @@ const Search = () => {
               <AntDesign color={theme.text} name={"left"} size={hp(4)} />
             </TouchableOpacity>
           </View>
-          <View
+          <Animated.View
             className="flex-1 rounded-md  flex-row items-center pl-3"
-            style={{
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.1,
-              shadowRadius: 5,
-              elevation: 3,
-              backgroundColor: theme.bkg2,
-            }}
+            style={[
+              {
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.1,
+                shadowRadius: 5,
+                elevation: 3,
+              },
+              rBkg2Style,
+            ]}
           >
             <AntDesign name="search1" size={hp(3)} color={"#959595"} />
             <TextInput
@@ -70,7 +73,7 @@ const Search = () => {
               returnKeyType="search"
               onSubmitEditing={() => searchFood()}
             />
-          </View>
+          </Animated.View>
           <View>
             <TouchableOpacity
               className=" bg-orange-500 rounded-md p-3 items-center justify-center"
@@ -88,7 +91,8 @@ const Search = () => {
               item={item}
               handleAddToCart={handleAddToCart}
               key={item.id}
-              theme={theme}
+              rBkg2Style={rBkg2Style}
+              rTextStyle={rTextStyle}
             />
           )}
           showsVerticalScrollIndicator={false}
@@ -111,7 +115,7 @@ const Search = () => {
           }}
         />
       </SafeAreaView>
-    </View>
+    </Animated.View>
   );
 };
 

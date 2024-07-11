@@ -1,27 +1,19 @@
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
 import Price from "@/components/Price";
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { TouchableOpacity, View, StyleSheet, Pressable } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { FoodItemType, ThemeType } from "@/constants/types";
+import { FoodCardType } from "@/constants/types";
 import { useRouter } from "expo-router";
+import Animated from "react-native-reanimated";
 
 const Card = ({
   item,
   handleAddToCart,
-  theme,
-}: {
-  item: FoodItemType;
-  handleAddToCart: (item: FoodItemType) => void;
-  theme: ThemeType;
-}) => {
+  rBkg2Style,
+  rTextStyle,
+}: FoodCardType) => {
   const router = useRouter();
   const imgUrl = item?.imageUrl.split("/").pop() || "";
 
@@ -34,19 +26,19 @@ const Card = ({
         });
       }}
     >
-      <View
+      <Animated.View
         className="flex-row rounded-xl overflow-hidden"
-        style={{
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 1 },
-          shadowOpacity: 0.1,
-          shadowRadius: 5,
-          elevation: 3,
-          backgroundColor: theme.bkg2,
-        }}
+        style={[
+          {
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 1 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            elevation: 3,
+          },
+          rBkg2Style,
+        ]}
       >
-        {/* <View className="w-24" style={{}}></View>
-         */}
         <View style={styles.container}>
           <Image
             style={{ aspectRatio: 3 / 3.7 }}
@@ -54,29 +46,27 @@ const Card = ({
             className="w-full"
             contentFit="cover"
           />
-          <View
-            style={[styles.triangleCorner, { borderBottomColor: theme.bkg2 }]}
-          ></View>
+          <Animated.View style={[styles.triangleCorner, rTextStyle]} />
         </View>
         <View className="flex-1 p-3">
-          <Text
+          <Animated.Text
             numberOfLines={1}
-            style={{ color: theme.text }}
+            style={rTextStyle}
             ellipsizeMode="middle"
             className="text-lg"
           >
             {item?.name}
-          </Text>
+          </Animated.Text>
           <Price price={item?.price} fontSize={hp(2)} color={theme.text} />
           <View className="flex-row items-center mt-3">
             <View className="flex-row items-center gap-2 flex-1">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
-              <Text
+              <Animated.Text
                 className="font-bold"
-                style={{ fontSize: hp(2.3), color: theme.text }}
+                style={[{ fontSize: hp(2.3) }, rTextStyle]}
               >
                 {item?.stars}
-              </Text>
+              </Animated.Text>
             </View>
             <TouchableOpacity
               className=" bg-orange-500 rounded-lg p-2"
@@ -87,7 +77,7 @@ const Card = ({
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </Pressable>
   );
 };

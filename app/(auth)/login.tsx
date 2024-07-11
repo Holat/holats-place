@@ -79,7 +79,7 @@ const Login = () => {
           <View className="self-start">
             <Animated.Image
               entering={FadeInUp.duration(200).springify()}
-              source={require("@/assets/images/logo.png")}
+              source={require("@/assets/images/icon.png")}
               style={{ height: hp(8), width: hp(8), marginTop: top }}
               className=""
             />

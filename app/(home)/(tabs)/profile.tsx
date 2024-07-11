@@ -4,13 +4,14 @@ import { useAuth, useTheme } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { ThemeValueType } from "@/constants/types";
+import Animated from "react-native-reanimated";
 
 export default function Profile() {
   const { user } = useAuth();
-  const { theme, setTheme, value } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle, value, setTheme } = useTheme();
 
   return (
-    <View className="flex-1" style={{ backgroundColor: theme.background }}>
+    <Animated.View className="flex-1" style={rStyle}>
       <ScrollView
         contentContainerStyle={{
           alignItems: "center",
@@ -18,10 +19,7 @@ export default function Profile() {
         }}
         style={{ marginBottom: 80 }}
       >
-        <View
-          style={{ backgroundColor: theme.bkg2 }}
-          className="p-4 w-full rounded-2xl"
-        >
+        <Animated.View style={rBkg2Style} className="p-4 w-full rounded-2xl">
           <View className="items-center">
             <View className="w-20 h-20 mb-2">
               <Image
@@ -29,24 +27,24 @@ export default function Profile() {
                 className="rounded-full w-full h-full"
               />
             </View>
-            <Text className="text-xl font-bold " style={{ color: theme.text }}>
+            <Animated.Text className="text-xl font-bold " style={rTextStyle}>
               {user?.name}
-            </Text>
+            </Animated.Text>
             <Text className="text-neutral-600">{user?.email}</Text>
           </View>
-        </View>
-        <View
+        </Animated.View>
+        <Animated.View
           className="mt-2 w-full rounded-2xl py-4 px-2"
-          style={{ backgroundColor: theme.bkg2 }}
+          style={rBkg2Style}
         >
           <DetailsD title="Name" text={user?.name} b />
           <DetailsD title="Email" text={user?.email} b />
           <DetailsD title="Contact" text={user?.phone} b />
           <DetailsD title="Address" text={user?.address} />
-        </View>
-        <View
+        </Animated.View>
+        <Animated.View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
-          style={{ backgroundColor: theme.bkg2 }}
+          style={rBkg2Style}
         >
           <View>
             <Text className="text-neutral-600 font-semibold text-base">
@@ -60,29 +58,27 @@ export default function Profile() {
                 className="mt-5 flex-row justify-between items-center"
                 onPress={() => setTheme(item as ThemeValueType)}
               >
-                <Text
-                  style={{ color: theme.text }}
+                <Animated.Text
+                  style={rTextStyle}
                   className="capitalize font-semibold text-base"
                 >
                   {item}
-                </Text>
+                </Animated.Text>
                 {item === value && (
                   <AntDesign name="checkcircle" color={"green"} size={24} />
                 )}
               </Pressable>
             ))}
           </View>
-        </View>
-        <View
+        </Animated.View>
+        <Animated.View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
-          style={{ backgroundColor: theme.bkg2 }}
+          style={rBkg2Style}
         >
-          <View>
-            <Text className="text-red-600 font-semibold text-base">Logout</Text>
-          </View>
-        </View>
+          <Text className="text-red-600 font-semibold text-base">Logout</Text>
+        </Animated.View>
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 }
 

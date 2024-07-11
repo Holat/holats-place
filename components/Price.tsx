@@ -1,4 +1,5 @@
 import { Text } from "react-native";
+import { PriceCompType } from "@/constants/types";
 
 const Price = ({
   locale,
@@ -7,14 +8,7 @@ const Price = ({
   showP,
   fontSize,
   color,
-}: {
-  locale?: string;
-  price: number;
-  currency?: string;
-  showP?: boolean;
-  fontSize?: number;
-  color?: string;
-}) => {
+}: PriceCompType) => {
   const formatPrice = () =>
     new Intl.NumberFormat(locale, {
       style: "currency",

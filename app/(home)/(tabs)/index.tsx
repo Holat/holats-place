@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import React, { useEffect, useReducer, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
@@ -9,6 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
 import { getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";
+import Animated from "react-native-reanimated";
 import {
   Tags,
   FoodList,
@@ -40,7 +41,7 @@ export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const { addToCart } = useCart();
-  const { theme, value } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   useEffect(() => {
     const loadedFoods = getTopRated();
@@ -55,82 +56,91 @@ export default function Home() {
   }, []);
 
   return (
-    <SafeAreaView
-      className="flex-1"
-      style={{ backgroundColor: theme.background }}
-    >
-      <View className=" flex-col items-center self-center pt-1">
-        <View className="flex-row justify-between items-center w-full px-5">
-          <TouchableOpacity
-            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-          >
-            <FontAwesome6
-              name="bars-staggered"
-              color={theme.text}
-              size={hp(3)}
-            />
-          </TouchableOpacity>
-          <View className="flex-row justify-between items-center gap-3">
-            <TouchableOpacity>
-              <AntDesign color={"#FA6400"} name={"shoppingcart"} size={hp(4)} />
-            </TouchableOpacity>
+    <Animated.View style={rStyle}>
+      <SafeAreaView className="flex-1">
+        <View className=" flex-col items-center self-center pt-1">
+          <View className="flex-row justify-between items-center w-full px-5">
             <TouchableOpacity
-              style={{ height: hp(5), width: hp(5) }}
-              className=" items-center justify-center"
+              onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
             >
-              <Image
-                source={require("@/assets/images/avatar.jpeg")}
-                className="rounded-full w-full h-full"
+              <FontAwesome6
+                name="bars-staggered"
+                color={theme.text}
+                size={hp(3)}
               />
             </TouchableOpacity>
+            <View className="flex-row justify-between items-center gap-3">
+              <TouchableOpacity>
+                <AntDesign
+                  color={"#FA6400"}
+                  name={"shoppingcart"}
+                  size={hp(4)}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ height: hp(5), width: hp(5) }}
+                className=" items-center justify-center"
+              >
+                <Image
+                  source={require("@/assets/images/avatar.jpeg")}
+                  className="rounded-full w-full h-full"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View className="self-start mt-3 pl-4">
+            <Animated.Text className="text-4xl font-light" style={rTextStyle}>
+              Get Your Food
+            </Animated.Text>
+            <Animated.Text
+              className="text-4xl font-semibold"
+              style={rTextStyle}
+            >
+              Delivered!
+            </Animated.Text>
           </View>
         </View>
-        <View className="self-start mt-3 pl-4">
-          <Text className="text-4xl font-light" style={{ color: theme.text }}>
-            Get Your Food
-          </Text>
-          <Text
-            className="text-4xl font-semibold"
-            style={{ color: theme.text }}
-          >
-            Delivered!
-          </Text>
+        <View className="mt-2 px-4">
+          {tags.length > 0 ? (
+            <Tags tags={tags} theme={theme} />
+          ) : (
+            <TagsLoading />
+          )}
         </View>
-      </View>
-      <View className="mt-2 px-4">
-        {tags.length > 0 ? <Tags tags={tags} theme={theme} /> : <TagsLoading />}
-      </View>
-      <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? (
-          <FoodList data={foods} />
-        ) : (
-          <HomeLoading bkg={theme.bkg2} />
-        )}
-      </View>
-      <View className="p-4">
-        <View className="flex-row justify-between items-center mb-3">
-          <Text className="font-semibold text-xl" style={{ color: theme.text }}>
-            Categories
-          </Text>
-          <Link
-            href={{
-              pathname: "/",
-            }}
-            className="text-orange-600 underline"
-          >
-            See All
-          </Link>
+        <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
+          {foods.length > 0 ? (
+            <FoodList data={foods} />
+          ) : (
+            <HomeLoading bkg={theme.bkg2} />
+          )}
         </View>
-        {foods[0] ? (
-          <Card
-            item={foods[0]}
-            handleAddToCart={() => addToCart(foods[0])}
-            theme={theme}
-          />
-        ) : (
-          <HomeCardLoading backgroundColor={theme.bkg2} />
-        )}
-      </View>
-    </SafeAreaView>
+        <View className="p-4">
+          <View className="flex-row justify-between items-center mb-3">
+            <Animated.Text className="font-semibold text-xl" style={rTextStyle}>
+              Categories
+            </Animated.Text>
+            <Link
+              href={{
+                pathname: "/",
+              }}
+              className="text-orange-600 underline"
+            >
+              See All
+            </Link>
+          </View>
+          {foods[0] ? (
+            // --- card triangle border color
+            <Card
+              item={foods[0]}
+              handleAddToCart={() => addToCart(foods[0])}
+              rBkg2Style={rBkg2Style}
+              rTextStyle={rTextStyle}
+            />
+          ) : (
+            <HomeCardLoading backgroundColor={theme.bkg2} />
+          )}
+        </View>
+      </SafeAreaView>
+    </Animated.View>
   );
 }

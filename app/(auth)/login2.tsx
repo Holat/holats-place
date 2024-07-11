@@ -31,7 +31,7 @@ export default function Index() {
       >
         <Animated.Image
           entering={FadeInUp.duration(200).springify()}
-          source={require("../../assets/images/logo.png")}
+          source={require("../../assets/images/icon.png")}
           style={{ height: hp(8), width: hp(8), marginTop: top + 30 }}
           className="justify-start self-start ml-[30px]"
         />

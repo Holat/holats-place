@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from "react-native";
+import { View, Pressable, TouchableOpacity } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import { Image } from "expo-image";
@@ -14,14 +9,15 @@ import {
 import Price from "./Price";
 import StarRating from "./Star";
 import Carousel from "react-native-snap-carousel";
-import { FoodItemType, ThemeType } from "@/constants/types";
+import { FoodItemType, FoodCardItemType } from "@/constants/types";
 import { getFoodImage } from "@/constants/data";
 import { Entypo } from "@expo/vector-icons";
 import { useAuth, useCart, useTheme } from "@/hooks";
+import Animated from "react-native-reanimated";
 
 export default function FoodList({ data }: { data: FoodItemType[] }) {
   const { addToCart } = useCart();
-  const { theme } = useTheme();
+  const { rBkg2Style, rTextStyle } = useTheme();
 
   return (
     <Carousel
@@ -32,7 +28,8 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
           item={item}
           key={item?.id}
           addToCart={addToCart}
-          theme={theme}
+          rBkg2Style={rBkg2Style}
+          rTextStyle={rTextStyle}
         />
       )}
       sliderWidth={wp(100)}
@@ -48,20 +45,12 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   );
 }
 
-const FoodCard = ({
-  item,
-  addToCart,
-  theme,
-}: {
-  item: FoodItemType;
-  addToCart: (food?: FoodItemType) => void;
-  theme: ThemeType;
-}) => {
+const FoodCard = ({ item, addToCart, theme }: FoodCardItemType) => {
   const router = useRouter();
   const imgUrl = item.imageUrl.split("/").pop() || "";
 
   return (
-    <TouchableWithoutFeedback
+    <Pressable
       onPress={() =>
         router.push({
           pathname: "/[foodId]",
@@ -70,12 +59,14 @@ const FoodCard = ({
       }
       className="shadow-lg"
     >
-      <View
-        style={{
-          width: wp(50),
-          height: hp(39),
-          backgroundColor: theme.bkg2,
-        }}
+      <Animated.View
+        style={[
+          {
+            width: wp(50),
+            height: hp(39),
+          },
+          rBkg2Style,
+        ]}
         className=" rounded-[20px]  p-4"
       >
         <View className="w-full rounded-[10px]">
@@ -87,12 +78,12 @@ const FoodCard = ({
         </View>
         <View className="flex flex-1 justify-between">
           <View className=" mt-2">
-            <Text
+            <Animated.Text
               className=" font-bold"
-              style={{ fontSize: hp(2.3), color: theme.text }}
+              style={[{ fontSize: hp(2.3) }, rTextStyle]}
             >
               {item?.name}
-            </Text>
+            </Animated.Text>
             <View className="h-1" />
             <StarRating stars={item?.stars} size={13} />
           </View>
@@ -106,7 +97,7 @@ const FoodCard = ({
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </Animated.View>
+    </Pressable>
   );
 };
