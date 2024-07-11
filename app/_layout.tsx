@@ -25,7 +25,7 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const { user, authInitialized } = useAuth();
+  const { user, authInitialized, authReady } = useAuth();
 
   const toastConfig = {
     success: (props: BaseToastProps) => (
@@ -46,11 +46,12 @@ function RootLayoutNav() {
     ),
   };
 
+  console.log(authReady);
   const onLayoutRootView = useCallback(async () => {
-    if (authInitialized && user) {
+    if (authReady) {
       await SplashScreen.hideAsync();
     }
-  }, [authInitialized, user]);
+  }, [authReady]);
 
   if (!authInitialized && !user) return null;
   return (

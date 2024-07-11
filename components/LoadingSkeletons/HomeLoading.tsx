@@ -7,7 +7,7 @@ import {
 import RoundedShimmer from "./RoundedShimmer";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-const HomeLoading = () => {
+const HomeLoading = ({ bkg }: { bkg: string }) => {
   return (
     <Animated.View
       entering={FadeIn}
@@ -15,9 +15,9 @@ const HomeLoading = () => {
       className="flex items-center justify-center"
     >
       <View className="flex-row items-center justify-between">
-        <FoodListSkeletonCard type={"s"} />
-        <FoodListSkeletonCard type={"b"} />
-        <FoodListSkeletonCard type={"s"} />
+        <FoodListSkeletonCard type={"s"} bkg={bkg} />
+        <FoodListSkeletonCard type={"b"} bkg={bkg} />
+        <FoodListSkeletonCard type={"s"} bkg={bkg} />
       </View>
     </Animated.View>
   );
@@ -25,19 +25,26 @@ const HomeLoading = () => {
 
 export default HomeLoading;
 
-const FoodListSkeletonCard = ({ type }: { type: "s" | "b" }) => {
+const FoodListSkeletonCard = ({
+  type,
+  bkg,
+}: {
+  type: "s" | "b";
+  bkg: string;
+}) => {
   return (
     <View
       style={{
         width: wp(50),
         height: hp(type === "s" ? 37 : 39),
         marginHorizontal: type === "b" ? 26 : 0,
+        backgroundColor: bkg,
       }}
-      className=" rounded-[20px] bg-white p-4"
+      className=" rounded-[20px] p-4"
     >
       <View className="w-full h-40 rounded-[10px] justify-center items-center overflow-hidden ">
         <View className="absolute z-10">
-          <Ionicons name="image-outline" size={42} color={"white"} />
+          <Ionicons name="image-outline" size={42} color={bkg} />
         </View>
         <RoundedShimmer />
       </View>

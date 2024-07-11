@@ -13,7 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 
 const Fav = () => {
   const { addToCart } = useCart();
-  const { theme } = useTheme();
+  const { theme, value } = useTheme();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
 
@@ -27,21 +27,29 @@ const Fav = () => {
 
   return (
     <View className="flex-1" style={{ backgroundColor: theme.background }}>
-      <SafeAreaView className="flex-1 px-4">
+      <SafeAreaView className="flex-1 px-2">
         <View
-          className="m-2 p-2 rounded-lg"
-          style={{ backgroundColor: theme.bkg2 }}
+          className="m-2 py-3 rounded-lg"
+          style={{
+            backgroundColor: theme.accentV,
+            borderColor: theme.accent,
+            borderWidth: 1,
+          }}
         >
-          <Text className="text-center" style={{ color: theme.text }}>
+          <Text
+            className="text-center font-bold text-base"
+            style={{ color: theme.text }}
+          >
             Favourite Foods
           </Text>
         </View>
-        <ScrollView className="mb-24 mx-2 mt-2">
+        <ScrollView className="mb-20 mx-2 mt-2">
           {fav?.map((item) => (
             <FavCard
               key={item.id}
               item={item}
               handleAddToCart={handleAddToCart}
+              value={value}
             />
           ))}
         </ScrollView>
@@ -53,14 +61,21 @@ const Fav = () => {
 const FavCard = ({
   item,
   handleAddToCart,
+  value,
 }: {
   item: FoodItemType;
   handleAddToCart: (item: FoodItemType) => void;
+  value: string;
 }) => {
   const imgUrl = item.imageUrl.split("/").pop() || "";
+  const color = value === "dark" ? "#fff" : "#000";
+  const backgroundColor = value === "dark" ? "#1e1e1e" : "#fff";
 
   return (
-    <Pressable className="rounded-2xl mb-2 p-2 flex-row ">
+    <Pressable
+      className="rounded-xl mb-3 p-2 flex-row "
+      style={{ backgroundColor }}
+    >
       <View className="mr-3">
         <Image
           source={getFoodImage(imgUrl)}
@@ -70,8 +85,10 @@ const FavCard = ({
       </View>
       <View className="flex-1">
         <View>
-          <Text className="text-base">{item.name}</Text>
-          <Price price={item.price} />
+          <Text className="text-base" style={{ color }}>
+            {item.name}
+          </Text>
+          <Price price={item.price} color={color} />
         </View>
         <View className="items-end">
           <TouchableOpacity

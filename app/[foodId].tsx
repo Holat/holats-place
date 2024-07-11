@@ -123,11 +123,12 @@ export default function FoodInfo() {
               foodItem?.tags.map((tag, index) => (
                 <View
                   key={tag + index}
-                  className="bg-orange-100 px-3 py-1 rounded-md mr-5"
+                  className="px-3 py-1 rounded-md mr-5"
+                  style={{ backgroundColor: theme.accentV }}
                 >
                   <Text
                     className="font-semibold text-neutral-800"
-                    style={{ fontSize: hp(2) }}
+                    style={{ fontSize: hp(2), color: theme.text }}
                   >
                     {tag}
                   </Text>
@@ -173,8 +174,8 @@ export default function FoodInfo() {
 
         <View className="flex-row w-full  items-center justify-evenly">
           <View
-            className=" bg-orange-100 rounded-lg w-full h-full flex-row p-4 justify-between items-center"
-            style={{ width: wp(30) }}
+            className="rounded-lg w-full h-full flex-row p-4 justify-between items-center"
+            style={{ width: wp(30), backgroundColor: theme.accentV }}
           >
             <TouchableOpacity
               className="bg-[#FA6400] px-1 rounded-md  w-6 h-6 justify-center"
@@ -185,7 +186,7 @@ export default function FoodInfo() {
             <View>
               <Text
                 className="text-neutral-800 font-semibold"
-                style={{ fontSize: hp(2) }}
+                style={{ fontSize: hp(2), color: theme.text }}
               >
                 {quantity}
               </Text>
@@ -197,7 +198,10 @@ export default function FoodInfo() {
               <AntDesign color={"white"} name={"plus"} size={hp(2)} />
             </TouchableOpacity>
           </View>
-          <View className="bg-orange-100 rounded-lg h-full p-4 flex-1 items-center ml-2">
+          <View
+            className=" rounded-lg h-full p-4 flex-1 items-center ml-2"
+            style={{ backgroundColor: theme.accentV }}
+          >
             <TouchableOpacity
               // disable={foodItem}
               onPress={() => addToCart(foodItem, quantity)}
@@ -206,7 +210,7 @@ export default function FoodInfo() {
               <Feather name="shopping-bag" color={"#FA6400"} size={hp(3)} />
               <Text
                 className=" font-semibold text-neutral-800"
-                style={{ fontSize: hp(2.3) }}
+                style={{ fontSize: hp(2.3), color: theme.text }}
               >
                 Add To Cart
               </Text>
@@ -232,7 +236,10 @@ const ItemD = ({
       <AntDesign name={name} size={hp(3)} color={"#FA6400"} />
       <View className="ml-2">
         {item ? (
-          <Text className="font-bold" style={{ fontSize: hp(2.3), color }}>
+          <Text
+            className="font-bold"
+            style={{ fontSize: hp(2.3), color: color }}
+          >
             {item}
           </Text>
         ) : (

@@ -1,14 +1,23 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import CustomTabs from "@/components/CustomTabs";
+import { useTheme } from "@/hooks";
 
 const TabLayout = () => {
+  const { theme } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "orange",
         tabBarHideOnKeyboard: true,
+        headerStyle: {
+          backgroundColor: theme.bkg2,
+        },
+        headerTitleStyle: {
+          color: theme.text,
+        },
       }}
       tabBar={(props) => <CustomTabs {...props} />}
     >

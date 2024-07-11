@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "25%",
-    backgroundColor: "#ecf0f1",
     overflow: "hidden",
   },
   triangleCorner: {

@@ -22,6 +22,7 @@ export default function AuthProvider({
 }) {
   const [user, setUser] = useState<UserType | null>(null);
   const [authInitialized, setAuthInitialized] = useState<boolean>(false);
+  const [authReady, setAuthReady] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [favFoods, setFavFoods] = useState<string[]>([]);
 
@@ -69,6 +70,7 @@ export default function AuthProvider({
         if (!success && !inAuthGroup) router.push("/(auth)/login2");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
       })();
+      setAuthReady(true);
     }, [user, segments, authInitialized, isNavigationReady]);
   };
 
@@ -163,6 +165,7 @@ export default function AuthProvider({
       value={{
         user,
         favFoods,
+        authReady,
         authInitialized,
         login,
         register,

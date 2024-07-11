@@ -40,7 +40,7 @@ export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const { addToCart } = useCart();
-  const { theme } = useTheme();
+  const { theme, value } = useTheme();
 
   useEffect(() => {
     const loadedFoods = getTopRated();
@@ -59,7 +59,6 @@ export default function Home() {
       className="flex-1"
       style={{ backgroundColor: theme.background }}
     >
-      <StatusBar style="dark" />
       <View className=" flex-col items-center self-center pt-1">
         <View className="flex-row justify-between items-center w-full px-5">
           <TouchableOpacity
@@ -99,10 +98,14 @@ export default function Home() {
         </View>
       </View>
       <View className="mt-2 px-4">
-        {tags.length > 0 ? <Tags tags={tags} /> : <TagsLoading />}
+        {tags.length > 0 ? <Tags tags={tags} theme={theme} /> : <TagsLoading />}
       </View>
       <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-        {foods.length > 0 ? <FoodList data={foods} /> : <HomeLoading />}
+        {foods.length > 0 ? (
+          <FoodList data={foods} />
+        ) : (
+          <HomeLoading bkg={theme.bkg2} />
+        )}
       </View>
       <View className="p-4">
         <View className="flex-row justify-between items-center mb-3">
@@ -125,7 +128,7 @@ export default function Home() {
             theme={theme}
           />
         ) : (
-          <HomeCardLoading />
+          <HomeCardLoading backgroundColor={theme.bkg2} />
         )}
       </View>
     </SafeAreaView>

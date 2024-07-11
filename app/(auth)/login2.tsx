@@ -56,6 +56,7 @@ export default function Index() {
             <TouchableOpacity
               style={{ height: hp(6), width: wp(80) }}
               className="flex items-center justify-center rounded-full border-[1px] border-orange-500"
+              onPress={() => router.push("/(auth)/register")}
             >
               <Text
                 className=" text-white font-semibold"

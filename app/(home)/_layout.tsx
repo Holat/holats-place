@@ -2,17 +2,18 @@ import "react-native-gesture-handler";
 import React from "react";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
-import { useAuth } from "@/hooks";
+import { useAuth, useTheme } from "@/hooks";
+import { DrawerContentComponentProps } from "@react-navigation/drawer";
 
 export default function _layout() {
   const { user, logout } = useAuth();
-  const { theme } = useTheme();
+  const { theme, value } = useTheme();
 
   return (
     <Drawer
       screenOptions={{
         headerShown: false,
-        drawerActiveBackgroundColor: "#fed7aa",
+        drawerActiveBackgroundColor: theme.accentV,
         drawerActiveTintColor: "black",
         drawerItemStyle: {
           width: "100%",
@@ -25,11 +26,11 @@ export default function _layout() {
           color: theme.text,
         },
         drawerStyle: {
-          backgroundColor: theme.bkg2,
+          backgroundColor: theme.background,
         },
       }}
       drawerContent={(props) => (
-        <CustomDrawer {...props} user={user} logout={logout} />
+        <CustomDrawer {...props} user={user} logout={logout} tValue={value} />
       )}
     >
       <Drawer.Screen name="(tabs)" options={{ drawerLabel: "Home" }} />

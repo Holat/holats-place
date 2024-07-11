@@ -9,16 +9,19 @@ const RoundedShimmer = ({
   h,
   r,
 }: {
-  w?: number;
+  w?: number | string;
   h?: number;
   r?: boolean;
 }) => {
   const { value } = useTheme();
+  const sh = value === "dark" ? "#333" : "#ebebeb";
+  const bc = value === "dark" ? "#444" : "#c5c5c5";
 
   return (
     <View className={` ${r ? "rounded-3xl" : "rounded-lg"} overflow-hidden`}>
       <ShimmerPlaceHolder
         style={{ height: h ? h : "100%", width: w ? w : "100%" }}
+        shimmerColors={[sh, bc, sh]}
       />
     </View>
   );

@@ -3,12 +3,16 @@ const tintColorDark = "#fff";
 
 export const lightTheme = {
   text: "#000",
-  background: "#fff",
-  bkg2: "",
+  background: "#f2f2f2",
+  bkg2: "#fff",
   tint: tintColorLight,
   tabIconDefault: "#ccc",
   tabIconSelected: tintColorLight,
   accent: "#FA6400",
+  accentV: "#fed7aa",
+  payed: "#eaffea",
+  new: "#D9E3F5",
+  failed: "#ffe5e5",
 };
 
 export const darkTheme = {
@@ -19,4 +23,8 @@ export const darkTheme = {
   tabIconDefault: "#ccc",
   tabIconSelected: tintColorDark,
   accent: "#FA6400",
+  accentV: "#633A00",
+  payed: "#002200",
+  new: "#001a33",
+  failed: "#330000",
 };

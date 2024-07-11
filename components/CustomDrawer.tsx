@@ -4,17 +4,16 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { router } from "expo-router";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 
 //  style={{ color: theme.text }}
 export default function CustomDrawer(props: any) {
-  const { user, logout } = props;
+  const { user, logout, tValue } = props;
+  const color = tValue === "dark" ? "#fff" : "#000";
+  const router = useRouter();
 
   const handleLogOut = () => {
     logout("n");
@@ -22,10 +21,12 @@ export default function CustomDrawer(props: any) {
   };
 
   return (
-    <SafeAreaView className=" bg-white flex-1">
+    <SafeAreaView className="flex-1">
       <View className="flex-row items-center justify-between p-3">
         <View>
-          <Text className="font-bold text-lg">{user?.name}</Text>
+          <Text className="font-bold text-lg" style={{ color }}>
+            {user?.name}
+          </Text>
           <Text className="text-neutral-600">{user?.email}</Text>
         </View>
         <View
@@ -51,9 +52,9 @@ export default function CustomDrawer(props: any) {
 
       <Pressable
         onPress={() => handleLogOut()}
-        className="flex-row items-center p-5"
+        className="flex-row items-center p-5 mb-2"
       >
-        <Ionicons color={"#FA6400"} name={"log-out-outline"} size={hp(4)} />
+        <AntDesign color={"#FA6400"} name={"logout"} size={hp(3)} />
         <Text className="text-neutral-600 ml-3 font-bold text-lg">Log Out</Text>
       </Pressable>
     </SafeAreaView>

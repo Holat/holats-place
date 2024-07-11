@@ -92,6 +92,7 @@ export interface FormDetails {
 export type AuthContextType = {
   user: NewUserType | null;
   authInitialized: boolean;
+  authReady: boolean;
   favFoods: string[];
   login: (email: string, password: string) => Promise<boolean>;
   register: (user: RegisterValues) => void;
@@ -118,10 +119,16 @@ export type ThemeType = {
   tabIconDefault: string;
   tabIconSelected: string;
   accent: string;
+  accentV: string;
+  payed: string;
+  new: string;
+  failed: string;
 };
 
+export type ThemeValueType = "light" | "dark" | "default";
+
 export type ThemeContextType = {
-  value: "light" | "dark" | "default";
+  value: ThemeValueType;
   theme: ThemeType;
   setTheme: (b: "light" | "dark" | "default") => void;
 };

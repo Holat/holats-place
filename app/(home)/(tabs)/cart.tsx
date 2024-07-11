@@ -22,10 +22,9 @@ const Cart = () => {
     cart: { items, totalCount, totalPrice },
     clearCart,
     removeFromCart,
-    changeQuantity,
   } = useCart();
   const router = useRouter();
-  const { theme } = useTheme();
+  const { theme, value } = useTheme();
 
   return (
     <View className="flex-1" style={{ backgroundColor: theme.background }}>
@@ -60,7 +59,10 @@ const Cart = () => {
           </Pressable>
         </View>
         {items.length > 0 ? (
-          <View className="mt-2 flex-1 bg-white mb-24 rounded-3xl overflow-hidden">
+          <View
+            className="mt-2 flex-1 mb-20 rounded-3xl overflow-hidden"
+            style={{ backgroundColor: theme.bkg2 }}
+          >
             <ScrollView
               className="mt-1 flex-1"
               contentContainerStyle={{
@@ -74,6 +76,7 @@ const Cart = () => {
                   item={item}
                   removeFromCart={removeFromCart}
                   // changeQuantity={changeQuantity}
+                  color={theme.text}
                 />
               ))}
             </ScrollView>
@@ -81,7 +84,7 @@ const Cart = () => {
               <View className="flex-row items-center justify-between pl-1">
                 <View>
                   <Text className="text-neutral-500">Total</Text>
-                  <Price price={totalPrice} fontSize={18} />
+                  <Price price={totalPrice} fontSize={18} color={theme.text} />
                 </View>
                 <Pressable
                   onPress={() => router.push("/checkout")}
@@ -96,13 +99,21 @@ const Cart = () => {
           </View>
         ) : (
           <View
-            className="mt-2 flex-1 mb-24 rounded-3xl items-center justify-center"
+            className="mt-2 flex-1 mb-20 rounded-3xl items-center justify-center"
             style={{ backgroundColor: theme.bkg2 }}
           >
-            <Image
-              source={require("@/assets/images/cart-cross-svgrepo-com (1).png")}
-              className="w-52 h-52 opacity-80"
-            />
+            {value === "dark" ? (
+              <Image
+                source={require("@/assets/images/cart-cross-svgrepo-com (1).png")}
+                className="w-52 h-52 opacity-80"
+              />
+            ) : (
+              <Image
+                source={require("@/assets/images/cart-cross-svgrepo-com (2).png")}
+                className="w-52 h-52 opacity-80"
+              />
+            )}
+
             <Text className="font-semibold text-lg text-neutral-300">
               Your cart empty!
             </Text>
@@ -118,9 +129,11 @@ export default Cart;
 const Card = ({
   item,
   removeFromCart,
+  color,
 }: {
   item: CartItemType;
   removeFromCart: (id: string | number) => void;
+  color: string;
 }) => {
   const {
     food: { imageUrl, name, id },
@@ -149,10 +162,12 @@ const Card = ({
       </View>
       <View className="flex justify-between flex-1">
         <View>
-          <Text className="text-base">{name}</Text>
-          <Price price={price} />
+          <Text className="text-base" style={{ color }}>
+            {name}
+          </Text>
+          <Price price={price} color={color} />
         </View>
-        <View className="flex-row items-center justify-between w-full">
+        <View className="flex-row items-center justify-end w-full">
           <Pressable
             onPress={() => removeFromCart(id)}
             className="flex-row items-center"

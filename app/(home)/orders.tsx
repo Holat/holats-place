@@ -37,11 +37,14 @@ export default function Orders() {
   }, [currentStatus]);
 
   return (
-    <View className="flex-1" style={{ background: theme.background }}>
+    <View className="flex-1" style={{ backgroundColor: theme.background }}>
       <SafeAreaView className="flex-1">
-        <View className="flex-row items-center pl-2 pr-3 py-2 bg-white mx-2 rounded-lg self-start">
+        <View
+          className="flex-row items-center pl-2 pr-3 py-2 mx-2 rounded-lg self-start"
+          style={{ backgroundColor: theme.bkg2 }}
+        >
           <Pressable onPress={() => router.back()}>
-            <AntDesign color={"black"} name={"left"} size={24} />
+            <AntDesign color={theme.text} name={"left"} size={24} />
           </Pressable>
           <Text
             className="font-bold text-lg ml-2"
@@ -75,18 +78,10 @@ const OrderSummaryCard = ({
 }) => {
   const { status, totalCount, totalPrice, createdAt, _id, items, address } =
     item;
-  const [showDetails, setShowDetails] = useState(false);
   const date = formatDate(createdAt);
 
-  const handleCardPress = () => {
-    setShowDetails(!showDetails);
-  };
-
   return (
-    <View
-      className="rounded-lg mb-2"
-      style={{ backgroundColor: theme.background }}
-    >
+    <View className="rounded-lg mb-2" style={{ backgroundColor: theme.bkg2 }}>
       <View className="p-4">
         <View className="flex items-start mb-2">
           <Text className="text-lg font-bold" style={{ color: theme.text }}>
@@ -96,12 +91,12 @@ const OrderSummaryCard = ({
             style={{
               backgroundColor:
                 status === "PAYED"
-                  ? "#eaffea"
+                  ? theme.payed
                   : status === "NEW"
-                  ? "#D9E3F5"
+                  ? theme.new
                   : status === "FAILED"
-                  ? "#ffe5e5"
-                  : "#FFE6CC",
+                  ? theme.failed
+                  : theme.accentV,
             }}
             className="px-2 py-1 rounded-lg mt-1"
           >
@@ -170,7 +165,7 @@ const OrderSummaryCard = ({
                 <Text className="font-semibold text-neutral-400">
                   x{item.quantity}
                 </Text>
-                <Price price={item.price} />
+                <Price price={item.price} color={theme.text} />
               </View>
             </View>
           </View>
@@ -179,3 +174,5 @@ const OrderSummaryCard = ({
     </View>
   );
 };
+// 001a66
+// 660000

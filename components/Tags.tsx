@@ -1,10 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import { TagTypes } from "@/constants/types";
+import { TagTypes, ThemeType } from "@/constants/types";
 import { Link, router } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";
 
-const Tags = ({ tags }: { tags: TagTypes[] }) => {
+const Tags = ({ tags, theme }: { tags: TagTypes[]; theme: ThemeType }) => {
   const [currentTag, setCurrentTag] = useState("All");
 
   const handleSetTag = (tag: string) => {
@@ -24,6 +24,7 @@ const Tags = ({ tags }: { tags: TagTypes[] }) => {
             item={name}
             currentTag={currentTag}
             handleSetTag={handleSetTag}
+            theme={theme}
           />
         ))}
     </ScrollView>
@@ -36,16 +37,18 @@ const Tag = ({
   item,
   currentTag,
   handleSetTag,
+  theme,
 }: {
   item: string;
   currentTag: string;
   handleSetTag: (tag: string) => void;
+  theme: ThemeType;
 }) => {
   return (
     <Pressable
       className="rounded-3xl mr-3 items-center justify-center flex px-2"
       style={{
-        backgroundColor: item === currentTag ? "#1E1E1E" : "#1E1E1E",
+        backgroundColor: item === currentTag ? theme.accentV : theme.bkg2,
         borderColor: item === currentTag ? "#FA6400" : "transparent",
         marginVertical: 4,
         borderWidth: 1,
@@ -60,9 +63,10 @@ const Tag = ({
       onPress={() => handleSetTag(item)}
     >
       <Text
-        className="text-base text-center text-white"
+        className="text-base text-center"
         ellipsizeMode="tail"
         numberOfLines={1}
+        style={{ color: theme.text }}
       >
         {item}
       </Text>

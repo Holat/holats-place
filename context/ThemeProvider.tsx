@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { lightTheme, darkTheme } from "@/constants/Colors";
-import { ThemeContextType, ThemeType } from "@/constants/types";
+import { ThemeContextType, ThemeType, ThemeValueType } from "@/constants/types";
 import { getValueFor, save } from "@/services/storage/asyncStorage";
 
 export const ThemeContext = createContext<ThemeContextType | null>(null);
@@ -12,16 +12,19 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [value, setValue] = useState<"light" | "dark" | "default">("dark");
+  const [value, setValue] = useState<ThemeValueType>("dark");
   const [theme, setCTheme] = useState<ThemeType>(darkTheme);
   const sysTheme = useColorScheme() || "dark";
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const val = await getValueFor(USER_T);
-  //     val && setValue(val);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const val = await getValueFor(USER_T);
+      if (val === "light" || val === "dark") {
+        setValue(val);
+        setCTheme(getTheme(val));
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     if (value === "default") {
@@ -34,7 +37,7 @@ export default function ThemeProvider({
     return b === "dark" ? darkTheme : lightTheme;
   };
 
-  const setTheme = async (b: "light" | "dark" | "default") => {
+  const setTheme = async (b: ThemeValueType) => {
     let val = b;
     if (b === "default") val = sysTheme;
 

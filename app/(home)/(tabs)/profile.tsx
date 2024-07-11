@@ -1,13 +1,13 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import { useAuth, useTheme } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
+import { ThemeValueType } from "@/constants/types";
 
 export default function Profile() {
   const { user } = useAuth();
-  const { theme } = useTheme();
-  const { bottom, top } = useSafeAreaInsets();
+  const { theme, setTheme, value } = useTheme();
 
   return (
     <View className="flex-1" style={{ backgroundColor: theme.background }}>
@@ -16,7 +16,7 @@ export default function Profile() {
           alignItems: "center",
           padding: 8,
         }}
-        style={{ marginBottom: 100 }}
+        style={{ marginBottom: 80 }}
       >
         <View
           style={{ backgroundColor: theme.bkg2 }}
@@ -43,6 +43,35 @@ export default function Profile() {
           <DetailsD title="Email" text={user?.email} b />
           <DetailsD title="Contact" text={user?.phone} b />
           <DetailsD title="Address" text={user?.address} />
+        </View>
+        <View
+          className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
+          style={{ backgroundColor: theme.bkg2 }}
+        >
+          <View>
+            <Text className="text-neutral-600 font-semibold text-base">
+              Select Theme
+            </Text>
+          </View>
+          <View>
+            {["light", "dark", "default"].map((item) => (
+              <Pressable
+                key={item}
+                className="mt-5 flex-row justify-between items-center"
+                onPress={() => setTheme(item as ThemeValueType)}
+              >
+                <Text
+                  style={{ color: theme.text }}
+                  className="capitalize font-semibold text-base"
+                >
+                  {item}
+                </Text>
+                {item === value && (
+                  <AntDesign name="checkcircle" color={"green"} size={24} />
+                )}
+              </Pressable>
+            ))}
+          </View>
         </View>
         <View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
