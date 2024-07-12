@@ -3,7 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import Toast, { BaseToast } from "react-native-toast-message";
-import "@/interceptors/networkErrorInterceptor";
+// import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 import AuthProvider from "@/context/AuthProvider";
 import { useEffect } from "react";
@@ -74,6 +74,14 @@ function RootLayoutNav() {
           <Stack.Screen name="(home)" />
           <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
           <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
+          <Stack.Screen
+            name="changePassword"
+            options={{ presentation: "modal" }}
+          />
+          <Stack.Screen
+            name="updateProfile"
+            options={{ presentation: "modal" }}
+          />
         </Stack>
         <Toast config={toastConfig} visibilityTime={2000} />
       </CartProvider>

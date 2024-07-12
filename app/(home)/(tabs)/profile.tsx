@@ -5,10 +5,16 @@ import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { ThemeValueType } from "@/constants/types";
 import Animated from "react-native-reanimated";
+import { router } from "expo-router";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { theme, rStyle, rBkg2Style, rTextStyle, value, setTheme } = useTheme();
+
+  const handleLogOut = () => {
+    logout("n");
+    router.replace("/(auth)/login");
+  };
 
   return (
     <Animated.View className="flex-1" style={rStyle}>
@@ -20,6 +26,13 @@ export default function Profile() {
         style={{ marginBottom: 80 }}
       >
         <Animated.View style={rBkg2Style} className="p-4 w-full rounded-2xl">
+          <Pressable
+            onPress={() => router.push("/updateProfile")}
+            className="absolute right-2 top-2 rounded-lg p-1"
+            style={{ backgroundColor: theme.accent }}
+          >
+            <AntDesign name="edit" size={24} color={"white"} />
+          </Pressable>
           <View className="items-center">
             <View className="w-20 h-20 mb-2">
               <Image
@@ -71,11 +84,27 @@ export default function Profile() {
             ))}
           </View>
         </Animated.View>
+        <Animated.View style={rBkg2Style} className="mt-2 rounded-2xl">
+          <Pressable
+            className="flex-row items-center justify-between py-4 px-4 w-full "
+            onPress={() => router.push("/changePassword")}
+          >
+            <Animated.Text
+              style={rTextStyle}
+              className={"font-semibold text-base"}
+            >
+              Change Password
+            </Animated.Text>
+            <AntDesign name="right" color={"#525252"} size={20} />
+          </Pressable>
+        </Animated.View>
         <Animated.View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
           style={rBkg2Style}
         >
-          <Text className="text-red-600 font-semibold text-base">Logout</Text>
+          <Pressable onPress={handleLogOut}>
+            <Text className="text-red-600 font-semibold text-base">Logout</Text>
+          </Pressable>
         </Animated.View>
       </ScrollView>
     </Animated.View>
