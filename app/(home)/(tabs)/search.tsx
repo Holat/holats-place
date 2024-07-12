@@ -64,6 +64,7 @@ const Search = () => {
                 color: "#959595",
               }}
               placeholder="Search"
+              placeholderTextColor={"#A9A9A9"}
               className="flex-1 pl-2 h-full mr-6 text-lg font-semibold"
               value={searchInputTerm}
               onChangeText={(text) => setSearchInputTerm(text)}

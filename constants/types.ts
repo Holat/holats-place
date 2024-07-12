@@ -80,11 +80,11 @@ export type RegisterValues = {
   confirmPassword: string;
 };
 
-export interface ChangePassFormType {
+export type ChangePassFormType = {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
-}
+};
 
 export interface FormDetails {
   name: string;
@@ -99,10 +99,10 @@ export type AuthContextType = {
   authReady: boolean;
   favFoods: string[];
   login: (email: string, password: string) => Promise<boolean>;
-  register: (user: RegisterValues) => void;
+  register: (user: RegisterValues) => Promise<boolean>;
   logout: (type: "n" | "t") => void;
-  updateProfile: (user: FormDetails) => void;
-  changePassword: (passwords: ChangePassFormType) => void;
+  updateProfile: (user: FormDetails) => Promise<boolean>;
+  changePassword: (passwords: ChangePassFormType) => Promise<boolean>;
   toggleFavorite: (d: string) => void;
 };
 
@@ -156,6 +156,14 @@ export type ControlledInputType = {
   error: FieldError | undefined;
   control: Control<RegisterValues, any>;
   p?: boolean;
+};
+
+export type CPControlledIn = {
+  isLoading: boolean;
+  control: Control<ChangePassFormType, any>;
+  error: FieldError | undefined;
+  name: keyof ChangePassFormType;
+  title: string;
 };
 
 export type ThemeValueType = "light" | "dark" | "default";

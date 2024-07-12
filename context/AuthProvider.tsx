@@ -124,9 +124,11 @@ export default function AuthProvider({
       const apiData = await userService.register(data);
       setUser(apiData);
       showToast("", "Sign up successful!");
+      return true;
     } catch (error) {
       showToast("", "Sign up Unsuccessful!");
     }
+    return false;
   };
 
   /**
@@ -147,19 +149,27 @@ export default function AuthProvider({
   const updateProfile = async (user: FormDetails) => {
     try {
       const updatedUser = await userService.updateProfile(user);
-      console.log("Profile Updated");
+      showToast("Profile Updated");
       if (updatedUser) setUser(updatedUser);
+      return true;
     } catch (error) {
       error instanceof Error
-        ? console.log(error.message)
-        : console.log("An Error occurred");
+        ? showToast("Profile Update Error", error.message)
+        : showToast("An Error occurred");
     }
+    return false;
   };
 
   const changePassword = async (passwords: ChangePassFormType) => {
-    await userService.changePassword(passwords);
-    logout("n");
-    showToast("Password Changed!");
+    try {
+      await userService.changePassword(passwords);
+      logout("n");
+      showToast("Password Changed!");
+      return true;
+    } catch (error) {
+      showToast("Error changing pass");
+    }
+    return false;
   };
 
   useProtectedRoute(user);

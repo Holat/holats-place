@@ -5,17 +5,9 @@ import {
   ChangePassFormType,
 } from "@/constants/types";
 import { save, deleteItem, getValueFor } from "./storage/asyncStorage";
+import apiInstance from "./api";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
-const apiInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
-  headers: {
-    "Content-Type": "application/json; charset=UTF-8",
-    "Access-Control-Allow-Origin": "*",
-    "X-Client-Type": "app",
-  },
-});
-
 export const login = async (email: string, password: string) => {
   const { data } = await apiInstance.post(`/api/user/login`, {
     email: email.trim(),

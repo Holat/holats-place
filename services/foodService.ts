@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const api = process.env.EXPO_PUBLIC_API_URL;
-
 export const getAll = async () => {
   const { data } = await axios.get(`${api}/api/foods`);
   return data;
