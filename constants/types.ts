@@ -1,4 +1,5 @@
 import { AnimatedStyle } from "react-native-reanimated";
+import { Control, FieldError } from "react-hook-form";
 
 export type FoodItemType = {
   id: number | string;
@@ -144,6 +145,16 @@ export type PriceCompType = {
   showP?: boolean;
   fontSize?: number;
   color?: string;
+};
+
+type RegisterValuesKeys = keyof RegisterValues;
+
+export type ControlledInputType = {
+  isLoading: boolean;
+  name: RegisterValuesKeys;
+  error: FieldError | undefined;
+  control: Control<RegisterValues, any>;
+  p?: boolean;
 };
 
 export type ThemeValueType = "light" | "dark" | "default";

@@ -15,7 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import { Controller, useForm } from "react-hook-form";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import showToast from "@/services/ToastM";
 import { useRouter } from "expo-router";
@@ -40,6 +40,7 @@ const Login = () => {
   const { top } = useSafeAreaInsets();
 
   const onSubmit = async (data: { email: string; password: string }) => {
+    if (!data.email || !data.password) return;
     setIsLoading(true);
     const isSuccess = await login(data.email, data.password);
     if (isSuccess) {
@@ -173,6 +174,23 @@ const Login = () => {
                 )}
               </Pressable>
             </View>
+            <Animated.View
+              entering={FadeInDown.duration(100).delay(100).springify()}
+            >
+              <Pressable
+                style={{ height: hp(6) }}
+                className="flex items-center justify-center rounded-lg border-[1px] border-orange-500"
+                onPress={() => router.push("/(auth)/register")}
+                disabled={isLoading}
+              >
+                <Text
+                  className=" text-white font-semibold"
+                  style={{ fontSize: hp(2) }}
+                >
+                  Register
+                </Text>
+              </Pressable>
+            </Animated.View>
           </View>
         </KeyboardAvoidingView>
       </LinearGradient>
