@@ -15,14 +15,14 @@ import {
 } from "react-native-responsive-screen";
 import { Link, router } from "expo-router";
 import { RegisterValues } from "@/constants/types";
-import { useTheme } from "@/hooks";
+import { useAuth, useTheme } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ControlledInput from "@/components/ControlledInput";
 import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 import GooglePlacesInput from "@/components/GooglePlacesInput";
-import { register } from "@/services/userService";
 
 const Register = () => {
+  const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const { theme, value } = useTheme();
   const {
@@ -153,13 +153,18 @@ const Register = () => {
               </View>
             </View>
           </KeyboardAvoidingView>
-          <Link
-            style={{ color: theme.accent }}
-            className="underline text-lg"
-            href={"/(auth)/login"}
-          >
-            Login
-          </Link>
+          <View className="flex-row items-center mr-1">
+            <Text className="text-base" style={{ color: theme.text }}>
+              Already have an account?
+            </Text>
+            <Link
+              style={{ color: theme.accent }}
+              className="text-base"
+              href={"/(auth)/login"}
+            >
+              Sign In
+            </Link>
+          </View>
         </LinearGradient>
       </SafeAreaView>
     </View>
