@@ -1,5 +1,6 @@
 import { AnimatedStyle } from "react-native-reanimated";
 import { Control, FieldError } from "react-hook-form";
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 
 export type FoodItemType = {
   id: number | string;
@@ -166,6 +167,12 @@ export type ThemeContextType = {
   rStyle: AnimatedStyle;
   rBkg2Style: AnimatedStyle;
   rTextStyle: AnimatedStyle;
+};
+
+export type GooglePlacesInputType = {
+  value: ThemeValueType;
+  onAddressSelect: (details: GooglePlaceDetail | null) => void;
+  theme: ThemeType;
 };
 
 export type FoodCardType = {

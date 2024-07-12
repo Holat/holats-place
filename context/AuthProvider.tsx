@@ -72,7 +72,7 @@ export default function AuthProvider({
         const success = await authenticate();
 
         setIsAuthenticated(success);
-        if (!success && !inAuthGroup) router.push("/(auth)/login2");
+        if (!success && !inAuthGroup) router.push("/(auth)/login");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
 
         if (success) await loadFavorites();

@@ -52,6 +52,7 @@ export default function PaymentBtn({
   return (
     <View>
       <PayWithFlutterwave
+        style={{ backgroundColor: "#FA6400", borderRadius: 16 }}
         onRedirect={handleOnRedirect}
         onWillInitialize={() => handlePaymentWillInit()}
         onDidInitialize={() => onPaymentInit()}

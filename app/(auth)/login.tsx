@@ -40,7 +40,6 @@ const Login = () => {
   const { top } = useSafeAreaInsets();
 
   const onSubmit = async (data: { email: string; password: string }) => {
-    if (!data.email || !data.password) return;
     setIsLoading(true);
     const isSuccess = await login(data.email, data.password);
     if (isSuccess) {

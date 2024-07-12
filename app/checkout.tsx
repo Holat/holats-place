@@ -10,11 +10,11 @@ import { OrderType } from "@/constants/types";
 import { Price, PaymentBtn } from "@/components";
 import { useAuth, useTheme, useCart } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import {
   GooglePlaceDetail,
   GooglePlacesAutocomplete,
 } from "react-native-google-places-autocomplete";
+import GooglePlacesInput from "@/components/GooglePlacesInput";
 
 const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const CheckOut = () => {
@@ -74,11 +74,14 @@ const CheckOut = () => {
                 <TextInput
                   style={{
                     color: theme.text,
-                    backgroundColor: value === "dark" ? "#202020" : "#f5f5f5",
+                    backgroundColor: theme.bkg2,
+                    borderColor: theme.accent,
                   }}
                   placeholder="Phone Number"
+                  placeholderTextColor={"#A9A9A9"}
+                  editable={false}
                   defaultValue={user?.phone}
-                  className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
+                  className=" py-2 px-4 rounded-xl border-[1px]"
                 />
               </View>
               <View className="mt-2 ml-2">
@@ -86,38 +89,10 @@ const CheckOut = () => {
                   Address
                   <Text className="text-red-500">*</Text>
                 </Text>
-                <GooglePlacesAutocomplete
-                  query={{
-                    key: GOOGLE_API_KEY,
-                    language: "en",
-                    components: "country:ng",
-                  }}
-                  placeholder="Search Delivery Address"
-                  fetchDetails={true}
-                  onPress={(_, details) => onAddressSelect(details)}
-                  styles={{
-                    container: {
-                      flex: 0,
-                    },
-                    textInput: {
-                      color: theme.text,
-                      borderWidth: 1,
-                      borderRadius: 12,
-                      backgroundColor: value === "dark" ? "#202020" : "#f5f5f5",
-                      borderColor: "#D4D4D4",
-                      paddingLeft: 16,
-                    },
-                    listView: {
-                      backgroundColor: value === "dark" ? "#202020" : "#f5f5f5",
-                      marginLeft: 8,
-                      borderRadius: 12,
-                    },
-                    row: {
-                      backgroundColor: "transparent",
-                    },
-                    separator: { backgroundColor: theme.bkg2, height: 1 },
-                    description: { color: theme.text },
-                  }}
+                <GooglePlacesInput
+                  theme={theme}
+                  onAddressSelect={onAddressSelect}
+                  value={value}
                 />
               </View>
               <View className="pl-2 mt-3">
@@ -127,10 +102,12 @@ const CheckOut = () => {
                 <TextInput
                   style={{
                     color: theme.text,
-                    backgroundColor: value === "dark" ? "#202020" : "#f5f5f5",
+                    backgroundColor: theme.bkg2,
+                    borderColor: theme.accent,
                   }}
                   placeholder={"Nearest Bus Stop"}
-                  className="bg-neutral-100 py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
+                  placeholderTextColor={"#A9A9A9"}
+                  className="py-2 px-4 rounded-xl border-[1px]"
                 />
               </View>
               <View className="pl-2 mt-3">
@@ -140,17 +117,22 @@ const CheckOut = () => {
                 <TextInput
                   style={{
                     color: theme.text,
-                    backgroundColor: value === "dark" ? "#202020" : "#f5f5f5",
+                    backgroundColor: theme.bkg2,
+                    borderColor: theme.accent,
                   }}
                   placeholder={"Zip/Postal Code"}
-                  className="py-2 px-4 rounded-xl border-neutral-300 border-[1px]"
+                  placeholderTextColor={"#A9A9A9"}
+                  className="py-2 px-4 rounded-xl border-[1px]"
                 />
               </View>
             </View>
           </View>
           <View
-            className="rounded-3xl bg-white px-3 py-4 mb-2"
-            style={{ backgroundColor: theme.bkg2 }}
+            className="rounded-3xl px-3 py-4 mb-2 border-[1px]"
+            style={{
+              backgroundColor: theme.accentV,
+              borderColor: theme.accent,
+            }}
           >
             <DetailsD title={"Sub total"} text={cart.totalPrice} />
             <DetailsD title={"Tax"} text={0} />
@@ -192,12 +174,7 @@ const DetailsD = ({
           )}
         </View>
       </View>
-      {!b && (
-        <View
-          className="h-[1px] w-full self-center my-2"
-          style={{ backgroundColor: theme.bkg2 }}
-        />
-      )}
+      {!b && <View className="h-[1px] w-full self-center my-2" />}
     </>
   );
 };

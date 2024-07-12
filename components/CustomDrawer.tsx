@@ -17,7 +17,7 @@ export default function CustomDrawer(props: any) {
 
   const handleLogOut = () => {
     logout("n");
-    router.replace("/(auth)/login2");
+    router.replace("/(auth)/login");
   };
 
   return (

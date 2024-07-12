@@ -93,12 +93,17 @@ const DetailsD = ({
 }) => {
   return (
     <>
-      <View className="flex-row items-center justify-between px-2">
-        <View>
+      <View className="flex-row items-center justify-between px-2 overflow-hidden">
+        <View className="mr-5">
           <Text className="font-bold text-base text-neutral-700">{title}</Text>
         </View>
         <View>
-          <Text className="text-neutral-500 font-semibold">{text}</Text>
+          <Text
+            className="text-neutral-500 font-semibold flex-shrink"
+            numberOfLines={1}
+          >
+            {text}
+          </Text>
         </View>
       </View>
       {b && (
