@@ -1,9 +1,27 @@
 import { Pressable, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { ControlledInputType } from "@/constants/types";
 import { useTheme } from "@/hooks";
+
+export function getInputIcon(name: string) {
+  switch (name) {
+    case "name":
+      return "user";
+    case "mobileNumber":
+    case "contact":
+      return "phone";
+    case "p":
+      return "key";
+    case "email":
+      return "mail";
+    case "address":
+      return "enviromento";
+    default:
+      return "user";
+  }
+}
 
 const ControlledInput = ({
   isLoading,
@@ -11,10 +29,12 @@ const ControlledInput = ({
   error,
   name,
   p,
+  label,
 }: ControlledInputType) => {
   const [viewPassword, setViewPassword] = useState(false);
   const { theme } = useTheme();
-  const uName = name.charAt(0).toUpperCase() + name.slice(1);
+  const iconName = p ? getInputIcon("p") : getInputIcon(name);
+
   return (
     <View className="mb-4">
       <Controller
@@ -27,19 +47,26 @@ const ControlledInput = ({
           },
         }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <View>
+          <View
+            style={{
+              backgroundColor: theme.bkg2,
+              borderColor: theme.accent,
+            }}
+            className="pr-12 rounded-lg border-[1px] py-2 flex-row items-center"
+          >
+            <View className="ml-3">
+              <AntDesign name={iconName as any} size={20} color={"#A9A9A9"} />
+            </View>
             <TextInput
-              placeholder={uName}
+              placeholder={label}
               placeholderTextColor={"#A9A9A9"}
               onBlur={onBlur}
               onChangeText={onChange}
               style={{
                 color: theme.text,
-                backgroundColor: theme.bkg2,
-                borderColor: theme.accent,
+                marginLeft: 8,
               }}
               value={value}
-              className="pr-12 rounded-lg border-[1px] py-2 px-4"
               editable={!isLoading}
               secureTextEntry={p ? !viewPassword : undefined}
             />
@@ -68,7 +95,7 @@ const ControlledInput = ({
       {error && (
         <Text className="text-red-600 mt-1 w-full text-right">
           {error?.type === "required"
-            ? `${uName} is required`
+            ? `${label} is required`
             : error?.type === "validate"
             ? "Passwords do not match"
             : "Error"}

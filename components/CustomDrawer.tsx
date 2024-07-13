@@ -9,7 +9,6 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
-//  style={{ color: theme.text }}
 export default function CustomDrawer(props: any) {
   const { user, logout, tValue } = props;
   const color = tValue === "dark" ? "#fff" : "#000";

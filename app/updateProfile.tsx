@@ -7,13 +7,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { RegisterValues } from "@/constants/types";
 import { useAuth, useTheme } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -99,18 +93,21 @@ const Register = () => {
               isLoading={isLoading}
               control={control}
               error={errors.name}
+              label="Name"
             />
             <ControlledInput
               name={"email"}
               isLoading={isLoading}
               control={control}
               error={errors.email}
+              label="Email"
             />
             <ControlledInput
               name={"mobileNumber"}
               isLoading={isLoading}
               control={control}
               error={errors.mobileNumber}
+              label="Mobile Number"
             />
             <View className="mb-2">
               <Controller
@@ -130,16 +127,16 @@ const Register = () => {
                 </Text>
               )}
             </View>
-            <View>
+            <View className="self-end" style={{ zIndex: -1 }}>
               <Pressable
                 onPress={handleSubmit(onSubmit)}
-                className="bg-orange-500 px-4 py-3 rounded-lg mb-1"
+                className="bg-orange-500 px-4 py-2 rounded-lg mb-1"
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <ActivityIndicator color={"white"} size={28} />
+                  <ActivityIndicator color={"white"} size={24} />
                 ) : (
-                  <Text className="font-bold text-white text-lg text-center">
+                  <Text className="font-bold text-white text-base text-center">
                     Update
                   </Text>
                 )}

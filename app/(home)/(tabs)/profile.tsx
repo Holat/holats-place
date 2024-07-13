@@ -6,6 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { ThemeValueType } from "@/constants/types";
 import Animated from "react-native-reanimated";
 import { router } from "expo-router";
+import { getInputIcon } from "@/components/ControlledInput";
 
 export default function Profile() {
   const { user, logout } = useAuth();
@@ -120,11 +121,15 @@ const DetailsD = ({
   text?: string;
   b?: boolean;
 }) => {
+  const iconName = getInputIcon(title.toLowerCase());
   return (
     <>
       <View className="flex-row items-center justify-between px-2 overflow-hidden">
-        <View className="mr-5">
-          <Text className="font-bold text-base text-neutral-700">{title}</Text>
+        <View className="mr-5 flex-row items-center">
+          <AntDesign name={iconName as any} size={20} color={"#404040"} />
+          <Text className="font-bold text-base text-neutral-700 ml-1">
+            {title}
+          </Text>
         </View>
         <View>
           <Text

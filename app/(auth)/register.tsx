@@ -91,18 +91,21 @@ const Register = () => {
                 isLoading={isLoading}
                 control={control}
                 error={errors.name}
+                label="Name"
               />
               <ControlledInput
                 name={"email"}
                 isLoading={isLoading}
                 control={control}
                 error={errors.email}
+                label="Email"
               />
               <ControlledInput
                 name={"mobileNumber"}
                 isLoading={isLoading}
                 control={control}
                 error={errors.mobileNumber}
+                label="Mobile Number"
               />
               <View className="mb-2">
                 <Controller
@@ -127,6 +130,7 @@ const Register = () => {
                 isLoading={isLoading}
                 control={control}
                 error={errors.password}
+                label="Password"
                 p
               />
               <ControlledInput
@@ -134,6 +138,7 @@ const Register = () => {
                 isLoading={isLoading}
                 control={control}
                 error={errors.confirmPassword}
+                label="Confirm password"
                 p
               />
               <View>

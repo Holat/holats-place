@@ -2,7 +2,7 @@ import { Price } from "@/components";
 import { ThemeType, OrderHistoryType, OrderCardType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/services/formatedDate";
 import { Image } from "expo-image";
@@ -15,17 +15,16 @@ import Animated from "react-native-reanimated";
 
 export default function Orders() {
   const [orders, setOrders] = useState<OrderHistoryType[]>();
-  const [currentStatus, setCurrentStatus] = useState<string>("");
   const router = useRouter();
-  const { theme, value, rStyle, rBkg2Style, rTextStyle } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   useEffect(() => {
-    getAll(currentStatus)
+    getAll("")
       .then(setOrders)
       .catch((error) => {
         console.log(error);
       });
-  }, [currentStatus]);
+  }, []);
 
   return (
     <Animated.View className="flex-1" style={rStyle}>
@@ -53,8 +52,10 @@ export default function Orders() {
               />
             ))
           ) : (
-            <View className="mb-4">
-              <Text>Empty</Text>
+            <View className="mb-4 flex-1 justify-center items-center">
+              <Text className="font-semibold text-lg text-neutral-300">
+                Empty
+              </Text>
             </View>
           )}
         </ScrollView>

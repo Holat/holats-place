@@ -3,6 +3,8 @@ import React from "react";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
 import { useAuth, useTheme } from "@/hooks";
+import { AntDesign, Octicons } from "@expo/vector-icons";
+import { View } from "react-native";
 
 export default function _layout() {
   const { user, logout } = useAuth();
@@ -13,16 +15,17 @@ export default function _layout() {
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: theme.accentV,
-        drawerActiveTintColor: "black",
+        drawerActiveTintColor: "white",
+        drawerInactiveTintColor: "#959595",
         drawerItemStyle: {
           width: "100%",
           marginHorizontal: 0,
-          paddingHorizontal: 4,
+          paddingHorizontal: 16,
           borderRadius: 0,
         },
         drawerLabelStyle: {
           fontSize: 16,
-          color: theme.text,
+          marginLeft: 8,
         },
         drawerStyle: {
           backgroundColor: theme.background,
@@ -32,9 +35,36 @@ export default function _layout() {
         <CustomDrawer {...props} user={user} logout={logout} tValue={value} />
       )}
     >
-      <Drawer.Screen name="(tabs)" options={{ drawerLabel: "Home" }} />
-      <Drawer.Screen name="profile" options={{ drawerLabel: "Profile" }} />
-      <Drawer.Screen name="orders" options={{ drawerLabel: "Orders" }} />
+      <Drawer.Screen
+        name="(tabs)"
+        options={{
+          drawerLabel: "Home",
+          drawerIcon: ({ focused }) => (
+            <View style={{ marginRight: -28 }}>
+              <AntDesign
+                name="home"
+                size={22}
+                color={focused ? "white" : "#959595"}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="orders"
+        options={{
+          drawerLabel: "Orders",
+          drawerIcon: ({ focused }) => (
+            <View style={{ marginRight: -28 }}>
+              <Octicons
+                name="history"
+                size={22}
+                color={focused ? "white" : "#959595"}
+              />
+            </View>
+          ),
+        }}
+      />
     </Drawer>
   );
 }

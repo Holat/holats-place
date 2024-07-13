@@ -155,6 +155,7 @@ export type ControlledInputType = {
   name: RegisterValuesKeys;
   error: FieldError | undefined;
   control: Control<RegisterValues, any>;
+  label: string;
   p?: boolean;
 };
 
