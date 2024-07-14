@@ -15,7 +15,7 @@ export default function _layout() {
       screenOptions={{
         headerShown: false,
         drawerActiveBackgroundColor: theme.accentV,
-        drawerActiveTintColor: "white",
+        drawerActiveTintColor: theme.text,
         drawerInactiveTintColor: "#959595",
         drawerItemStyle: {
           width: "100%",
@@ -39,13 +39,9 @@ export default function _layout() {
         name="(tabs)"
         options={{
           drawerLabel: "Home",
-          drawerIcon: ({ focused }) => (
+          drawerIcon: ({ color }) => (
             <View style={{ marginRight: -28 }}>
-              <AntDesign
-                name="home"
-                size={22}
-                color={focused ? "white" : "#959595"}
-              />
+              <AntDesign name="home" size={22} color={color} />
             </View>
           ),
         }}
@@ -54,13 +50,9 @@ export default function _layout() {
         name="orders"
         options={{
           drawerLabel: "Orders",
-          drawerIcon: ({ focused }) => (
+          drawerIcon: ({ color }) => (
             <View style={{ marginRight: -28 }}>
-              <Octicons
-                name="history"
-                size={22}
-                color={focused ? "white" : "#959595"}
-              />
+              <Octicons name="history" size={22} color={color} />
             </View>
           ),
         }}

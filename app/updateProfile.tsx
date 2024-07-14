@@ -71,12 +71,7 @@ const Register = () => {
             onPress={() => router.back()}
           >
             <AntDesign name="left" size={20} color={"white"} />
-            <Text
-              style={{ color: theme.text }}
-              className="font-bold text-lg ml-2"
-            >
-              Back
-            </Text>
+            <Text className="font-bold text-lg ml-2 text-white mr-2">Back</Text>
           </Pressable>
           <View
             className="w-full flex"

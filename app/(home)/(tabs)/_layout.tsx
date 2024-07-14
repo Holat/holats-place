@@ -1,12 +1,16 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import CustomTabs from "@/components/CustomTabs";
-import { useTheme } from "@/hooks";
+import { useCart, useTheme } from "@/hooks";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
 
 const TabLayout = () => {
   const { rBkg2Style, rTextStyle } = useTheme();
+  const {
+    cart: { totalCount },
+  } = useCart();
   const { top } = useSafeAreaInsets();
 
   return (
@@ -16,7 +20,7 @@ const TabLayout = () => {
         tabBarActiveTintColor: "orange",
         tabBarHideOnKeyboard: true,
       }}
-      tabBar={(props) => <CustomTabs {...props} />}
+      tabBar={(props) => <CustomTabs {...props} count={totalCount} />}
     >
       <Tabs.Screen
         name="index"
@@ -28,7 +32,6 @@ const TabLayout = () => {
         name="cart"
         options={{
           title: "Cart",
-          // headerShown: true,
         }}
       />
       <Tabs.Screen

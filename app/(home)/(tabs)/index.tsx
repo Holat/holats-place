@@ -70,13 +70,13 @@ export default function Home() {
               />
             </TouchableOpacity>
             <View className="flex-row justify-between items-center gap-3">
-              <TouchableOpacity>
+              {/* <TouchableOpacity>
                 <AntDesign
                   color={"#FA6400"}
                   name={"shoppingcart"}
                   size={hp(4)}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={{ height: hp(5), width: hp(5) }}
                 className=" items-center justify-center"
