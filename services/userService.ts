@@ -4,7 +4,7 @@ import {
   FormDetails,
   ChangePassFormType,
 } from "@/constants/types";
-import { save, deleteItem, getValueFor } from "./storage/asyncStorage";
+import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
 import apiInstance from "./api";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";

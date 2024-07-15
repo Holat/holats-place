@@ -5,11 +5,7 @@ import {
   CartItemType,
   CartType,
 } from "@/constants/types";
-import {
-  save,
-  deleteItem,
-  getValueFor,
-} from "../services/storage/asyncStorage";
+import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
 
 export const CartContext = createContext<CartContextType | null>(null);
 const CART_KEY = process.env.EXPO_PUBLIC_CART_KEY || "";

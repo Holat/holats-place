@@ -10,8 +10,8 @@ import {
   ChangePassFormType,
   AuthContextType,
 } from "@/constants/types";
-import showToast from "@/services/ToastM";
-import { getValueFor } from "@/services/storage/asyncStorage";
+import showToast from "@/utils/ToastM";
+import { getValueFor } from "@/utils/storage/asyncStorage";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 const USER = process.env.EXPO_PUBLIC_USER || "";

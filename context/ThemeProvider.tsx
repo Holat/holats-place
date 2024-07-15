@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { lightTheme, darkTheme } from "@/constants/Colors";
 import { ThemeContextType, ThemeType, ThemeValueType } from "@/constants/types";
-import { getValueFor, save } from "@/services/storage/asyncStorage";
+import { getValueFor, save } from "@/utils/storage/asyncStorage";
 import Animated, {
   interpolateColor,
   useAnimatedStyle,

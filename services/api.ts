@@ -1,6 +1,6 @@
 import axios from "axios";
-import showToast from "@/services/ToastM";
-import { getValueFor } from "@/services/storage/asyncStorage";
+import showToast from "@/utils/ToastM";
+import { getValueFor } from "@/utils/storage/asyncStorage";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
 const apiInstance = axios.create({

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { save, getValueFor } from "@/services/storage/asyncStorage";
+import { save, getValueFor } from "@/utils/storage/asyncStorage";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
 const apiInstance = axios.create({

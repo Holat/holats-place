@@ -4,7 +4,7 @@ import { getAll } from "@/services/orderServices";
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import formatDate from "@/services/formatedDate";
+import formatDate from "@/utils/formatedDate";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
 import { ScrollView } from "react-native-gesture-handler";
