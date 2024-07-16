@@ -15,11 +15,11 @@ import {
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import { Controller, useForm } from "react-hook-form";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
+import showToast from "@/services/ToastM";
 import { useRouter } from "expo-router";
-import useAuth from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";
 
 const Login = () => {
@@ -39,15 +39,6 @@ const Login = () => {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
 
-  const showToast = () => {
-    Toast.show({
-      type: "error",
-      text1: "Login Error",
-      text2: "Email and Password is required",
-      // topOffset: hp(6),
-    });
-  };
-
   const onSubmit = async (data: { email: string; password: string }) => {
     setIsLoading(true);
     const isSuccess = await login(data.email, data.password);
@@ -61,7 +52,7 @@ const Login = () => {
 
   useEffect(() => {
     if (errors.email || errors.password) {
-      showToast();
+      showToast("Login Error", "Email and Password Required");
     }
   }, [errors]);
 
@@ -88,7 +79,7 @@ const Login = () => {
           <View className="self-start">
             <Animated.Image
               entering={FadeInUp.duration(200).springify()}
-              source={require("@/assets/images/logo.png")}
+              source={require("@/assets/images/icon.png")}
               style={{ height: hp(8), width: hp(8), marginTop: top }}
               className=""
             />
@@ -182,6 +173,23 @@ const Login = () => {
                 )}
               </Pressable>
             </View>
+            <Animated.View
+              entering={FadeInDown.duration(100).delay(100).springify()}
+            >
+              <Pressable
+                style={{ height: hp(6) }}
+                className="flex items-center justify-center rounded-lg border-[1px] border-orange-500"
+                onPress={() => router.push("/(auth)/register")}
+                disabled={isLoading}
+              >
+                <Text
+                  className=" text-white font-semibold"
+                  style={{ fontSize: hp(2) }}
+                >
+                  Register
+                </Text>
+              </Pressable>
+            </Animated.View>
           </View>
         </KeyboardAvoidingView>
       </LinearGradient>

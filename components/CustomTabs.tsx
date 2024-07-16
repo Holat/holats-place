@@ -1,12 +1,16 @@
-import { StyleSheet, View, Pressable } from "react-native";
+import { StyleSheet, View, Pressable, Text } from "react-native";
 import React from "react";
 import NavigationIcon from "./NavigationIcon";
+import { useTheme } from "@/hooks";
+import Animated from "react-native-reanimated";
 
-const CustomTabs = ({ state, descriptors, navigation }: any) => {
+const CustomTabs = ({ state, descriptors, navigation, count }: any) => {
+  const { rBkg2Style } = useTheme();
+
   return (
-    <View
-      style={styles.shadow}
-      className="bottom-0 w-full self-center bg-white pt-2 pb-4 absolute flex-row"
+    <Animated.View
+      style={[styles.shadow, rBkg2Style]}
+      className="bottom-0 w-full self-center py-6 absolute flex-row rounded-t-2xl"
     >
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
@@ -35,13 +39,31 @@ const CustomTabs = ({ state, descriptors, navigation }: any) => {
             key={index}
             className="flex-1 flex-row justify-center items-center"
           >
+            {label === "Cart" ? (
+              <View
+                className="absolute right-0 rounded-3xl h-5 w-5 items-center justify-center flex"
+                style={{
+                  backgroundColor: "#FA6400",
+                  top: -6,
+                  left: "55%",
+                  zIndex: 10,
+                  opacity: count && count > 0 ? 1 : 0,
+                }}
+              >
+                <Text className="font-bold text-white">{count}</Text>
+              </View>
+            ) : (
+              <></>
+            )}
             <Pressable onPress={onPress}>
-              <NavigationIcon isFocused={isFocused} label={label} />
+              <View style={{ zIndex: 1 }}>
+                <NavigationIcon isFocused={isFocused} label={label} />
+              </View>
             </Pressable>
           </View>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 
@@ -58,7 +80,5 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
 
     elevation: 6,
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30,
   },
 });

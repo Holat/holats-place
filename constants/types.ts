@@ -1,3 +1,7 @@
+import { AnimatedStyle } from "react-native-reanimated";
+import { Control, FieldError } from "react-hook-form";
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
+
 export type FoodItemType = {
   id: number | string;
   name: string;
@@ -64,11 +68,11 @@ export type NewUserType = {
 export type UserType = NewUserType & {
   id: string | number;
   token: string;
+  favourites?: [string] | null;
 };
 
 export type RegisterValues = {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   mobileNumber: string;
   address: string;
@@ -76,11 +80,11 @@ export type RegisterValues = {
   confirmPassword: string;
 };
 
-export interface ChangePassFormType {
+export type ChangePassFormType = {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
-}
+};
 
 export interface FormDetails {
   name: string;
@@ -92,11 +96,14 @@ export interface FormDetails {
 export type AuthContextType = {
   user: NewUserType | null;
   authInitialized: boolean;
+  authReady: boolean;
+  favFoods: string[];
   login: (email: string, password: string) => Promise<boolean>;
-  register: (user: RegisterValues) => void;
+  register: (user: RegisterValues) => Promise<boolean>;
   logout: (type: "n" | "t") => void;
-  updateProfile: (user: FormDetails) => void;
-  changePassword: (passwords: ChangePassFormType) => void;
+  updateProfile: (user: FormDetails) => Promise<boolean>;
+  changePassword: (passwords: ChangePassFormType) => Promise<boolean>;
+  toggleFavorite: (d: string) => void;
 };
 
 export type OrderType = {
@@ -104,7 +111,102 @@ export type OrderType = {
   address?: string;
   lat: number;
   lng: number;
-  status?: string;
   email?: string;
   phonenumber?: string;
 } & CartType;
+
+export type ThemeType = {
+  text: string;
+  background: string;
+  bkg2: string;
+  accent: string;
+  accentV: string;
+  payed: string;
+  new: string;
+  failed: string;
+};
+
+export type OrderHistoryType = {
+  _id: string;
+  address: string;
+  totalPrice: number;
+  totalCount: number;
+  createdAt: string;
+  status: string;
+  items: CartItemType[];
+};
+
+export type PriceCompType = {
+  locale?: string;
+  price: number;
+  currency?: string;
+  showP?: boolean;
+  fontSize?: number;
+  color?: string;
+};
+
+type RegisterValuesKeys = keyof RegisterValues;
+
+export type ControlledInputType = {
+  isLoading: boolean;
+  name: RegisterValuesKeys;
+  error: FieldError | undefined;
+  control: Control<RegisterValues, any>;
+  label: string;
+  p?: boolean;
+};
+
+export type CPControlledIn = {
+  isLoading: boolean;
+  control: Control<ChangePassFormType, any>;
+  error: FieldError | undefined;
+  name: keyof ChangePassFormType;
+  title: string;
+};
+
+export type ThemeValueType = "light" | "dark" | "default";
+
+export type ThemeContextType = {
+  value: ThemeValueType;
+  theme: ThemeType;
+  setTheme: (b: "light" | "dark" | "default") => void;
+  rStyle: AnimatedStyle;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+};
+
+export type GooglePlacesInputType = {
+  value: ThemeValueType;
+  onAddressSelect: (details: GooglePlaceDetail | null) => void;
+  theme: ThemeType;
+};
+
+export type FoodCardType = {
+  item: FoodItemType;
+  handleAddToCart: (item: FoodItemType) => void;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+  color: string[];
+};
+
+export type FoodCardItemType = {
+  item: FoodItemType;
+  addToCart: (food?: FoodItemType) => void;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+  color: string;
+};
+
+export type CartCardType = {
+  item: CartItemType;
+  removeFromCart: (id: string | number) => void;
+  rTextStyle: AnimatedStyle;
+  color: string;
+};
+
+export type OrderCardType = {
+  item: OrderHistoryType;
+  theme: ThemeType;
+  rBkg2Style: AnimatedStyle;
+  rTextStyle: AnimatedStyle;
+};

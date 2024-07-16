@@ -5,9 +5,10 @@ import {
   CartItemType,
   CartType,
 } from "@/constants/types";
+import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
 
 export const CartContext = createContext<CartContextType | null>(null);
-const CART_KEY = "holatPlaceCart";
+const CART_KEY = process.env.EXPO_PUBLIC_CART_KEY || "";
 const EMPTY_CART: CartType = {
   items: [],
   totalPrice: 0,
@@ -19,18 +20,18 @@ export default function CartProvider({
 }: {
   children: React.ReactNode;
 }) {
-  // const initCart = getLocalStorageCart();
   const [cartItems, setCartItems] = useState<CartItemType[]>(EMPTY_CART.items);
   const [totalPrice, setTotalPrice] = useState<number>(EMPTY_CART.totalPrice);
   const [totalCount, setTotalCount] = useState<number>(EMPTY_CART.totalCount);
 
-  // function getLocalStorageCart() {
-  //   const localCart = localStorage.getItem(CART_KEY);
-  //   return localCart ? JSON.parse(localCart) : EMPTY_CART;
-  // }
+  useEffect(() => {
+    (async () => {
+      const sCart = await getValueFor(CART_KEY);
+      sCart && setCartItems(JSON.parse(sCart).items);
+    })();
+  }, []);
 
   const itemSum = (item: number[]) => item.reduce((prev, cur) => prev + cur, 0);
-
   useEffect(() => {
     const totalPrice = itemSum(
       cartItems.map((item: CartItemType) => item.price)
@@ -41,14 +42,14 @@ export default function CartProvider({
     setTotalPrice(totalPrice);
     setTotalCount(totalCount);
 
-    // localStorage.setItem(
-    //   CART_KEY,
-    //   JSON.stringify({
-    //     items: cartItems,
-    //     totalPrice,
-    //     totalCount,
-    //   })
-    // );
+    save(
+      CART_KEY,
+      JSON.stringify({
+        items: cartItems,
+        totalPrice,
+        totalCount,
+      })
+    );
   }, [cartItems]);
 
   const removeFromCart = (foodId: number | string) => {
@@ -80,30 +81,19 @@ export default function CartProvider({
   };
 
   const addToCart = (food?: FoodItemType, quantity?: number | null) => {
-    if (!food) {
-      return;
-    }
+    if (!food) return;
 
-    // const cartItem = cartItems.find(
-    //   (item: CartItemType) => item.food.id === food.id
-    // );
     const cartItem = getCartItemById(food.id);
-    if (cartItem) {
-      changeQuantity(cartItem, cartItem.quantity + (quantity ? quantity : 1));
-    } else {
-      setCartItems([...cartItems, { food, quantity: 1, price: food?.price }]);
-    }
+    cartItem
+      ? changeQuantity(cartItem, cartItem.quantity + (quantity ? quantity : 1))
+      : setCartItems([...cartItems, { food, quantity: 1, price: food?.price }]);
   };
 
-  const getCartItemById = (id: string | number) => {
-    const cartItem = cartItems.find((item: CartItemType) => {
-      item.food.id === id;
-    });
-    return cartItem;
-  };
+  const getCartItemById = (id: string | number) =>
+    cartItems.find((item: CartItemType) => item.food.id === id);
 
   const clearCart = () => {
-    // localStorage.removeItem(CART_KEY);
+    deleteItem(CART_KEY);
     const { items, totalPrice, totalCount } = EMPTY_CART;
     setCartItems(items);
     setTotalPrice(totalPrice);

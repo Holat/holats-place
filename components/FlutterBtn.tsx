@@ -1,8 +1,8 @@
 import { PayWithFlutterwave } from "flutterwave-react-native";
-import useCart from "@/hooks/useCart";
+import { useCart } from "@/hooks";
 import { useRouter } from "expo-router";
-import generateTransactionRef from "@/services/generateTransactionRef";
-import { pay } from "@/services/orderServices";
+import generateTransactionRef from "@/utils/generateTransactionRef";
+import { createOrder, pay } from "@/services/orderServices";
 import { OrderType } from "@/constants/types";
 import { View } from "react-native";
 
@@ -11,30 +11,51 @@ interface RedirectParams {
   transaction_id?: string;
   tx_ref: string;
 }
-// const [order, setOrder] = useState<OrderType>();
 
-export default function PaymentBtn({ order }: { order: OrderType }) {
+export default function PaymentBtn({
+  order,
+  handleIsLoading,
+}: {
+  order: OrderType;
+  handleIsLoading: (b: boolean) => void;
+}) {
   const router = useRouter();
   const { clearCart } = useCart();
 
   const handleOnRedirect = async (data: RedirectParams) => {
+    handleIsLoading(true);
     if (data.status === "successful") {
       const paymentId = data.transaction_id || Date();
       await pay(paymentId);
       clearCart();
-
-      console.log("the payment was successful");
-      router.push("/");
+      handleIsLoading(false);
+      router.push("/(home)/orders");
     } else {
-      console.log("Payment Failed");
-      // router.push("/");
+      handleIsLoading(false);
+      router.push("/cart");
     }
+  };
+
+  const handlePaymentWillInit = () => {
+    if (order.lat === 0 && order.lng === 0) {
+      console.log("Location not set");
+      return;
+    }
+  };
+
+  const onPaymentInit = async () => {
+    console.log("clicked");
+    const data = await createOrder({ ...order });
+    console.log(data);
   };
 
   return (
     <View>
       <PayWithFlutterwave
+        style={{ backgroundColor: "#FA6400", borderRadius: 16 }}
         onRedirect={handleOnRedirect}
+        onWillInitialize={() => handlePaymentWillInit()}
+        onDidInitialize={() => onPaymentInit()}
         options={{
           tx_ref: generateTransactionRef(10),
           authorization: process.env.EXPO_PUBLIC_API_FLUTTER_KEY || "",
@@ -46,16 +67,12 @@ export default function PaymentBtn({ order }: { order: OrderType }) {
           amount: order.totalPrice,
           currency: "NGN",
           payment_options: "card,ussd,banktransfer",
+          // customizations: {
+          //   title: "Holat's Place",
+          //   logo: "../assets/images/icon.png",
+          // },
         }}
       />
     </View>
   );
 }
-/**
-* dependencies {
-    If your app supports Android versions before Ice Cream Sandwich (API level 14)
-  implementation 'com.facebook.fresco:animated-base-support:1.3.0'
-
-   For animated GIF support
-  implementation 'com.facebook.fresco:animated-gif:2.0.0'
-}**/

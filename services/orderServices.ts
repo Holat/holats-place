@@ -1,9 +1,10 @@
 import axios from "axios";
 import { OrderType } from "@/constants/types";
+import apiInstance from "./api";
 
-export const createOrder = async (order: OrderType & { name?: string }) => {
+export const createOrder = async (order: OrderType) => {
   try {
-    const { data } = await axios.post("/api/orders/create ", order);
+    const { data } = await apiInstance.post("/api/orders/create", order);
     return data;
   } catch (error) {
     console.log(error);
@@ -11,13 +12,13 @@ export const createOrder = async (order: OrderType & { name?: string }) => {
 };
 
 export const getCurrentUserOrder = async () => {
-  const { data } = await axios.get("/api/orders/currentUserOrder");
+  const { data } = await apiInstance.get("/api/orders/currentUserOrder");
   return data;
 };
 
 export const pay = async (paymentId: string | number) => {
   try {
-    const { data } = await axios.put("/api/orders/pay", { paymentId });
+    const { data } = await apiInstance.put("/api/orders/pay", { paymentId });
     return data;
   } catch (error) {
     console.log(error);
@@ -25,11 +26,11 @@ export const pay = async (paymentId: string | number) => {
 };
 
 export const getAll = async (state: string) => {
-  const { data } = await axios.get(`/api/orders/${state ?? ""}`);
+  const { data } = await apiInstance.get(`/api/orders/${state ?? ""}`);
   return data;
 };
 
 export const getAllStatus = async () => {
-  const { data } = await axios.get(`/api/orders/allStatus`);
+  const { data } = await apiInstance.get(`/api/orders/allStatus`);
   return data;
 };

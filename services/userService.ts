@@ -4,21 +4,10 @@ import {
   FormDetails,
   ChangePassFormType,
 } from "@/constants/types";
-import { save, deleteItem } from "./storage/asyncStorage";
+import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
+import apiInstance from "./api";
 
-const USER = "holatPlaceUser";
-
-console.log();
-
-const apiInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
-  headers: {
-    "Content-Type": "application/json; charset=UTF-8",
-    "Access-Control-Allow-Origin": "*",
-    "X-Client-Type": "app",
-  },
-});
-
+const USER = process.env.EXPO_PUBLIC_USER || "";
 export const login = async (email: string, password: string) => {
   const { data } = await apiInstance.post(`/api/user/login`, {
     email: email.trim(),

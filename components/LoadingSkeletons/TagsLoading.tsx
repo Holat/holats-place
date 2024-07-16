@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image } from "react-native";
+import { View } from "react-native";
 import RoundedShimmer from "./RoundedShimmer";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 

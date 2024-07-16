@@ -1,19 +1,27 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import RoundedShimmer, { ShimmerPlaceHolder } from "./RoundedShimmer";
+import RoundedShimmer from "./RoundedShimmer";
 import { Ionicons } from "@expo/vector-icons";
 
-const HomeCardLoading = () => {
+const HomeCardLoading = ({ backgroundColor }: { backgroundColor: string }) => {
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut}>
-      <View className="flex-row bg-white rounded-xl overflow-hidden">
+      <View
+        className="flex-row rounded-xl overflow-hidden"
+        style={{ backgroundColor }}
+      >
         <View style={styles.container}>
-          <ShimmerPlaceHolder style={{ height: 120, width: "100%" }} />
+          <RoundedShimmer h={120} w={"100%"} />
           <View className="absolute z-10">
-            <Ionicons name="image-outline" size={30} color={"white"} />
+            <Ionicons name="image-outline" size={30} color={backgroundColor} />
           </View>
-          <View style={styles.triangleCorner} />
+          <View
+            style={[
+              styles.triangleCorner,
+              { borderBottomColor: backgroundColor },
+            ]}
+          />
         </View>
         <View className="flex-1 p-3">
           <View className="items-start">
@@ -51,6 +59,5 @@ const styles = StyleSheet.create({
     borderLeftWidth: 30,
     borderBottomWidth: 120,
     borderLeftColor: "transparent",
-    borderBottomColor: "white",
   },
 });

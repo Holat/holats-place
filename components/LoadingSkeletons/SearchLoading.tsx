@@ -3,7 +3,7 @@ import HomeCardLoading from "./HomeCardLoading";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { View } from "react-native";
 
-const SearchLoading = () => {
+const SearchLoading = ({ backgroundColor }: { backgroundColor: string }) => {
   return (
     <Animated.View
       entering={FadeIn}
@@ -14,7 +14,7 @@ const SearchLoading = () => {
         .fill("i")
         .map((k, i) => (
           <View style={{ marginBottom: 18 }} key={i + k}>
-            <HomeCardLoading />
+            <HomeCardLoading backgroundColor={backgroundColor} />
           </View>
         ))}
     </Animated.View>
