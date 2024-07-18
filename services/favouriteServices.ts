@@ -77,3 +77,14 @@ export const setFavoriteFoods = async (favoriteFoods: string[]) => {
     console.error("Error setting favorite foods in async storage", e);
   }
 };
+
+export const clearFavorite = async () => {
+  try {
+    const response = apiInstance.delete("/api/favourites/clear");
+    await setFavoriteFoods(response.data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+  await deleteItem("favoriteFoods");
+};

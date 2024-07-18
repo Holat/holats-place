@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = process.env.EXPO_PUBLIC_API_URL;
+const api = process.env.EXPO_PUBLIC_API_URL || "";
 export const getAll = async () => {
   const { data } = await axios.get(`${api}/api/foods`);
   return data;
@@ -8,6 +8,7 @@ export const getAll = async () => {
 
 export const getTopRated = async () => {
   const { data } = await axios.get(`${api}/api/foods/topRatedFoods`);
+  console.log(data);
   return data;
 };
 

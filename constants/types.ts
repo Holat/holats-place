@@ -55,6 +55,8 @@ export type CartContextType = {
   addToCart: (food?: FoodItemType, quantity?: number | null) => void;
   clearCart: () => void;
   getCartItemById: (id: string | number) => CartItemType | undefined;
+  toggleFavorite: (d: string) => void;
+  favFoods: string[];
 };
 
 export type NewUserType = {
@@ -97,13 +99,11 @@ export type AuthContextType = {
   user: NewUserType | null;
   authInitialized: boolean;
   authReady: boolean;
-  favFoods: string[];
   login: (email: string, password: string) => Promise<boolean>;
   register: (user: RegisterValues) => Promise<boolean>;
   logout: (type: "n" | "t") => void;
   updateProfile: (user: FormDetails) => Promise<boolean>;
   changePassword: (passwords: ChangePassFormType) => Promise<boolean>;
-  toggleFavorite: (d: string) => void;
 };
 
 export type OrderType = {

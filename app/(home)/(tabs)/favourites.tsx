@@ -13,10 +13,11 @@ import { Entypo } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 
 const Fav = () => {
-  const { addToCart } = useCart();
+  const { theme, rStyle, rTextStyle, value } = useTheme();
+  const { addToCart, toggleFavorite, clearFavourite } = useCart();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
-  const { theme, rStyle, rTextStyle, value } = useTheme();
+  const handleFav = (foodId: string) => toggleFavorite(foodId);
 
   useEffect(() => {
     getFavourites()
@@ -50,10 +51,16 @@ const Fav = () => {
               key={item.id}
               item={item}
               handleAddToCart={handleAddToCart}
+              handleFav={handleFav}
               value={value}
             />
           ))}
         </ScrollView>
+        <Pressable
+          classname="absolute right-0 bottom-20 w-16 h-16 rounded-full mb-2"
+          onPress={() => clearFavourite()}
+          style={ backgroundColor: theme.accent }
+        ></Pressable>
       </SafeAreaView>
     </Animated.View>
   );
@@ -63,14 +70,23 @@ const FavCard = ({
   item,
   handleAddToCart,
   value,
+  handleFav,
 }: {
   item: FoodItemType;
   handleAddToCart: (item: FoodItemType) => void;
   value: string;
+  handleFav: (foodId: string) => void;
 }) => {
+  const [fav, setFav] = useState();
   const imgUrl = item.imageUrl.split("/").pop() || "";
   const color = value === "dark" ? "#fff" : "#000";
   const backgroundColor = value === "dark" ? "#1e1e1e" : "#fff";
+
+  useEffect(() => {
+    if (favFoods.includes(item.id)) {
+      setFav(true);
+    }
+  }, []);
 
   return (
     <Pressable
@@ -85,11 +101,22 @@ const FavCard = ({
         />
       </View>
       <View className="flex-1">
-        <View>
-          <Text className="text-base" style={{ color }}>
-            {item.name}
-          </Text>
-          <Price price={item.price} color={color} />
+        <View className="flex-row items-center justify-between">
+          <View>
+            <Text className="text-base" style={{ color }}>
+              {item.name}
+            </Text>
+            <Price price={item.price} color={color} />
+          </View>
+          <View>
+            <TouchableOpacity onPress={handleFav}>
+              {fav ? (
+                <AntDesign color={"#FA6400"} name={"heart"} size={hp(4)} />
+              ) : (
+                <AntDesign color={"white"} name={"hearto"} size={hp(4)} />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
         <View className="items-end">
           <TouchableOpacity
