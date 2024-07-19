@@ -8,7 +8,6 @@ export const getAll = async () => {
 
 export const getTopRated = async () => {
   const { data } = await axios.get(`${api}/api/foods/topRatedFoods`);
-  console.log(data);
   return data;
 };
 

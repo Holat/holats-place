@@ -9,7 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { getFoodImage } from "@/constants/data";
 import { Image } from "expo-image";
 import { Price } from "@/components";
-import { Entypo } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
 
 const Fav = () => {
@@ -17,7 +17,7 @@ const Fav = () => {
   const { addToCart, toggleFavorite, clearFavourite } = useCart();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
-  const handleFav = (foodId: string) => toggleFavorite(foodId);
+  const handleFav = (foodId: string | number) => toggleFavorite(foodId);
 
   useEffect(() => {
     getFavourites()
@@ -57,10 +57,12 @@ const Fav = () => {
           ))}
         </ScrollView>
         <Pressable
-          classname="absolute right-0 bottom-20 w-16 h-16 rounded-full mb-2"
+          className="absolute right-3 bottom-20 w-12 h-12 rounded-full mb-2 items-center justify-center"
           onPress={() => clearFavourite()}
-          style={ backgroundColor: theme.accent }
-        ></Pressable>
+          style={{ backgroundColor: theme.accent }}
+        >
+          <AntDesign name="delete" color={"white"} size={hp(3)} />
+        </Pressable>
       </SafeAreaView>
     </Animated.View>
   );
@@ -75,18 +77,18 @@ const FavCard = ({
   item: FoodItemType;
   handleAddToCart: (item: FoodItemType) => void;
   value: string;
-  handleFav: (foodId: string) => void;
+  handleFav: (foodId: string | number) => void;
 }) => {
   const [fav, setFav] = useState();
   const imgUrl = item.imageUrl.split("/").pop() || "";
   const color = value === "dark" ? "#fff" : "#000";
   const backgroundColor = value === "dark" ? "#1e1e1e" : "#fff";
 
-  useEffect(() => {
-    if (favFoods.includes(item.id)) {
-      setFav(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (favFoods.includes(item.id)) {
+  //     setFav(true);
+  //   }
+  // }, []);
 
   return (
     <Pressable
@@ -100,27 +102,27 @@ const FavCard = ({
           contentFit="cover"
         />
       </View>
-      <View className="flex-1">
-        <View className="flex-row items-center justify-between">
+      <View className="flex-1 justify-between">
+        <View className="flex-row items-start justify-between">
           <View>
             <Text className="text-base" style={{ color }}>
               {item.name}
             </Text>
             <Price price={item.price} color={color} />
           </View>
-          <View>
-            <TouchableOpacity onPress={handleFav}>
+          <View className="">
+            <TouchableOpacity onPress={() => handleFav(item.id)}>
               {fav ? (
-                <AntDesign color={"#FA6400"} name={"heart"} size={hp(4)} />
+                <AntDesign color={"#FA6400"} name={"heart"} size={hp(2)} />
               ) : (
-                <AntDesign color={"white"} name={"hearto"} size={hp(4)} />
+                <AntDesign color={"white"} name={"hearto"} size={hp(2)} />
               )}
             </TouchableOpacity>
           </View>
         </View>
-        <View className="items-end">
+        <View className="items-end justify-end">
           <TouchableOpacity
-            className=" bg-orange-500 rounded-lg p-2"
+            className=" bg-orange-500 rounded-lg p-1"
             onPress={() => handleAddToCart(item)}
           >
             <Entypo color={"white"} name={"plus"} size={hp(2)} />

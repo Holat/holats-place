@@ -55,8 +55,9 @@ export type CartContextType = {
   addToCart: (food?: FoodItemType, quantity?: number | null) => void;
   clearCart: () => void;
   getCartItemById: (id: string | number) => CartItemType | undefined;
-  toggleFavorite: (d: string) => void;
-  favFoods: string[];
+  toggleFavorite: (d: string | number) => void;
+  clearFavourite: () => void;
+  favFoods: (string | number)[];
 };
 
 export type NewUserType = {
@@ -109,8 +110,8 @@ export type AuthContextType = {
 export type OrderType = {
   name?: string;
   address?: string;
-  lat: number;
-  lng: number;
+  lat?: number | string;
+  lng?: number | string;
   email?: string;
   phonenumber?: string;
 } & CartType;
@@ -127,7 +128,7 @@ export type ThemeType = {
 };
 
 export type OrderHistoryType = {
-  _id: string;
+  id: string;
   address: string;
   totalPrice: number;
   totalCount: number;
@@ -176,9 +177,9 @@ export type ThemeContextType = {
 };
 
 export type GooglePlacesInputType = {
-  value: ThemeValueType;
   onAddressSelect: (details: GooglePlaceDetail | null) => void;
   theme: ThemeType;
+  value?: string | null;
 };
 
 export type FoodCardType = {

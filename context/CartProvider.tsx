@@ -24,7 +24,7 @@ export default function CartProvider({
   const [cartItems, setCartItems] = useState<CartItemType[]>(EMPTY_CART.items);
   const [totalPrice, setTotalPrice] = useState<number>(EMPTY_CART.totalPrice);
   const [totalCount, setTotalCount] = useState<number>(EMPTY_CART.totalCount);
-  const [favFoods, setFavFoods] = useState<string[]>([]);
+  const [favFoods, setFavFoods] = useState<(string | number)[]>([]);
 
   const removeFromCart = (foodId: number | string) => {
     const filterCartItem = cartItems.filter(
@@ -74,7 +74,7 @@ export default function CartProvider({
     setTotalCount(totalCount);
   };
 
-  const toggleFavorite = async (foodId: string) => {
+  const toggleFavorite = async (foodId: string | number) => {
     let updatedFavorites;
     if (favFoods?.includes(foodId)) {
       updatedFavorites = favFoods.filter((id) => id !== foodId);
@@ -88,7 +88,7 @@ export default function CartProvider({
     await favService.setFavoriteFoods(updatedFavorites);
   };
 
-  const clearFavourite = async (foodId: string) => {
+  const clearFavourite = async () => {
     favService.clearFavorite();
   };
 
@@ -102,7 +102,7 @@ export default function CartProvider({
       const sCart = await getValueFor(CART_KEY);
       sCart && setCartItems(JSON.parse(sCart).items);
 
-      if (success) await loadFavorites();
+      await loadFavorites();
     })();
   }, []);
 
@@ -138,6 +138,7 @@ export default function CartProvider({
         getCartItemById,
         favFoods,
         toggleFavorite,
+        clearFavourite,
       }}
     >
       {children}

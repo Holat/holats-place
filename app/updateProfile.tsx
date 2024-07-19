@@ -19,7 +19,7 @@ import { AntDesign } from "@expo/vector-icons";
 const Register = () => {
   const { updateProfile, user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const { theme, value } = useTheme();
+  const { theme } = useTheme();
   const {
     control,
     setValue,
@@ -112,7 +112,6 @@ const Register = () => {
                   <GooglePlacesInput
                     theme={theme}
                     onAddressSelect={onAddressSelect}
-                    value={value}
                   />
                 )}
               />

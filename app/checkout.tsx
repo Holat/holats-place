@@ -10,26 +10,23 @@ import { OrderType } from "@/constants/types";
 import { Price, PaymentBtn } from "@/components";
 import { useAuth, useTheme, useCart } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  GooglePlaceDetail,
-  GooglePlacesAutocomplete,
-} from "react-native-google-places-autocomplete";
+import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
 import GooglePlacesInput from "@/components/GooglePlacesInput";
 
-const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const CheckOut = () => {
   const { cart } = useCart();
   const { user } = useAuth();
-  const { theme, value } = useTheme();
+  const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const addressInfo = user?.address.split("|");
   const [order, setOrder] = useState<OrderType>({
     ...cart,
     name: user?.name,
     email: user?.email,
-    address: user?.address,
+    address: addressInfo && addressInfo[0],
     phonenumber: user?.phone,
-    lat: 0,
-    lng: 0,
+    lat: addressInfo && parseFloat(addressInfo[1]),
+    lng: addressInfo && parseFloat(addressInfo[2]),
   });
   //  const { location } = useLocation();
 
@@ -92,7 +89,7 @@ const CheckOut = () => {
                 <GooglePlacesInput
                   theme={theme}
                   onAddressSelect={onAddressSelect}
-                  value={value}
+                  value={order.address}
                 />
               </View>
               <View className="pl-2 mt-3">

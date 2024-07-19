@@ -1,5 +1,5 @@
 import axios from "axios";
-import { save, getValueFor } from "@/utils/storage/asyncStorage";
+import { save, getValueFor, deleteItem } from "@/utils/storage/asyncStorage";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
 const apiInstance = axios.create({
@@ -69,7 +69,7 @@ export const getFavoriteFoods = async () => {
   }
 };
 
-export const setFavoriteFoods = async (favoriteFoods: string[]) => {
+export const setFavoriteFoods = async (favoriteFoods: (string | number)[]) => {
   try {
     const jsonValue = JSON.stringify(favoriteFoods);
     await save("favoriteFoods", jsonValue);
@@ -80,7 +80,7 @@ export const setFavoriteFoods = async (favoriteFoods: string[]) => {
 
 export const clearFavorite = async () => {
   try {
-    const response = apiInstance.delete("/api/favourites/clear");
+    const response = await apiInstance.delete("/api/favourites/clear");
     await setFavoriteFoods(response.data);
     return response.data;
   } catch (error) {

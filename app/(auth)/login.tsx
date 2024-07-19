@@ -17,7 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Controller, useForm } from "react-hook-form";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import showToast from "@/services/ToastM";
+import showToast from "@/utils/ToastM";
 import { useRouter } from "expo-router";
 import { useAuth } from "@/hooks";
 import { Ionicons } from "@expo/vector-icons";

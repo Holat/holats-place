@@ -7,8 +7,8 @@ import { AntDesign } from "@expo/vector-icons";
 const GOOGLE_API_KEY = process.env.EXPO_PUBLIC_API_GOOGLE_KEY || "";
 const GooglePlacesInput = ({
   onAddressSelect,
-  value,
   theme,
+  value,
 }: GooglePlacesInputType) => {
   return (
     <View
@@ -29,12 +29,13 @@ const GooglePlacesInput = ({
           language: "en",
           components: "country:ng",
         }}
-        placeholder="Search Delivery Address"
+        placeholder={value ? value : "Search Delivery Address"}
         textInputProps={{
           placeholderTextColor: "#A9A9A9",
         }}
         fetchDetails={true}
         onPress={(_, details) => onAddressSelect(details)}
+        numberOfLines={1}
         styles={{
           container: {
             flex: 1,

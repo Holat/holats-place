@@ -64,6 +64,7 @@ export default function AuthProvider({
         const inAuthGroup = segments[0] === "(auth)";
         const success = await authenticate();
 
+        console.log("got here", inAuthGroup, success);
         setIsAuthenticated(success);
         if (!success && !inAuthGroup) router.push("/(auth)/login");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");

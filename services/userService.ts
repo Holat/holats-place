@@ -4,7 +4,7 @@ import {
   FormDetails,
   ChangePassFormType,
 } from "@/constants/types";
-import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
+import { save, deleteItem } from "@/utils/storage/asyncStorage";
 import apiInstance from "./api";
 
 const USER = process.env.EXPO_PUBLIC_USER || "";
@@ -19,25 +19,25 @@ export const login = async (email: string, password: string) => {
 };
 
 export const authenticate = async (email: string, token: string) => {
-  if (!email || !token) {
-    return false;
-  } else {
+  if (!email || !token) return false;
+
+  try {
     const { data } = await apiInstance.post(
       "/api/user/authenticate",
-      {
-        email: email.trim(),
-      },
+      { email: email.trim() },
       {
         headers: {
           access_token: token,
         },
       }
     );
-    if (data.success) {
-      return true;
-    } else {
-      return false;
+    if (data.success) return true;
+    else return false;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.response?.data);
     }
+    return false;
   }
 };
 
