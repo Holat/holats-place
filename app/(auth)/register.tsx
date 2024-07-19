@@ -24,7 +24,7 @@ import GooglePlacesInput from "@/components/GooglePlacesInput";
 const Register = () => {
   const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const { theme, value } = useTheme();
+  const { theme } = useTheme();
   const {
     control,
     setValue,
@@ -115,7 +115,6 @@ const Register = () => {
                     <GooglePlacesInput
                       theme={theme}
                       onAddressSelect={onAddressSelect}
-                      value={value}
                     />
                   )}
                 />

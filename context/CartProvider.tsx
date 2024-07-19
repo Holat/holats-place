@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import * as favService from "@/services/favouriteServices";
 import {
   FoodItemType,
   CartContextType,
@@ -23,34 +24,7 @@ export default function CartProvider({
   const [cartItems, setCartItems] = useState<CartItemType[]>(EMPTY_CART.items);
   const [totalPrice, setTotalPrice] = useState<number>(EMPTY_CART.totalPrice);
   const [totalCount, setTotalCount] = useState<number>(EMPTY_CART.totalCount);
-
-  useEffect(() => {
-    (async () => {
-      const sCart = await getValueFor(CART_KEY);
-      sCart && setCartItems(JSON.parse(sCart).items);
-    })();
-  }, []);
-
-  const itemSum = (item: number[]) => item.reduce((prev, cur) => prev + cur, 0);
-  useEffect(() => {
-    const totalPrice = itemSum(
-      cartItems.map((item: CartItemType) => item.price)
-    );
-    const totalCount = itemSum(
-      cartItems.map((item: CartItemType) => item.quantity)
-    );
-    setTotalPrice(totalPrice);
-    setTotalCount(totalCount);
-
-    save(
-      CART_KEY,
-      JSON.stringify({
-        items: cartItems,
-        totalPrice,
-        totalCount,
-      })
-    );
-  }, [cartItems]);
+  const [favFoods, setFavFoods] = useState<(string | number)[]>([]);
 
   const removeFromCart = (foodId: number | string) => {
     const filterCartItem = cartItems.filter(
@@ -100,6 +74,59 @@ export default function CartProvider({
     setTotalCount(totalCount);
   };
 
+  const toggleFavorite = async (foodId: string | number) => {
+    let updatedFavorites;
+    if (favFoods?.includes(foodId)) {
+      updatedFavorites = favFoods.filter((id) => id !== foodId);
+      setFavFoods(updatedFavorites);
+      await favService.removeFavorite(foodId);
+    } else {
+      updatedFavorites = [...favFoods, foodId];
+      setFavFoods(updatedFavorites);
+      await favService.addFavourite(foodId);
+    }
+    await favService.setFavoriteFoods(updatedFavorites);
+  };
+
+  const clearFavourite = async () => {
+    favService.clearFavorite();
+  };
+
+  const loadFavorites = async () => {
+    const storedFavorites = await favService.getFavoriteFoods();
+    setFavFoods(storedFavorites);
+  };
+
+  useEffect(() => {
+    (async () => {
+      const sCart = await getValueFor(CART_KEY);
+      sCart && setCartItems(JSON.parse(sCart).items);
+
+      await loadFavorites();
+    })();
+  }, []);
+
+  const itemSum = (item: number[]) => item.reduce((prev, cur) => prev + cur, 0);
+  useEffect(() => {
+    const totalPrice = itemSum(
+      cartItems.map((item: CartItemType) => item.price)
+    );
+    const totalCount = itemSum(
+      cartItems.map((item: CartItemType) => item.quantity)
+    );
+    setTotalPrice(totalPrice);
+    setTotalCount(totalCount);
+
+    save(
+      CART_KEY,
+      JSON.stringify({
+        items: cartItems,
+        totalPrice,
+        totalCount,
+      })
+    );
+  }, [cartItems]);
+
   return (
     <CartContext.Provider
       value={{
@@ -109,6 +136,9 @@ export default function CartProvider({
         addToCart,
         clearCart,
         getCartItemById,
+        favFoods,
+        toggleFavorite,
+        clearFavourite,
       }}
     >
       {children}

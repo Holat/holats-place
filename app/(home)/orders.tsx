@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/utils/formatedDate";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
-import { ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/hooks";
@@ -40,25 +40,28 @@ export default function Orders() {
             Orders
           </Animated.Text>
         </Animated.View>
-        <ScrollView className="m-2" showsVerticalScrollIndicator={false}>
-          {orders ? (
-            orders.map((item) => (
-              <OrderSummaryCard
-                key={item._id}
-                item={item}
-                theme={theme}
-                rBkg2Style={rBkg2Style}
-                rTextStyle={rTextStyle}
-              />
-            ))
-          ) : (
+        <FlatList
+          className="mt-2 mx-2"
+          data={orders}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <OrderSummaryCard
+              key={item.id}
+              item={item}
+              theme={theme}
+              rBkg2Style={rBkg2Style}
+              rTextStyle={rTextStyle}
+            />
+          )}
+          ListEmptyComponent={() => (
             <View className="mb-4 flex-1 justify-center items-center">
               <Text className="font-semibold text-lg text-neutral-300">
                 Empty
               </Text>
             </View>
           )}
-        </ScrollView>
+          showsVerticalScrollIndicator={false}
+        />
       </SafeAreaView>
     </Animated.View>
   );
@@ -70,7 +73,7 @@ const OrderSummaryCard = ({
   rBkg2Style,
   rTextStyle,
 }: OrderCardType) => {
-  const { status, totalCount, totalPrice, createdAt, _id, items, address } =
+  const { status, totalCount, totalPrice, createdAt, id, items, address } =
     item;
   const date = formatDate(createdAt);
 
@@ -79,7 +82,7 @@ const OrderSummaryCard = ({
       <View className="p-4">
         <View className="flex items-start mb-2">
           <Animated.Text className="text-lg font-bold" style={rTextStyle}>
-            Order #{_id}
+            Order #{id}
           </Animated.Text>
           <View
             style={{
@@ -162,5 +165,3 @@ const OrderSummaryCard = ({
     </Animated.View>
   );
 };
-// 001a66
-// 660000

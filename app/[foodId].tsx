@@ -21,11 +21,10 @@ export default function FoodInfo() {
   const { theme, rStyle, rTextStyle } = useTheme();
   const [optimisticLike, setOptimisticLike] = useState(false);
   const [foodItem, setFoodItem] = useState<FoodItemType>();
-  const { getCartItemById, addToCart } = useCart();
+  const { getCartItemById, addToCart, favFoods, toggleFavorite } = useCart();
   const [quantity, setQuantity] = useState(1);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
-  const { favFoods, toggleFavorite } = useAuth();
   const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
@@ -206,11 +205,11 @@ export default function FoodInfo() {
             <TouchableOpacity
               // disable={foodItem}
               onPress={() => addToCart(foodItem, quantity)}
-              className="flex-row items-center justify-centre gap-4 w-full"
+              className="flex-1 flex-row items-center justify-centre"
             >
               <Feather name="shopping-bag" color={"#FA6400"} size={hp(3)} />
               <Text
-                className=" font-semibold text-neutral-800"
+                className=" font-semibold text-neutral-800 ml-3"
                 style={{ fontSize: hp(2.3), color: theme.text }}
               >
                 Add To Cart

@@ -42,7 +42,7 @@ const Card = ({
       >
         <View style={styles.container}>
           <Image
-            style={{ aspectRatio: 3 / 3.7 }}
+            style={{ height: 100 }}
             source={getFoodImage(imgUrl)}
             className="w-full"
             contentFit="cover"
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "25%",
     overflow: "hidden",
+    height: 100,
   },
   triangleCorner: {
     position: "absolute",

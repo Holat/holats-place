@@ -1,4 +1,3 @@
-import axios from "axios";
 import { OrderType } from "@/constants/types";
 import apiInstance from "./api";
 

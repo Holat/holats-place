@@ -1,5 +1,5 @@
 import axios from "axios";
-import showToast from "@/services/ToastM";
+import showToast from "@/utils/ToastM";
 
 axios.interceptors.response.use(
   (response) => response,

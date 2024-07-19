@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import * as userService from "@/services/userService";
 import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
-import * as favService from "@/services/favouriteServices";
 import { AxiosError } from "axios";
 import {
   UserType,
@@ -24,7 +23,6 @@ export default function AuthProvider({
   const [authInitialized, setAuthInitialized] = useState<boolean>(false);
   const [authReady, setAuthReady] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [favFoods, setFavFoods] = useState<string[]>([]);
 
   const getUser = async () => {
     const userString = await getValueFor(USER || "");
@@ -33,11 +31,6 @@ export default function AuthProvider({
       setUser(data);
     }
     setAuthInitialized(true);
-  };
-
-  const loadFavorites = async () => {
-    const storedFavorites = await favService.getFavoriteFoods();
-    setFavFoods(storedFavorites);
   };
 
   const useProtectedRoute = (user: UserType | null) => {
@@ -71,11 +64,11 @@ export default function AuthProvider({
         const inAuthGroup = segments[0] === "(auth)";
         const success = await authenticate();
 
+        console.log("got here", inAuthGroup, success);
         setIsAuthenticated(success);
         if (!success && !inAuthGroup) router.push("/(auth)/login");
         else if (success && inAuthGroup) router.push("/(home)/(tabs)/");
 
-        if (success) await loadFavorites();
         setAuthReady(true);
       })();
     }, [user, segments, authInitialized, isNavigationReady]);
@@ -85,21 +78,7 @@ export default function AuthProvider({
     (async () => {
       await getUser();
     })();
-  }, [authInitialized]);
-
-  const toggleFavorite = async (foodId: string) => {
-    let updatedFavorites;
-    if (favFoods?.includes(foodId)) {
-      updatedFavorites = favFoods.filter((id) => id !== foodId);
-      setFavFoods(updatedFavorites);
-      await favService.removeFavorite(foodId);
-    } else {
-      updatedFavorites = [...favFoods, foodId];
-      setFavFoods(updatedFavorites);
-      await favService.addFavourite(foodId);
-    }
-    await favService.setFavoriteFoods(updatedFavorites);
-  };
+  }, []);
 
   const login = async (email: string, password: string) => {
     try {
@@ -177,7 +156,6 @@ export default function AuthProvider({
     <AuthContext.Provider
       value={{
         user,
-        favFoods,
         authReady,
         authInitialized,
         login,
@@ -185,7 +163,6 @@ export default function AuthProvider({
         logout,
         updateProfile,
         changePassword,
-        toggleFavorite,
       }}
     >
       {children}
