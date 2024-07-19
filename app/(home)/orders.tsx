@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from "react";
+import { View, Text, Pressable, RefreshControl } from "react-native";
 import { Price } from "@/components";
 import { ThemeType, OrderHistoryType, OrderCardType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
-import React, { useEffect, useState } from "react";
-import { View, Text, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/utils/formatedDate";
 import { Image } from "expo-image";
@@ -15,15 +15,23 @@ import Animated from "react-native-reanimated";
 
 export default function Orders() {
   const [orders, setOrders] = useState<OrderHistoryType[]>();
+  const [isLoading, setIsloading] = useState<boolean>(false);
   const router = useRouter();
   const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
-  useEffect(() => {
+  const fetchOrders = async () => {
+    setIsloading(true);
     getAll("")
       .then(setOrders)
       .catch((error) => {
         console.log(error);
-      });
+      }).finally{
+        setIsloading(false);
+      }
+  };
+
+  useEffect(() => {
+    fetchOrders();
   }, []);
 
   return (
@@ -43,6 +51,14 @@ export default function Orders() {
         <FlatList
           className="mt-2 mx-2"
           data={orders}
+          onRefresh={fetchOrders}
+          refreshing={isLoading}
+          // refreshControl={
+          //   <RefreshControl
+          //     refreshing={isLoading}
+          //     onRefresh={fetchOrders}
+          //   />
+          // }
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <OrderSummaryCard

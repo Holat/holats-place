@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getFavourites } from "@/services/favouriteServices";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { FoodItemType } from "@/constants/types";
+import { FoodItemType, FavFoodCardType } from "@/constants/types";
 import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { getFoodImage } from "@/constants/data";
@@ -14,7 +14,7 @@ import Animated from "react-native-reanimated";
 
 const Fav = () => {
   const { theme, rStyle, rTextStyle, value } = useTheme();
-  const { addToCart, toggleFavorite, clearFavourite } = useCart();
+  const { addToCart, toggleFavorite, clearFavourite, favFoods } = useCart();
   const [fav, setFav] = useState<FoodItemType[]>();
   const handleAddToCart = (item: FoodItemType) => addToCart(item);
   const handleFav = (foodId: string | number) => toggleFavorite(foodId);
@@ -26,6 +26,11 @@ const Fav = () => {
         console.log(error);
       });
   }, []);
+
+  const isFav = (foodId: string | number) => {
+    if (favFoods.includes(foodId)) return true;
+    return false;
+  };
 
   return (
     <Animated.View className="flex-1" style={rStyle}>
@@ -53,6 +58,7 @@ const Fav = () => {
               handleAddToCart={handleAddToCart}
               handleFav={handleFav}
               value={value}
+              isFav={isFav(item.id)}
             />
           ))}
         </ScrollView>
@@ -73,22 +79,12 @@ const FavCard = ({
   handleAddToCart,
   value,
   handleFav,
-}: {
-  item: FoodItemType;
-  handleAddToCart: (item: FoodItemType) => void;
-  value: string;
-  handleFav: (foodId: string | number) => void;
-}) => {
-  const [fav, setFav] = useState();
+  isFav,
+}: FavFoodCardType) => {
+  const [fav, setFav] = useState(isFav);
   const imgUrl = item.imageUrl.split("/").pop() || "";
   const color = value === "dark" ? "#fff" : "#000";
   const backgroundColor = value === "dark" ? "#1e1e1e" : "#fff";
-
-  // useEffect(() => {
-  //   if (favFoods.includes(item.id)) {
-  //     setFav(true);
-  //   }
-  // }, []);
 
   return (
     <Pressable
@@ -110,7 +106,7 @@ const FavCard = ({
             </Text>
             <Price price={item.price} color={color} />
           </View>
-          <View className="">
+          <View className="p-1">
             <TouchableOpacity onPress={() => handleFav(item.id)}>
               {fav ? (
                 <AntDesign color={"#FA6400"} name={"heart"} size={hp(2)} />
