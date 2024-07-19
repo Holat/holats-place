@@ -29,15 +29,15 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="cart"
-        options={{
-          title: "Cart",
-        }}
-      />
-      <Tabs.Screen
         name="search"
         options={{
           title: "Search",
+        }}
+      />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          title: "Cart",
         }}
       />
       <Tabs.Screen

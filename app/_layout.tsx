@@ -3,7 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import CartProvider from "@/context/CartProvider";
 import Toast, { BaseToast } from "react-native-toast-message";
-// import "@/interceptors/networkErrorInterceptor";
+import "@/interceptors/networkErrorInterceptor";
 import { BaseToastProps } from "react-native-toast-message";
 import AuthProvider from "@/context/AuthProvider";
 import { useEffect } from "react";
@@ -11,7 +11,6 @@ import { useAuth, useTheme } from "@/hooks";
 import ThemeProvider from "@/context/ThemeProvider";
 
 SplashScreen.preventAutoHideAsync();
-
 export const unstable_settings = {
   initialRouteName: "(home)",
 };
@@ -54,12 +53,6 @@ function RootLayoutNav() {
       if (authReady) await SplashScreen.hideAsync();
     })();
   }, [authReady]);
-
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (isAppReady) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [isAppReady]);
 
   if (!authInitialized && !user) return null;
   return (

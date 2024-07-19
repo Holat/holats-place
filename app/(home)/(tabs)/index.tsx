@@ -37,6 +37,7 @@ const reducer = (state: FoodType, action: IAction) => {
       return state;
   }
 };
+
 export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);

@@ -39,23 +39,22 @@ const CustomTabs = ({ state, descriptors, navigation, count }: any) => {
             key={index}
             className="flex-1 flex-row justify-center items-center"
           >
-            {label === "Cart" ? (
-              <View
-                className="absolute right-0 rounded-3xl h-5 w-5 items-center justify-center flex"
-                style={{
-                  backgroundColor: "#FA6400",
-                  top: -6,
-                  left: "55%",
-                  zIndex: 10,
-                  opacity: count && count > 0 ? 1 : 0,
-                }}
-              >
-                <Text className="font-bold text-white">{count}</Text>
-              </View>
-            ) : (
-              <></>
-            )}
             <Pressable onPress={onPress}>
+              <View style={{ zIndex: 10 }}>
+                {label === "Cart" && (
+                  <View
+                    className="absolute right-0 rounded-3xl h-5 w-5 items-center justify-center flex"
+                    style={{
+                      backgroundColor: "#FA6400",
+                      top: -6,
+                      left: 0,
+                      opacity: count && count > 0 ? 1 : 0,
+                    }}
+                  >
+                    <Text className="font-bold text-white">{count}</Text>
+                  </View>
+                )}
+              </View>
               <View style={{ zIndex: 1 }}>
                 <NavigationIcon isFocused={isFocused} label={label} />
               </View>

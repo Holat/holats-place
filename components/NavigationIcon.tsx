@@ -26,13 +26,6 @@ const NavigationIcon = ({
     }
   })(label);
 
-  // change tab ui
-  // <View style={label === "Search" && styles.search}>
-  //  isFocused && label !== "Search"
-  //    ? "#FA6400"
-  //    : label === "Search"
-  //    ? "white"
-  //    : "#959595";
   return (
     <View>
       <AntDesign
@@ -43,8 +36,14 @@ const NavigationIcon = ({
     </View>
   );
 };
-
 export default NavigationIcon;
+// change tab ui
+// <View style={label === "Search" && styles.search}>
+//  isFocused && label !== "Search"
+//    ? "#FA6400"
+//    : label === "Search"
+//    ? "white"
+//    : "#959595";
 
 // const styles = StyleSheet.create({
 //   search: {

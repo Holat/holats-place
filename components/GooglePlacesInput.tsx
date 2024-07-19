@@ -30,6 +30,7 @@ const GooglePlacesInput = ({
           components: "country:ng",
         }}
         placeholder={value ? value : "Search Delivery Address"}
+        currentLocation={true}
         textInputProps={{
           placeholderTextColor: "#A9A9A9",
         }}

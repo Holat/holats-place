@@ -211,3 +211,11 @@ export type OrderCardType = {
   rBkg2Style: AnimatedStyle;
   rTextStyle: AnimatedStyle;
 };
+
+export type FavFoodCardType = {
+  item: FoodItemType;
+  handleAddToCart: (item: FoodItemType) => void;
+  value: string;
+  handleFav: (foodId: string | number) => void;
+  isFav: boolean;
+};
