@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { TagTypes, ThemeType } from "@/constants/types";
 import { Link, router } from "expo-router";
 import { ScrollView } from "react-native-gesture-handler";

@@ -1,5 +1,4 @@
 import { View, Text, Image, Pressable } from "react-native";
-import React from "react";
 import { useAuth, useTheme } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
@@ -56,6 +55,33 @@ export default function Profile() {
           <DetailsD title="Contact" text={user?.phone} b />
           <DetailsD title="Address" text={user?.address} />
         </Animated.View>
+
+        <Animated.View style={rBkg2Style} className="mt-2 rounded-2xl">
+          <Pressable
+            className="flex-row items-center justify-between py-4 px-4 w-full "
+            onPress={() => router.push("/updateProfile")}
+          >
+            <Animated.Text
+              style={rTextStyle}
+              className={"font-semibold text-base"}
+            >
+              Edit Profile
+            </Animated.Text>
+            <AntDesign name="right" color={"#525252"} size={20} />
+          </Pressable>
+          <Pressable
+            className="flex-row items-center justify-between py-4 px-4 w-full "
+            onPress={() => router.push("/changePassword")}
+          >
+            <Animated.Text
+              style={rTextStyle}
+              className={"font-semibold text-base"}
+            >
+              Change Password
+            </Animated.Text>
+            <AntDesign name="right" color={"#525252"} size={20} />
+          </Pressable>
+        </Animated.View>
         <Animated.View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"
           style={rBkg2Style}
@@ -84,20 +110,6 @@ export default function Profile() {
               </Pressable>
             ))}
           </View>
-        </Animated.View>
-        <Animated.View style={rBkg2Style} className="mt-2 rounded-2xl">
-          <Pressable
-            className="flex-row items-center justify-between py-4 px-4 w-full "
-            onPress={() => router.push("/changePassword")}
-          >
-            <Animated.Text
-              style={rTextStyle}
-              className={"font-semibold text-base"}
-            >
-              Change Password
-            </Animated.Text>
-            <AntDesign name="right" color={"#525252"} size={20} />
-          </Pressable>
         </Animated.View>
         <Animated.View
           className="flex-1 rounded-2xl mt-2 py-4 px-4 w-full"

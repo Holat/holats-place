@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, RefreshControl } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, Pressable, FlatList } from "react-native";
 import { Price } from "@/components";
-import { ThemeType, OrderHistoryType, OrderCardType } from "@/constants/types";
+import { OrderHistoryType, OrderCardType } from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/utils/formatedDate";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
-import { FlatList } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTheme } from "@/hooks";
@@ -25,9 +24,10 @@ export default function Orders() {
       .then(setOrders)
       .catch((error) => {
         console.log(error);
-      }).finally{
+      })
+      .finally(() => {
         setIsloading(false);
-      }
+      });
   };
 
   useEffect(() => {
@@ -53,12 +53,6 @@ export default function Orders() {
           data={orders}
           onRefresh={fetchOrders}
           refreshing={isLoading}
-          // refreshControl={
-          //   <RefreshControl
-          //     refreshing={isLoading}
-          //     onRefresh={fetchOrders}
-          //   />
-          // }
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <OrderSummaryCard
@@ -69,13 +63,17 @@ export default function Orders() {
               rTextStyle={rTextStyle}
             />
           )}
-          ListEmptyComponent={() => (
-            <View className="mb-4 flex-1 justify-center items-center">
-              <Text className="font-semibold text-lg text-neutral-300">
-                Empty
-              </Text>
-            </View>
-          )}
+          ListEmptyComponent={() =>
+            isLoading ? (
+              <></>
+            ) : (
+              <View className="mb-4 flex-1 justify-center items-center">
+                <Text className="font-semibold text-lg text-neutral-300">
+                  Empty
+                </Text>
+              </View>
+            )
+          }
           showsVerticalScrollIndicator={false}
         />
       </SafeAreaView>
@@ -155,8 +153,9 @@ const OrderSummaryCard = ({
       {items.map((item) => {
         const imgUrl = item.food.imageUrl.split("/").pop() || "";
 
+        const key = item.food.id ? item.food.id : item.food._id;
         return (
-          <View className="rounded-2xl mb-2 p-2 flex-row " key={item.food.id}>
+          <View className="rounded-2xl mb-2 p-2 flex-row " key={key}>
             <View className="mr-3">
               <Image
                 source={getFoodImage(imgUrl)}

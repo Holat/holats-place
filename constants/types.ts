@@ -30,6 +30,7 @@ export type IAction =
   | { type: "TAGS_LOADED"; payload: TagTypes[] };
 
 export interface CartFoodType {
+  _id?: number | string;
   id: number | string;
   name: string;
   price: number;
@@ -170,6 +171,7 @@ export type ThemeValueType = "light" | "dark" | "default";
 export type ThemeContextType = {
   value: ThemeValueType;
   theme: ThemeType;
+  cTheme: "dark" | "light";
   setTheme: (b: "light" | "dark" | "default") => void;
   rStyle: AnimatedStyle;
   rBkg2Style: AnimatedStyle;
@@ -217,5 +219,4 @@ export type FavFoodCardType = {
   handleAddToCart: (item: FoodItemType) => void;
   value: string;
   handleFav: (foodId: string | number) => void;
-  isFav: boolean;
 };

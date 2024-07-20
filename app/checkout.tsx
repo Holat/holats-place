@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { OrderType } from "@/constants/types";
 import { Price, PaymentBtn } from "@/components";
 import { useAuth, useTheme, useCart } from "@/hooks";

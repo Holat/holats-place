@@ -1,5 +1,5 @@
 import { TextInput, TouchableOpacity, View, Text } from "react-native";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome6, AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -37,14 +37,14 @@ const Search = () => {
   return (
     <Animated.View className="flex-1" style={rStyle}>
       <SafeAreaView className="flex-1">
-        <View className="w-full flex-row items-center justify-center gap-4 pt-6 px-2">
+        <View className="w-full flex-row items-center justify-between mt-2 px-2">
           <View>
             <TouchableOpacity onPress={() => router.back()}>
-              <AntDesign color={theme.text} name={"left"} size={hp(4)} />
+              <AntDesign color={theme.text} name={"left"} size={hp(3)} />
             </TouchableOpacity>
           </View>
           <Animated.View
-            className="flex-1 rounded-md  flex-row items-center pl-3"
+            className="flex-1 rounded-md flex-row items-center pl-3 mx-2"
             style={[
               {
                 shadowColor: "#000",
@@ -77,7 +77,7 @@ const Search = () => {
           </Animated.View>
           <View>
             <TouchableOpacity
-              className=" bg-orange-500 rounded-md p-3 items-center justify-center"
+              className=" bg-orange-500 rounded-md items-center justify-center"
               style={{ height: hp(5.5), width: hp(5.5) }}
             >
               <FontAwesome6 color={"white"} name={"sliders"} size={hp(2)} />

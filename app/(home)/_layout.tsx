@@ -1,5 +1,4 @@
 import "react-native-gesture-handler";
-import React from "react";
 import { Drawer } from "expo-router/drawer";
 import CustomDrawer from "@/components/CustomDrawer";
 import { useAuth, useTheme } from "@/hooks";
@@ -8,7 +7,7 @@ import { View } from "react-native";
 
 export default function _layout() {
   const { user, logout } = useAuth();
-  const { theme, value } = useTheme();
+  const { theme, cTheme } = useTheme();
 
   return (
     <Drawer
@@ -32,7 +31,7 @@ export default function _layout() {
         },
       }}
       drawerContent={(props) => (
-        <CustomDrawer {...props} user={user} logout={logout} tValue={value} />
+        <CustomDrawer {...props} user={user} logout={logout} tValue={cTheme} />
       )}
     >
       <Drawer.Screen

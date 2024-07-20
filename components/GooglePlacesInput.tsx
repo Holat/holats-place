@@ -1,4 +1,3 @@
-import React from "react";
 import { GooglePlacesInputType } from "@/constants/types";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { View } from "react-native";
@@ -30,7 +29,7 @@ const GooglePlacesInput = ({
           components: "country:ng",
         }}
         placeholder={value ? value : "Search Delivery Address"}
-        currentLocation={true}
+        // currentLocation={true}
         textInputProps={{
           placeholderTextColor: "#A9A9A9",
         }}

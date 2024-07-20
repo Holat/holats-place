@@ -1,10 +1,10 @@
 import { View, TouchableOpacity } from "react-native";
-import React, { useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { Link, useNavigation } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
-import { AntDesign, FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
 import { getAllTags, getTopRated } from "@/services/foodService";
@@ -42,7 +42,7 @@ export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const { addToCart } = useCart();
-  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle, value } = useTheme();
 
   useEffect(() => {
     const loadedFoods = getTopRated();
@@ -81,6 +81,7 @@ export default function Home() {
               <TouchableOpacity
                 style={{ height: hp(5), width: hp(5) }}
                 className=" items-center justify-center"
+                onPress={() => router.push("/(home)/(tabs)/profile")}
               >
                 <Image
                   source={require("@/assets/images/avatar.jpeg")}

@@ -1,10 +1,8 @@
 import { Tabs } from "expo-router";
-import React from "react";
 import CustomTabs from "@/components/CustomTabs";
 import { useCart, useTheme } from "@/hooks";
 import Animated from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Text, View } from "react-native";
 
 const TabLayout = () => {
   const { rBkg2Style, rTextStyle } = useTheme();
@@ -44,6 +42,20 @@ const TabLayout = () => {
         name="favourites"
         options={{
           title: "Favourites",
+          headerShown: true,
+          header: (props) => (
+            <Animated.View
+              style={[rBkg2Style, { paddingTop: top + 2 }]}
+              className="px-3 pb-2"
+            >
+              <Animated.Text
+                style={rTextStyle}
+                className={"font-bold text-xl capitalize m-2"}
+              >
+                {props.route.name}
+              </Animated.Text>
+            </Animated.View>
+          ),
         }}
       />
       <Tabs.Screen
