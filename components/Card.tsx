@@ -36,31 +36,33 @@ const Card = ({
             shadowOpacity: 0.1,
             shadowRadius: 5,
             elevation: 3,
+            height: 120,
           },
           rBkg2Style,
         ]}
       >
         <View style={styles.container}>
           <Image
-            style={{ height: 100 }}
             source={getFoodImage(imgUrl)}
-            className="w-full"
+            className="w-full h-full"
             contentFit="cover"
           />
           <Animated.View
             style={[styles.triangleCorner, { borderBottomColor: color[1] }]}
           />
         </View>
-        <View className="flex-1 p-3">
-          <Animated.Text
-            numberOfLines={1}
-            style={rTextStyle}
-            ellipsizeMode="middle"
-            className="text-lg"
-          >
-            {item?.name}
-          </Animated.Text>
-          <Price price={item?.price} fontSize={hp(2)} color={color[0]} />
+        <View className="flex-1 pl-3 flex justify-between py-2 pr-2">
+          <View>
+            <Animated.Text
+              numberOfLines={1}
+              style={rTextStyle}
+              ellipsizeMode="middle"
+              className="text-lg"
+            >
+              {item?.name}
+            </Animated.Text>
+            <Price price={item?.price} fontSize={hp(2)} color={color[0]} />
+          </View>
           <View className="flex-row items-center mt-3">
             <View className="flex-row items-center gap-2 flex-1">
               <AntDesign name="star" size={hp(3)} color={"#FA6400"} />
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "25%",
     overflow: "hidden",
-    height: 100,
+    height: 120,
   },
   triangleCorner: {
     position: "absolute",

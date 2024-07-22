@@ -1,5 +1,5 @@
 import { Pressable, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { ControlledInputType } from "@/constants/types";

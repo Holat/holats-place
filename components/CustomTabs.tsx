@@ -1,5 +1,4 @@
 import { StyleSheet, View, Pressable, Text } from "react-native";
-import React from "react";
 import NavigationIcon from "./NavigationIcon";
 import { useTheme } from "@/hooks";
 import Animated from "react-native-reanimated";
@@ -47,7 +46,7 @@ const CustomTabs = ({ state, descriptors, navigation, count }: any) => {
                     style={{
                       backgroundColor: "#FA6400",
                       top: -6,
-                      left: 0,
+                      right: -10,
                       opacity: count && count > 0 ? 1 : 0,
                     }}
                   >

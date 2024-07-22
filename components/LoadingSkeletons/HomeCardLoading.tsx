@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
-import React from "react";
+import { View, StyleSheet } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import RoundedShimmer from "./RoundedShimmer";
 import { Ionicons } from "@expo/vector-icons";

@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth, useTheme } from "@/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { ChangePassFormType, CPControlledIn } from "@/constants/types";

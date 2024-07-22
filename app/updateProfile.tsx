@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { router } from "expo-router";
 import { RegisterValues } from "@/constants/types";

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -13,7 +13,7 @@ import {
 import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
 import { StatusBar } from "expo-status-bar";
-import { useAuth, useTheme, useCart } from "@/hooks";
+import { useTheme, useCart } from "@/hooks";
 import Animated from "react-native-reanimated";
 
 export default function FoodInfo() {

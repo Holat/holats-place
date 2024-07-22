@@ -1,5 +1,4 @@
 import { View, Pressable, TouchableOpacity } from "react-native";
-import React from "react";
 import { useRouter } from "expo-router";
 import { Image } from "expo-image";
 import {
@@ -12,7 +11,7 @@ import Carousel from "react-native-snap-carousel";
 import { FoodItemType, FoodCardItemType } from "@/constants/types";
 import { getFoodImage } from "@/constants/data";
 import { Entypo } from "@expo/vector-icons";
-import { useAuth, useCart, useTheme } from "@/hooks";
+import { useCart, useTheme } from "@/hooks";
 import Animated from "react-native-reanimated";
 
 export default function FoodList({ data }: { data: FoodItemType[] }) {

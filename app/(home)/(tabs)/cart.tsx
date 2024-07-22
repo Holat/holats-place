@@ -1,18 +1,11 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import React, { useCallback, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Price } from "@/components";
 import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
-import { CartCardType, CartItemType } from "@/constants/types";
+import { CartCardType } from "@/constants/types";
 import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
-import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -25,7 +18,7 @@ const Cart = () => {
     removeFromCart,
   } = useCart();
   const router = useRouter();
-  const { theme, value, rStyle, rBkg2Style, rTextStyle } = useTheme();
+  const { cTheme, theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
   return (
     <Animated.View className="flex-1" style={rStyle}>
@@ -104,7 +97,7 @@ const Cart = () => {
             className="mt-2 flex-1 mb-20 rounded-3xl items-center justify-center"
             style={rBkg2Style}
           >
-            {value === "dark" ? (
+            {cTheme === "dark" ? (
               <Image
                 source={require("@/assets/images/emptD.png")}
                 className="w-52 h-52 opacity-80"

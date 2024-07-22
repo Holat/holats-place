@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createContext, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import { lightTheme, darkTheme } from "@/constants/Colors";
@@ -19,13 +20,19 @@ export default function ThemeProvider({
   children: React.ReactNode;
 }) {
   const [value, setValue] = useState<ThemeValueType>("dark");
-  const [theme, setCTheme] = useState<ThemeType>(darkTheme);
+  const [cTheme, setCTheme] = useState<"light" | "dark">("dark");
+  const [theme, setAppTheme] = useState<ThemeType>(darkTheme);
   const sysTheme = useColorScheme() || "dark";
+
+  const getTheme = (b: string) => {
+    return b === "dark" ? darkTheme : lightTheme;
+  };
 
   // const progress = useSharedValue(0);
   const progress = useDerivedValue(() => {
-    return value === "dark" ? withTiming(1) : withTiming(0);
-  }, [theme]);
+    const themeValue = value === "default" ? sysTheme : value;
+    return themeValue === "dark" ? withTiming(1) : withTiming(0);
+  }, [theme, sysTheme]);
 
   const rStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
@@ -57,38 +64,37 @@ export default function ThemeProvider({
   useEffect(() => {
     (async () => {
       const val = await getValueFor(USER_T);
-      if (val === "light" || val === "dark") {
+      const themeValue = val === "default" ? sysTheme : val;
+      if (themeValue && val) {
         setValue(val);
-        setCTheme(getTheme(val));
+        setCTheme(themeValue);
+        setAppTheme(getTheme(val));
       }
     })();
   }, []);
 
   useEffect(() => {
-    if (value === "default") {
-      setCTheme(getTheme(sysTheme));
-      setValue(sysTheme);
-    }
+    if (value !== "default") return;
+    setAppTheme(getTheme(sysTheme));
+    setCTheme(sysTheme);
   }, [sysTheme]);
-
-  const getTheme = (b: string) => {
-    return b === "dark" ? darkTheme : lightTheme;
-  };
 
   const setTheme = async (b: ThemeValueType) => {
     let val = b;
     if (b === "default") val = sysTheme;
 
-    setValue(val);
+    setValue(b);
+    setCTheme(val);
     const newTheme = getTheme(val);
-    setCTheme(newTheme);
-    await save(USER_T, val);
+    setAppTheme(newTheme);
+    await save(USER_T, b);
   };
 
   return (
     <ThemeContext.Provider
       value={{
         value,
+        cTheme,
         theme,
         setTheme,
         rStyle,
