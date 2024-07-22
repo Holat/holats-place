@@ -4,7 +4,6 @@
 // import * as Location from "expo-location";
 // import Toast from "react-native-toast-message";
 
-
 // export default function useLocation() {
 //   const [location, setLocation] = useState(null);
 //   const [errorMsg, setErrorMsg] = useState(null);
@@ -31,7 +30,6 @@
 //         );
 //         return;
 //       }
-
 
 //       let location = await Location.getCurrentPositionAsync({});
 //       setLocation(location);
