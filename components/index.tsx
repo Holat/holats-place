@@ -11,6 +11,8 @@ import TagsLoading from "./LoadingSkeletons/TagsLoading";
 import HomeCardLoading from "./LoadingSkeletons/HomeCardLoading";
 import RoundedShimmer from "./LoadingSkeletons/RoundedShimmer";
 import SearchLoading from "./LoadingSkeletons/SearchLoading";
+import ControlledInput from "./ControlledInput";
+import GooglePlacesInput from "./GooglePlacesInput";
 
 export {
   Card,
@@ -26,4 +28,6 @@ export {
   TagsLoading,
   RoundedShimmer,
   SearchLoading,
+  ControlledInput,
+  GooglePlacesInput,
 };

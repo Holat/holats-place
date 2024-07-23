@@ -49,7 +49,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   );
 }
 
-const FoodCard = ({
+export const FoodCard = ({
   item,
   addToCart,
   rBkg2Style,

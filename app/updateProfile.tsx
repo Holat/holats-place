@@ -11,9 +11,8 @@ import { router } from "expo-router";
 import { RegisterValues } from "@/constants/types";
 import { useAuth, useTheme } from "@/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ControlledInput from "@/components/ControlledInput";
+import { ControlledInput, GooglePlacesInput } from "@/components";
 import { GooglePlaceDetail } from "react-native-google-places-autocomplete";
-import GooglePlacesInput from "@/components/GooglePlacesInput";
 import { AntDesign } from "@expo/vector-icons";
 
 const Register = () => {

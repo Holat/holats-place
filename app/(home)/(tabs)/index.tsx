@@ -5,7 +5,6 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Link, router, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 import { FoodType, IAction } from "@/constants/types";
 import { getAllTags, getTopRated } from "@/services/foodService";
 import { Image } from "expo-image";

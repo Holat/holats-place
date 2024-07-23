@@ -12,7 +12,6 @@ import {
 } from "react-native-responsive-screen";
 import { Price, RoundedShimmer } from "@/components";
 import { getFoodImage } from "@/constants/data";
-import { StatusBar } from "expo-status-bar";
 import { useTheme, useCart } from "@/hooks";
 import Animated from "react-native-reanimated";
 
@@ -56,7 +55,6 @@ export default function FoodInfo() {
 
   return (
     <View className="flex-1 flex">
-      <StatusBar style="light" />
       <View className="flex-1">
         <View className="w-full h-full">
           {foodItem ? (

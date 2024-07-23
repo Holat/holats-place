@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import { getFavourites } from "@/services/favouriteServices";
+import { StatusBar } from "expo-status-bar";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FoodItemType, FavFoodCardType } from "@/constants/types";
 import { useTheme, useCart } from "@/hooks";
@@ -40,21 +41,6 @@ const Fav = () => {
 
   return (
     <Animated.View className="flex-1" style={rStyle}>
-      {/* <View
-          className="m-2 py-3 rounded-lg"
-          style={{
-            backgroundColor: theme.accentV,
-            borderColor: theme.accent,
-            borderWidth: 1,
-          }}
-        >
-          <Animated.Text
-            className="text-center font-bold text-base"
-            style={rTextStyle}
-          >
-            Favourite Foods
-          </Animated.Text>
-        </View> */}
       <FlatList
         className="mb-20 mx-2 mt-3"
         data={fav}
