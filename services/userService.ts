@@ -32,8 +32,6 @@ export const authenticate = async (email: string, token: string) => {
       }
     );
 
-    console.log(data);
-
     if (data.success) return true;
     else return false;
   } catch (error) {

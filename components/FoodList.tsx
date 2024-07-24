@@ -63,7 +63,7 @@ export const FoodCard = ({
     <Pressable
       onPress={() =>
         router.push({
-          pathname: "/[foodId]",
+          pathname: "/details/[foodId]",
           params: { foodId: item.id },
         })
       }
