@@ -69,7 +69,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(home)" />
             <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-            <Stack.Screen name="[tag]" options={{ presentation: "modal" }} />
+            {/* <Stack.Screen name="[tag]" options={{ presentation: "modal" }} /> */}
             <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
             <Stack.Screen
               name="changePassword"
