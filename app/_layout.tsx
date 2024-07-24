@@ -12,17 +12,18 @@ import ThemeProvider from "@/context/ThemeProvider";
 import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
+
 export const unstable_settings = {
   initialRouteName: "(home)",
 };
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <RootLayoutNav />
-      </ThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
@@ -57,9 +58,9 @@ function RootLayoutNav() {
 
   if (!authInitialized && !user) return null;
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <>
-        <StatusBar style={cTheme === "light" ? "dark" : "light"} />
+    <>
+      <StatusBar style={cTheme === "light" ? "dark" : "light"} />
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <CartProvider>
           <Stack
             screenOptions={{
@@ -68,7 +69,10 @@ function RootLayoutNav() {
           >
             <Stack.Screen name="(auth)" />
             <Stack.Screen name="(home)" />
-            <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
+            <Stack.Screen
+              name="details/[foodId]"
+              options={{ presentation: "modal" }}
+            />
             <Stack.Screen name="[tag]" options={{ presentation: "modal" }} />
             <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
             <Stack.Screen
@@ -82,7 +86,7 @@ function RootLayoutNav() {
           </Stack>
           <Toast config={toastConfig} visibilityTime={2000} />
         </CartProvider>
-      </>
-    </GestureHandlerRootView>
+      </GestureHandlerRootView>
+    </>
   );
 }
