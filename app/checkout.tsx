@@ -125,10 +125,9 @@ const CheckOut = () => {
             </View>
           </View>
           <View
-            className="rounded-3xl px-3 py-4 mb-2 border-[1px]"
+            className="rounded-3xl px-3 py-4 mb-2 border-4"
             style={{
-              backgroundColor: theme.accentV,
-              borderColor: theme.accent,
+              borderColor: theme.bkg2,
             }}
           >
             <DetailsD title={"Sub total"} text={cart.totalPrice} />

@@ -13,9 +13,9 @@ const RoundedShimmer = ({
   h?: number;
   r?: boolean;
 }) => {
-  const { value } = useTheme();
-  const sh = value === "dark" ? "#333" : "#ebebeb";
-  const bc = value === "dark" ? "#444" : "#c5c5c5";
+  const { cTheme } = useTheme();
+  const sh = cTheme === "dark" ? "#333" : "#ebebeb";
+  const bc = cTheme === "dark" ? "#444" : "#c5c5c5";
 
   return (
     <View className={` ${r ? "rounded-3xl" : "rounded-lg"} overflow-hidden`}>

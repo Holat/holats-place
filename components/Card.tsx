@@ -21,7 +21,7 @@ const Card = ({
   return (
     <Pressable
       onPress={() => {
-        router.push({
+        router.navigate({
           pathname: "/details/[foodId]",
           params: { foodId: item?.id },
         });

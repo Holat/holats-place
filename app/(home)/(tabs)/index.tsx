@@ -70,17 +70,10 @@ export default function Home() {
               />
             </TouchableOpacity>
             <View className="flex-row justify-between items-center gap-3">
-              {/* <TouchableOpacity>
-                <AntDesign
-                  color={"#FA6400"}
-                  name={"shoppingcart"}
-                  size={hp(4)}
-                />
-              </TouchableOpacity> */}
               <TouchableOpacity
                 style={{ height: hp(5), width: hp(5) }}
                 className=" items-center justify-center"
-                onPress={() => router.push("/(home)/(tabs)/profile")}
+                onPress={() => router.navigate("profile")}
               >
                 <Image
                   source={require("@/assets/images/avatar.jpeg")}

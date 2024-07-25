@@ -27,7 +27,7 @@ export default function Profile() {
       >
         <Animated.View style={rBkg2Style} className="p-4 w-full rounded-2xl">
           <Pressable
-            onPress={() => router.push("/updateProfile")}
+            onPress={() => router.navigate("/updateProfile")}
             className="absolute right-2 top-2 rounded-lg p-1"
             style={{ backgroundColor: theme.accent }}
           >
@@ -59,7 +59,7 @@ export default function Profile() {
         <Animated.View style={rBkg2Style} className="mt-2 rounded-2xl">
           <Pressable
             className="flex-row items-center justify-between py-4 px-4 w-full "
-            onPress={() => router.push("/updateProfile")}
+            onPress={() => router.navigate("/updateProfile")}
           >
             <Animated.Text
               style={rTextStyle}
@@ -71,7 +71,7 @@ export default function Profile() {
           </Pressable>
           <Pressable
             className="flex-row items-center justify-between py-4 px-4 w-full "
-            onPress={() => router.push("/changePassword")}
+            onPress={() => router.navigate("/changePassword")}
           >
             <Animated.Text
               style={rTextStyle}

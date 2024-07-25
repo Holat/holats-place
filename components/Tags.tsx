@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { useState } from "react";
 import { TagTypes, ThemeType } from "@/constants/types";
 import { Link, router } from "expo-router";
@@ -9,6 +9,10 @@ const Tags = ({ tags, theme }: { tags: TagTypes[]; theme: ThemeType }) => {
 
   const handleSetTag = (tag: string) => {
     setCurrentTag(tag);
+    router.push({
+      pathname: "/categories/[tag]",
+      params: { tag },
+    });
   };
 
   return (

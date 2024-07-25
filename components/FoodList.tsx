@@ -62,7 +62,7 @@ export const FoodCard = ({
   return (
     <Pressable
       onPress={() =>
-        router.push({
+        router.navigate({
           pathname: "/details/[foodId]",
           params: { foodId: item.id },
         })

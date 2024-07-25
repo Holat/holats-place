@@ -17,7 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Register = () => {
   const { updateProfile, user } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { theme } = useTheme();
   const {
     control,
