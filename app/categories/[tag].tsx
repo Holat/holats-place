@@ -36,7 +36,7 @@ export default function Category() {
 
   useEffect(() => {
     fetchFoodItems();
-  }, [fetchFoodItems]);
+  }, []);
 
   return (
     <Animated.View className="flex-1" style={rStyle}>

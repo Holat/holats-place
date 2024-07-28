@@ -73,7 +73,7 @@ export const FoodCard = ({
         style={[
           {
             width: wp(50),
-            height: hp(39),
+            height: 304, // hp(39)
           },
           rBkg2Style,
         ]}

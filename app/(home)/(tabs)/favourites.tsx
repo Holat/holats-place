@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import { getFavourites } from "@/services/favouriteServices";
-import { StatusBar } from "expo-status-bar";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FoodItemType, FavFoodCardType } from "@/constants/types";
 import { useTheme, useCart } from "@/hooks";

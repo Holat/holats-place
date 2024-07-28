@@ -18,6 +18,7 @@ import {
   TagsLoading,
 } from "@/components";
 import { useCart, useTheme } from "@/hooks";
+import { ScrollView } from "react-native-gesture-handler";
 
 const FOODS_LOADED = "FOODS_LOADED";
 const TAGS_LOADED = "TAGS_LOADED";
@@ -41,14 +42,17 @@ export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
   const { addToCart } = useCart();
-  const { theme, rStyle, rBkg2Style, rTextStyle, value } = useTheme();
+  const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
-  useEffect(() => {
+  const getFoods = async () => {
     const loadedFoods = getTopRated();
     loadedFoods
       .then((foodItems) => dispatch({ type: FOODS_LOADED, payload: foodItems }))
       .catch((error) => console.log(error));
+  };
 
+  useEffect(() => {
+    getFoods();
     const tags = getAllTags();
     tags
       .then((tag) => dispatch({ type: TAGS_LOADED, payload: tag }))
@@ -101,40 +105,44 @@ export default function Home() {
             <TagsLoading />
           )}
         </View>
-        <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-          {foods.length > 0 ? (
-            <FoodList data={foods} />
-          ) : (
-            <HomeLoading bkg={theme.bkg2} />
-          )}
-        </View>
-        <View className="p-4">
-          <View className="flex-row justify-between items-center mb-3">
-            <Animated.Text className="font-semibold text-xl" style={rTextStyle}>
-              Categories
-            </Animated.Text>
-            <Link
-              href={{
-                pathname: "/",
-              }}
-              className="text-orange-600 underline"
-            >
-              See All
-            </Link>
+        <ScrollView>
+          <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
+            {foods.length > 0 ? (
+              <FoodList data={foods} />
+            ) : (
+              <HomeLoading bkg={theme.bkg2} />
+            )}
           </View>
-          {foods[0] ? (
-            // --- card triangle border color
-            <Card
-              item={foods[0]}
-              handleAddToCart={() => addToCart(foods[0])}
-              rBkg2Style={rBkg2Style}
-              rTextStyle={rTextStyle}
-              color={[theme.text, theme.bkg2]}
-            />
-          ) : (
-            <HomeCardLoading backgroundColor={theme.bkg2} />
-          )}
-        </View>
+          <View className="p-4">
+            <View className="flex-row justify-between items-center mb-3">
+              <Animated.Text
+                className="font-semibold text-xl"
+                style={rTextStyle}
+              >
+                Top Rated
+              </Animated.Text>
+              <Link
+                href={{
+                  pathname: "/",
+                }}
+                className="text-orange-600 underline"
+              >
+                See All
+              </Link>
+            </View>
+            {foods[0] ? (
+              <Card
+                item={foods[0]}
+                handleAddToCart={() => addToCart(foods[0])}
+                rBkg2Style={rBkg2Style}
+                rTextStyle={rTextStyle}
+                color={[theme.text, theme.bkg2]}
+              />
+            ) : (
+              <HomeCardLoading backgroundColor={theme.bkg2} />
+            )}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </Animated.View>
   );
