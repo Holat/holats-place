@@ -49,7 +49,7 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
   );
 }
 
-const FoodCard = ({
+export const FoodCard = ({
   item,
   addToCart,
   rBkg2Style,
@@ -62,8 +62,8 @@ const FoodCard = ({
   return (
     <Pressable
       onPress={() =>
-        router.push({
-          pathname: "/[foodId]",
+        router.navigate({
+          pathname: "/details/[foodId]",
           params: { foodId: item.id },
         })
       }
@@ -73,7 +73,7 @@ const FoodCard = ({
         style={[
           {
             width: wp(50),
-            height: hp(39),
+            height: 304, // hp(39)
           },
           rBkg2Style,
         ]}

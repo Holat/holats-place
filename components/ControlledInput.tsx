@@ -52,7 +52,7 @@ const ControlledInput = ({
               backgroundColor: theme.bkg2,
               borderColor: theme.accent,
             }}
-            className="pr-12 rounded-lg border-[1px] py-2 flex-row items-center"
+            className="pr-2 rounded-lg border-[1px] py-2 flex-row items-center"
           >
             <View className="ml-3">
               <AntDesign name={iconName as any} size={20} color={"#A9A9A9"} />
@@ -62,11 +62,9 @@ const ControlledInput = ({
               placeholderTextColor={"#A9A9A9"}
               onBlur={onBlur}
               onChangeText={onChange}
-              style={{
-                color: theme.text,
-                marginLeft: 8,
-              }}
-              value={value}
+              style={{ color: theme.text }}
+              className="flex-1 ml-2"
+              defaultValue={value}
               editable={!isLoading}
               secureTextEntry={p ? !viewPassword : undefined}
             />

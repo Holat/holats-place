@@ -68,7 +68,7 @@ export default function ThemeProvider({
       if (themeValue && val) {
         setValue(val);
         setCTheme(themeValue);
-        setAppTheme(getTheme(val));
+        setAppTheme(getTheme(themeValue));
       }
     })();
   }, []);

@@ -9,25 +9,27 @@ import AuthProvider from "@/context/AuthProvider";
 import { useEffect } from "react";
 import { useAuth, useTheme } from "@/hooks";
 import ThemeProvider from "@/context/ThemeProvider";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
+
 export const unstable_settings = {
   initialRouteName: "(home)",
 };
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <RootLayoutNav />
-      </ThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
 function RootLayoutNav() {
   const { user, authInitialized, authReady } = useAuth();
-  const { theme } = useTheme();
+  const { theme, cTheme } = useTheme();
 
   const toastConfig = {
     success: (props: BaseToastProps) => (
@@ -56,28 +58,38 @@ function RootLayoutNav() {
 
   if (!authInitialized && !user) return null;
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <CartProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(home)" />
-          <Stack.Screen name="[foodId]" options={{ presentation: "modal" }} />
-          <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
-          <Stack.Screen
-            name="changePassword"
-            options={{ presentation: "modal" }}
-          />
-          <Stack.Screen
-            name="updateProfile"
-            options={{ presentation: "modal" }}
-          />
-        </Stack>
-        <Toast config={toastConfig} visibilityTime={2000} />
-      </CartProvider>
-    </GestureHandlerRootView>
+    <>
+      <StatusBar style={cTheme === "light" ? "dark" : "light"} />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <CartProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="(auth)" />
+            <Stack.Screen name="(home)" />
+            <Stack.Screen
+              name="details/[foodId]"
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="categories/[tag]"
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen name="checkout" options={{ presentation: "modal" }} />
+            <Stack.Screen
+              name="changePassword"
+              options={{ presentation: "modal" }}
+            />
+            <Stack.Screen
+              name="updateProfile"
+              options={{ presentation: "modal" }}
+            />
+          </Stack>
+          <Toast config={toastConfig} visibilityTime={2000} />
+        </CartProvider>
+      </GestureHandlerRootView>
+    </>
   );
 }

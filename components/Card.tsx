@@ -21,8 +21,8 @@ const Card = ({
   return (
     <Pressable
       onPress={() => {
-        router.push({
-          pathname: "/[foodId]",
+        router.navigate({
+          pathname: "/details/[foodId]",
           params: { foodId: item?.id },
         });
       }}
@@ -36,7 +36,7 @@ const Card = ({
             shadowOpacity: 0.1,
             shadowRadius: 5,
             elevation: 3,
-            height: 120,
+            height: 116,
           },
           rBkg2Style,
         ]}
@@ -70,7 +70,7 @@ const Card = ({
                 className="font-bold"
                 style={[{ fontSize: hp(2.3) }, rTextStyle]}
               >
-                {item?.stars}
+                {item?.stars.toFixed(1)}
               </Animated.Text>
             </View>
             <TouchableOpacity
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "25%",
     overflow: "hidden",
-    height: 120,
+    height: 116,
   },
   triangleCorner: {
     position: "absolute",
