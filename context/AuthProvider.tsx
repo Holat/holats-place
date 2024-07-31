@@ -30,7 +30,6 @@ export default function AuthProvider({
       const data = JSON.parse(userString);
       setUser(data);
     }
-    setAuthInitialized(true);
   };
 
   const useProtectedRoute = (user: UserType | null) => {
@@ -73,12 +72,6 @@ export default function AuthProvider({
       })();
     }, [user, segments, authInitialized, isNavigationReady]);
   };
-
-  useEffect(() => {
-    (async () => {
-      await getUser();
-    })();
-  }, []);
 
   const login = async (email: string, password: string) => {
     try {
@@ -150,6 +143,13 @@ export default function AuthProvider({
     }
     return false;
   };
+
+  useEffect(() => {
+    (async () => {
+      await getUser();
+    })();
+    setAuthInitialized(true);
+  }, []);
 
   useProtectedRoute(user);
   return (

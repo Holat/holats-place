@@ -31,9 +31,7 @@ export const authenticate = async (email: string, token: string) => {
         },
       }
     );
-
-    if (data.success) return true;
-    else return false;
+    return data.success;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.log(error.response?.data);
