@@ -66,6 +66,8 @@ export default function CartProvider({
   const getCartItemById = (id: string | number) =>
     cartItems.find((item: CartItemType) => item.food.id === id);
 
+  const addItemsToCart = (items: CartItemType[]) => setCartItems(items);
+
   const clearCart = () => {
     deleteItem(CART_KEY);
     const { items, totalPrice, totalCount } = EMPTY_CART;
@@ -139,6 +141,7 @@ export default function CartProvider({
         favFoods,
         toggleFavorite,
         clearFavourite,
+        addItemsToCart,
       }}
     >
       {children}

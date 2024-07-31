@@ -56,6 +56,7 @@ export type CartContextType = {
   addToCart: (food?: FoodItemType, quantity?: number | null) => void;
   clearCart: () => void;
   getCartItemById: (id: string | number) => CartItemType | undefined;
+  addItemsToCart: (items: CartItemType[]) => void;
   toggleFavorite: (d: string | number) => void;
   clearFavourite: () => void;
   favFoods: (string | number)[];
@@ -212,6 +213,7 @@ export type OrderCardType = {
   theme: ThemeType;
   rBkg2Style: AnimatedStyle;
   rTextStyle: AnimatedStyle;
+  handleReOrder: (items: CartItemType[]) => void;
 };
 
 export type FavFoodCardType = {

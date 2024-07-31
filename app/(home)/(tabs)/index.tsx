@@ -1,5 +1,5 @@
-import { View, TouchableOpacity } from "react-native";
-import { useEffect, useReducer } from "react";
+import { View, TouchableOpacity, RefreshControl } from "react-native";
+import { useEffect, useReducer, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { Link, router, useNavigation } from "expo-router";
@@ -41,15 +41,18 @@ const reducer = (state: FoodType, action: IAction) => {
 export default function Home() {
   const navigation = useNavigation();
   const [{ foods, tags }, dispatch] = useReducer(reducer, initialState);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { addToCart } = useCart();
   const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
-  const getFoods = async () => {
+  const getFoods = useCallback(async () => {
+    setIsLoading(true);
     const loadedFoods = getTopRated();
     loadedFoods
       .then((foodItems) => dispatch({ type: FOODS_LOADED, payload: foodItems }))
-      .catch((error) => console.log(error));
-  };
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   useEffect(() => {
     getFoods();
@@ -105,9 +108,18 @@ export default function Home() {
             <TagsLoading />
           )}
         </View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={getFoods}
+              enabled={enablePTR}
+              progressViewOffset={-10}
+            />
+          }
+        >
           <View className="w-full items-center mt-6" style={{ height: hp(39) }}>
-            {foods.length > 0 ? (
+            {!isLoading ? (
               <FoodList data={foods} />
             ) : (
               <HomeLoading bkg={theme.bkg2} />
@@ -121,16 +133,8 @@ export default function Home() {
               >
                 Top Rated
               </Animated.Text>
-              <Link
-                href={{
-                  pathname: "/",
-                }}
-                className="text-orange-600 underline"
-              >
-                See All
-              </Link>
             </View>
-            {foods[0] ? (
+            {!isLoading ? (
               <Card
                 item={foods[0]}
                 handleAddToCart={() => addToCart(foods[0])}
@@ -147,3 +151,14 @@ export default function Home() {
     </Animated.View>
   );
 }
+
+/** 
+ * <Link
+  href={{
+    pathname: "/categories/[tag]",
+  }}
+  className="text-orange-600 underline"
+>
+  See All
+</Link>;
+*/

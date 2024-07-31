@@ -9,6 +9,8 @@
 - Theme changing
 - Liking foods
 - Food Search
+- Order History
+- Repeating Orders
 
 # Screenshots
 ![Group 3](https://github.com/user-attachments/assets/9e6b564e-eeb0-4101-bce2-b2ec1bce4655)

@@ -82,7 +82,7 @@ const Cart = () => {
                   <Price price={totalPrice} fontSize={18} color={theme.text} />
                 </View>
                 <Pressable
-                  onPress={() => router.push("/checkout")}
+                  onPress={() => router.navigate("/checkout")}
                   className="bg-[#FA6400] rounded-2xl py-3 px-12"
                 >
                   <Text className="text-white font-semibold text-base">

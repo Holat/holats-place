@@ -9,7 +9,7 @@ const Tags = ({ tags, theme }: { tags: TagTypes[]; theme: ThemeType }) => {
 
   const handleSetTag = (tag: string) => {
     setCurrentTag(tag);
-    router.push({
+    router.navigate({
       pathname: "/categories/[tag]",
       params: { tag },
     });

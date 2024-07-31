@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { View, Text, Pressable, FlatList } from "react-native";
 import { Price } from "@/components";
-import { OrderHistoryType, OrderCardType } from "@/constants/types";
+import {
+  OrderHistoryType,
+  OrderCardType,
+  CartItemType,
+} from "@/constants/types";
 import { getAll } from "@/services/orderServices";
 import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/utils/formatedDate";
@@ -9,11 +13,12 @@ import { Image } from "expo-image";
 import { getFoodImage } from "@/constants/data";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useTheme } from "@/hooks";
+import { useTheme, useCart } from "@/hooks";
 import Animated from "react-native-reanimated";
 
 export default function Orders() {
   const [orders, setOrders] = useState<OrderHistoryType[]>();
+  const { addItemsToCart } = useCart();
   const [isLoading, setIsloading] = useState<boolean>(false);
   const router = useRouter();
   const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
@@ -29,6 +34,8 @@ export default function Orders() {
         setIsloading(false);
       });
   };
+
+  const handleReOrder = (items: CartItemType[]) => addItemsToCart(items);
 
   useEffect(() => {
     fetchOrders();
@@ -61,6 +68,7 @@ export default function Orders() {
               theme={theme}
               rBkg2Style={rBkg2Style}
               rTextStyle={rTextStyle}
+              handleReOrder={handleReOrder}
             />
           )}
           ListEmptyComponent={() =>
@@ -86,6 +94,7 @@ const OrderSummaryCard = ({
   theme,
   rBkg2Style,
   rTextStyle,
+  handleReOrder,
 }: OrderCardType) => {
   const { status, totalCount, totalPrice, createdAt, id, items, address } =
     item;
@@ -93,6 +102,9 @@ const OrderSummaryCard = ({
 
   return (
     <Animated.View className="rounded-lg mb-2" style={rBkg2Style}>
+      <Pressable className="rounded p-2 m-1" onPress={handleReOrder(item)}>
+        <Text className="text-white font-semibold">Re-order</Text>
+      </Pressable>
       <View className="p-4">
         <View className="flex items-start mb-2">
           <Animated.Text className="text-lg font-bold" style={rTextStyle}>
@@ -152,7 +164,6 @@ const OrderSummaryCard = ({
       </View>
       {items.map((item) => {
         const imgUrl = item.food.imageUrl.split("/").pop() || "";
-
         const key = item.food.id ? item.food.id : item.food._id;
         return (
           <View className="rounded-2xl mb-2 p-2 flex-row " key={key}>

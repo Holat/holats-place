@@ -64,7 +64,7 @@ const Fav = () => {
       />
       <Pressable
         className="absolute right-3 bottom-20 w-12 h-12 rounded-full mb-2 items-center justify-center"
-        onPress={() => clearFavourite()}
+        onPress={clearFavourite}
         style={{ backgroundColor: theme.accent }}
         disabled={fav.length > 0}
       >
@@ -88,6 +88,12 @@ const FavCard = ({
     <Pressable
       className="rounded-xl mb-3 p-2 flex-row "
       style={{ backgroundColor }}
+      onPress={() => {
+        router.navigate({
+          pathname: "/details/[foodId]",
+          params: { foodId: item?.id },
+        });
+      }}
     >
       <View className="mr-3">
         <Image

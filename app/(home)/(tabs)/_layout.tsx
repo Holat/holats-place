@@ -13,6 +13,7 @@ const TabLayout = () => {
 
   return (
     <Tabs
+      backBehavior="history"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: "orange",
