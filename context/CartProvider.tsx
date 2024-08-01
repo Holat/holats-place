@@ -7,6 +7,7 @@ import {
   CartType,
 } from "@/constants/types";
 import { save, deleteItem, getValueFor } from "@/utils/storage/asyncStorage";
+import showToast from "@/utils/ToastM";
 
 export const CartContext = createContext<CartContextType | null>(null);
 const CART_KEY = process.env.EXPO_PUBLIC_CART_KEY || "";
@@ -28,7 +29,8 @@ export default function CartProvider({
 
   const removeFromCart = (foodId: number | string) => {
     const filterCartItem = cartItems.filter(
-      (item: CartItemType) => item.food.id !== foodId
+      (item: CartItemType) =>
+        item.food.id !== foodId && item.food._id !== foodId
     );
     setCartItems(filterCartItem);
   };
@@ -66,7 +68,10 @@ export default function CartProvider({
   const getCartItemById = (id: string | number) =>
     cartItems.find((item: CartItemType) => item.food.id === id);
 
-  const addItemsToCart = (items: CartItemType[]) => setCartItems(items);
+  const addItemsToCart = (items: CartItemType[]) => {
+    setCartItems(items);
+    showToast("Re-ordered!", "Items were added to cart");
+  };
 
   const clearCart = () => {
     deleteItem(CART_KEY);
@@ -91,6 +96,7 @@ export default function CartProvider({
   };
 
   const clearFavourite = async () => {
+    console.log("got here 1");
     favService.clearFavorite();
   };
 

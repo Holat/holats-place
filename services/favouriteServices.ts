@@ -79,6 +79,7 @@ export const setFavoriteFoods = async (favoriteFoods: (string | number)[]) => {
 };
 
 export const clearFavorite = async () => {
+  console.log("got here");
   try {
     const response = await apiInstance.delete("/api/favourites/clear");
     await setFavoriteFoods(response.data);

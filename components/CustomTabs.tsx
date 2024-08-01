@@ -50,7 +50,9 @@ const CustomTabs = ({ state, descriptors, navigation, count }: any) => {
                       opacity: count && count > 0 ? 1 : 0,
                     }}
                   >
-                    <Text className="font-bold text-white">{count}</Text>
+                    <Text className="font-bold text-white text-center">
+                      {count}
+                    </Text>
                   </View>
                 )}
               </View>

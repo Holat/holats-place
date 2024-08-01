@@ -67,7 +67,7 @@ const Cart = () => {
             >
               {items.map((item) => (
                 <Card
-                  key={item.food.id}
+                  key={item.food.id || item.food._id}
                   item={item}
                   removeFromCart={removeFromCart}
                   rTextStyle={rTextStyle}
@@ -123,7 +123,7 @@ export default Cart;
 
 const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
   const {
-    food: { imageUrl, name, id },
+    food: { imageUrl, name, id, _id },
     quantity,
     price,
   } = item;
@@ -156,7 +156,7 @@ const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
         </View>
         <View className="flex-row items-center justify-end w-full">
           <Pressable
-            onPress={() => removeFromCart(id)}
+            onPress={() => removeFromCart(id ?? _id)}
             className="flex-row items-center"
           >
             <MaterialCommunityIcons

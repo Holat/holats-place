@@ -1,5 +1,5 @@
-import { View, FlatList, Pressable } from "react-native";
-import { useCallback, useEffect, useState } from "react";
+import { View, FlatList, Pressable, Text } from "react-native";
+import { useEffect, useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { FoodItemType } from "@/constants/types";
@@ -8,6 +8,7 @@ import { useTheme, useCart } from "@/hooks";
 import Animated from "react-native-reanimated";
 import { Card } from "@/components";
 import { AntDesign } from "@expo/vector-icons";
+import { SearchLoading } from "@/components";
 
 export default function Category() {
   const { tag } = useLocalSearchParams();
@@ -66,6 +67,17 @@ export default function Category() {
             // w={49}
           />
         )}
+        ListEmptyComponent={() =>
+          isLoading ? (
+            <SearchLoading backgroundColor={bkg2} />
+          ) : (
+            <View className="mb-4 flex-1 justify-center items-center">
+              <Text className="font-semibold text-lg text-neutral-300">
+                Empty
+              </Text>
+            </View>
+          )
+        }
         ItemSeparatorComponent={() => <View className="h-4" />}
         onRefresh={fetchFoodItems}
         refreshing={isLoading}

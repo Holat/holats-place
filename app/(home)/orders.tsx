@@ -162,7 +162,6 @@ const OrderSummaryCard = ({
       {items.map((item) => {
         const imgUrl = item.food.imageUrl.split("/").pop() || "";
         const key = item.food.id ? item.food.id : item.food._id;
-        console.log(item.food?._id);
         return (
           <View className="rounded-2xl mb-2 p-2 flex-row " key={key}>
             <View className="mr-3">

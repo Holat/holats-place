@@ -15,6 +15,7 @@ import { Image } from "expo-image";
 import { Price } from "@/components";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import Animated from "react-native-reanimated";
+import { router } from "expo-router";
 
 const Fav = () => {
   const { theme, rStyle, cTheme } = useTheme();
@@ -66,7 +67,7 @@ const Fav = () => {
         className="absolute right-3 bottom-20 w-12 h-12 rounded-full mb-2 items-center justify-center"
         onPress={clearFavourite}
         style={{ backgroundColor: theme.accent }}
-        disabled={fav.length > 0}
+        // disabled={fav.length > 0}
       >
         <AntDesign name="delete" color={"white"} size={hp(3)} />
       </Pressable>

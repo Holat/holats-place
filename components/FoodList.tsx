@@ -73,7 +73,7 @@ export const FoodCard = ({
         style={[
           {
             width: wp(50),
-            height: 304, // hp(39)
+            height: hp(38),
           },
           rBkg2Style,
         ]}
@@ -90,7 +90,7 @@ export const FoodCard = ({
           <View className=" mt-2">
             <Animated.Text
               className=" font-bold"
-              style={[{ fontSize: hp(2.3) }, rTextStyle]}
+              style={[{ fontSize: hp(2.1) }, rTextStyle]}
             >
               {item?.name}
             </Animated.Text>
