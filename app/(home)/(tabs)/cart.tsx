@@ -135,7 +135,7 @@ const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
       className="rounded-2xl mb-2 p-2 flex-row "
       onPress={() =>
         router.push({
-          pathname: "/[foodId]",
+          pathname: "/details/[foodId]",
           params: { foodId: id },
         })
       }

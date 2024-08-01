@@ -1,8 +1,8 @@
 import { View, TouchableOpacity, RefreshControl } from "react-native";
-import { useEffect, useReducer, useCallback } from "react";
+import { useEffect, useReducer, useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { Link, router, useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { FoodType, IAction } from "@/constants/types";
@@ -110,12 +110,7 @@ export default function Home() {
         </View>
         <ScrollView
           refreshControl={
-            <RefreshControl
-              refreshing={isLoading}
-              onRefresh={getFoods}
-              enabled={enablePTR}
-              progressViewOffset={-10}
-            />
+            <RefreshControl refreshing={isLoading} onRefresh={getFoods} />
           }
         >
           <View className="w-full items-center mt-6" style={{ height: hp(39) }}>

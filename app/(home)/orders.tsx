@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, Pressable, FlatList } from "react-native";
 import { Price } from "@/components";
 import {
@@ -23,7 +23,7 @@ export default function Orders() {
   const router = useRouter();
   const { theme, rStyle, rBkg2Style, rTextStyle } = useTheme();
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     setIsloading(true);
     getAll("")
       .then(setOrders)
@@ -33,7 +33,7 @@ export default function Orders() {
       .finally(() => {
         setIsloading(false);
       });
-  };
+  }, []);
 
   const handleReOrder = (items: CartItemType[]) => addItemsToCart(items);
 
@@ -102,9 +102,6 @@ const OrderSummaryCard = ({
 
   return (
     <Animated.View className="rounded-lg mb-2" style={rBkg2Style}>
-      <Pressable className="rounded p-2 m-1" onPress={handleReOrder(item)}>
-        <Text className="text-white font-semibold">Re-order</Text>
-      </Pressable>
       <View className="p-4">
         <View className="flex items-start mb-2">
           <Animated.Text className="text-lg font-bold" style={rTextStyle}>
@@ -165,6 +162,7 @@ const OrderSummaryCard = ({
       {items.map((item) => {
         const imgUrl = item.food.imageUrl.split("/").pop() || "";
         const key = item.food.id ? item.food.id : item.food._id;
+        console.log(item.food?._id);
         return (
           <View className="rounded-2xl mb-2 p-2 flex-row " key={key}>
             <View className="mr-3">
@@ -188,6 +186,12 @@ const OrderSummaryCard = ({
           </View>
         );
       })}
+      <Pressable
+        className="rounded py-1 px-2 m-2 self-end bg-[#FA6400]"
+        onPress={() => handleReOrder(items)}
+      >
+        <Text className="text-white font-semibold">Re-order</Text>
+      </Pressable>
     </Animated.View>
   );
 };
