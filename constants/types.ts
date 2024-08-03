@@ -104,7 +104,7 @@ export type AuthContextType = {
   authReady: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (user: RegisterValues) => Promise<boolean>;
-  logout: (type: "n" | "t") => void;
+  logout: (type: "n" | "t") => Promise<void>;
   updateProfile: (user: FormDetails) => Promise<boolean>;
   changePassword: (passwords: ChangePassFormType) => Promise<boolean>;
 };

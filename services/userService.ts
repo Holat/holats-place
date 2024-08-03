@@ -73,9 +73,10 @@ export const updateProfile = async (user: FormDetails) => {
 };
 
 export const changePassword = async (passwords: ChangePassFormType) => {
-  await apiInstance.put(`/api/user/changePassword`, passwords);
+  const { data } = await apiInstance.put(`/api/user/changePassword`, passwords);
+  return data.success;
 };
 
-export const logout = () => {
-  deleteItem(USER);
+export const logout = async () => {
+  await deleteItem(USER);
 };

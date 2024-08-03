@@ -36,7 +36,7 @@ const ControlledInput = ({
   const iconName = p ? getInputIcon("p") : getInputIcon(name);
 
   return (
-    <View className="mb-4">
+    <View className="mb-4" style={{ zIndex: -1 }}>
       <Controller
         control={control}
         rules={{
@@ -68,14 +68,7 @@ const ControlledInput = ({
               editable={!isLoading}
               secureTextEntry={p ? !viewPassword : undefined}
             />
-            <View
-              style={{
-                top: "50%",
-                position: "absolute",
-                right: 16,
-                transform: [{ translateY: -11 }],
-              }}
-            >
+            <View className="mr-2">
               {p && (
                 <Pressable onPress={() => setViewPassword((prev) => !prev)}>
                   {viewPassword ? (

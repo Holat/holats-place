@@ -1,6 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import * as userService from "@/services/userService";
-import { useNavigationContainerRef, useRouter, useSegments } from "expo-router";
+import {
+  router,
+  useNavigationContainerRef,
+  useRouter,
+  useSegments,
+} from "expo-router";
 import { AxiosError } from "axios";
 import {
   UserType,
@@ -104,16 +109,20 @@ export default function AuthProvider({
   /**
    * @param type "n" => normal logout | "t" => token exp logout
    */
-  const logout = (type: "n" | "t") => {
-    userService.logout();
-    setUser(null);
-    setIsAuthenticated(false);
-    setAuthInitialized(false);
-    type === "n"
-      ? console.log("Logout Successful")
-      : type === "t"
-      ? console.log("Session expired")
-      : null;
+  const logout = async (type: "n" | "t") => {
+    try {
+      await userService.logout();
+      setUser(null);
+      setIsAuthenticated(false);
+      router.replace("/(auth)/login");
+      type === "n"
+        ? showToast("Logged Out!", "Logout Successful")
+        : type === "t"
+        ? showToast("Session expired")
+        : null;
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   const updateProfile = async (user: FormDetails) => {
@@ -132,12 +141,21 @@ export default function AuthProvider({
 
   const changePassword = async (passwords: ChangePassFormType) => {
     try {
-      await userService.changePassword(passwords);
-      logout("n");
-      showToast("Password Changed!");
-      return true;
+      const success = await userService.changePassword(passwords);
+
+      console.log(success);
+      if (success) {
+        logout("n");
+        showToast("Password Changed!");
+      }
     } catch (error) {
-      showToast("Error changing pass");
+      const err = error as AxiosError;
+      showToast(
+        "Error!",
+        typeof err.response?.data === "string"
+          ? err.response?.data
+          : "Check Passwords"
+      );
     }
     return false;
   };

@@ -10,11 +10,7 @@ import { getInputIcon } from "@/components/ControlledInput";
 export default function Profile() {
   const { user, logout } = useAuth();
   const { theme, rStyle, rBkg2Style, rTextStyle, value, setTheme } = useTheme();
-
-  const handleLogOut = () => {
-    logout("n");
-    router.replace("/(auth)/login");
-  };
+  const handleLogOut = async () => await logout("n");
 
   return (
     <Animated.View className="flex-1" style={rStyle}>

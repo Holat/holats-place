@@ -111,6 +111,7 @@ const Register = () => {
                   <GooglePlacesInput
                     theme={theme}
                     onAddressSelect={onAddressSelect}
+                    value={user?.address.split("|")[0]}
                   />
                 )}
               />

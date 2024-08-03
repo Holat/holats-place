@@ -25,13 +25,10 @@ const ChangePassword = () => {
 
   const onSubmit = async (data: ChangePassFormType) => {
     setIsLoading(true);
-    const isSuccess = await changePassword(data);
-    if (isSuccess) {
-      setIsLoading(false);
-      router.replace("/login");
-    } else {
-      setIsLoading(false);
-    }
+    changePassword(data)
+      .then(() => {})
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
   return (
     <View style={{ backgroundColor: theme.background }} className="flex-1">

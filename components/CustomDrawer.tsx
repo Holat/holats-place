@@ -4,19 +4,13 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function CustomDrawer(props: any) {
   const { user, logout, tValue } = props;
   const color = tValue === "dark" ? "#fff" : "#000";
-  const router = useRouter();
-
-  const handleLogOut = () => {
-    logout("n");
-    router.replace("/(auth)/login");
-  };
+  const handleLogOut = async () => await logout("n");
 
   return (
     <SafeAreaView className="flex-1">
@@ -49,7 +43,7 @@ export default function CustomDrawer(props: any) {
       </DrawerContentScrollView>
 
       <Pressable
-        onPress={() => handleLogOut()}
+        onPress={handleLogOut}
         className="flex-row items-center p-5 mb-2"
       >
         <AntDesign color={"#FA6400"} name={"logout"} size={hp(3)} />
