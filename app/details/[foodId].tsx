@@ -11,7 +11,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Price, RoundedShimmer } from "@/components";
-import { getFoodImage } from "@/constants/data";
 import { useTheme, useCart } from "@/hooks";
 import Animated from "react-native-reanimated";
 
@@ -24,7 +23,6 @@ export default function FoodInfo() {
   const [quantity, setQuantity] = useState(1);
   const { top } = useSafeAreaInsets();
   const router = useRouter();
-  const imgUrl = foodItem?.imageUrl.split("/").pop() || "";
 
   const fetchFoodItem = useCallback(async () => {
     getById(foodId.toString())
@@ -59,7 +57,7 @@ export default function FoodInfo() {
         <View className="w-full h-full">
           {foodItem ? (
             <Image
-              source={getFoodImage(imgUrl)}
+              source={{ uri: foodItem?.imageUrl }}
               className="w-full h-full"
               cachePolicy={"disk"}
             />

@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import generateTransactionRef from "@/utils/generateTransactionRef";
 import { createOrder, pay } from "@/services/orderServices";
 import { OrderType } from "@/constants/types";
+import showToast from "@/utils/ToastM";
 
 interface RedirectParams {
   status: "successful" | "cancelled";
@@ -21,6 +22,7 @@ export default function PaymentBtn({
 }) {
   const router = useRouter();
   const { clearCart } = useCart();
+  const postOrder = { ...order, tx_ref: generateTransactionRef(10) };
 
   const handleOnRedirect = async (data: RedirectParams) => {
     handleIsLoading(true);
@@ -37,16 +39,19 @@ export default function PaymentBtn({
   };
 
   const handlePaymentWillInit = () => {
-    if (order.lat === 0 && order.lng === 0) {
-      console.log("Location not set");
+    if (postOrder.lat === 0 && postOrder.lng === 0) {
+      showToast("Select Location!", "Delivery location has to be specified");
       return;
     }
   };
 
   const onPaymentInit = async () => {
-    console.log("clicked");
-    const data = await createOrder({ ...order });
-    console.log(data);
+    try {
+      await createOrder(postOrder);
+    } catch (error) {
+      showToast("Error Placing Order");
+      return;
+    }
   };
 
   return (
@@ -56,15 +61,18 @@ export default function PaymentBtn({
         onRedirect={handleOnRedirect}
         onWillInitialize={() => handlePaymentWillInit()}
         onDidInitialize={() => onPaymentInit()}
+        onInitializeError={() =>
+          showToast("Network Error", "Please check the internet connection")
+        }
         options={{
-          tx_ref: generateTransactionRef(10),
+          tx_ref: postOrder.tx_ref,
           authorization: process.env.EXPO_PUBLIC_API_FLUTTER_KEY || "",
           customer: {
-            email: order.email || "",
-            phonenumber: order.phonenumber,
-            name: order.name,
+            email: postOrder.email || "",
+            phonenumber: postOrder.phonenumber,
+            name: postOrder.name,
           },
-          amount: order.totalPrice,
+          amount: postOrder.totalPrice || 0,
           currency: "NGN",
           payment_options: "card,ussd,banktransfer",
           // customizations: {

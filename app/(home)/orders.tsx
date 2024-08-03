@@ -10,7 +10,6 @@ import { getAll } from "@/services/orderServices";
 import { SafeAreaView } from "react-native-safe-area-context";
 import formatDate from "@/utils/formatedDate";
 import { Image } from "expo-image";
-import { getFoodImage } from "@/constants/data";
 import { AntDesign } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useTheme, useCart } from "@/hooks";
@@ -160,13 +159,12 @@ const OrderSummaryCard = ({
         </View>
       </View>
       {items.map((item) => {
-        const imgUrl = item.food.imageUrl.split("/").pop() || "";
         const key = item.food.id ? item.food.id : item.food._id;
         return (
           <View className="rounded-2xl mb-2 p-2 flex-row " key={key}>
             <View className="mr-3">
               <Image
-                source={getFoodImage(imgUrl)}
+                source={{ uri: item.food.imageUrl }}
                 className="h-20 w-20 rounded-xl"
                 contentFit="cover"
               />

@@ -9,7 +9,6 @@ import Price from "./Price";
 import StarRating from "./Star";
 import Carousel from "react-native-snap-carousel";
 import { FoodItemType, FoodCardItemType } from "@/constants/types";
-import { getFoodImage } from "@/constants/data";
 import { Entypo } from "@expo/vector-icons";
 import { useCart, useTheme } from "@/hooks";
 import Animated from "react-native-reanimated";
@@ -44,7 +43,6 @@ export default function FoodList({ data }: { data: FoodItemType[] }) {
       }}
       firstItem={3}
       itemWidth={wp(52)}
-      // loop
     />
   );
 }
@@ -57,7 +55,6 @@ export const FoodCard = ({
   color,
 }: FoodCardItemType) => {
   const router = useRouter();
-  const imgUrl = item.imageUrl.split("/").pop() || "";
 
   return (
     <Pressable
@@ -81,7 +78,7 @@ export const FoodCard = ({
       >
         <View className="w-full rounded-[10px]">
           <Image
-            source={getFoodImage(imgUrl)}
+            source={{ uri: item?.imageUrl }}
             className="w-full h-40 rounded-[10px]"
             cachePolicy={"disk"}
           />

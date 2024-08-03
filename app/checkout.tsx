@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OrderType } from "@/constants/types";
 import { Price, PaymentBtn } from "@/components";
 import { useAuth, useTheme, useCart } from "@/hooks";
@@ -19,16 +19,19 @@ const CheckOut = () => {
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
   const addressInfo = user?.address.split("|");
-  const [order, setOrder] = useState<OrderType>({
-    ...cart,
-    name: user?.name,
-    email: user?.email,
-    address: addressInfo && addressInfo[0],
-    phonenumber: user?.phone,
-    lat: addressInfo && parseFloat(addressInfo[1]),
-    lng: addressInfo && parseFloat(addressInfo[2]),
-  });
-  //  const { location } = useLocation();
+  const [order, setOrder] = useState<OrderType>({} as OrderType);
+
+  useEffect(() => {
+    setOrder({
+      ...cart,
+      name: user?.name,
+      email: user?.email,
+      address: addressInfo && addressInfo[0],
+      phonenumber: user?.phone,
+      lat: addressInfo && parseFloat(addressInfo[1]),
+      lng: addressInfo && parseFloat(addressInfo[2]),
+    });
+  }, []);
 
   const handleIsLoading = (b: boolean) => setIsLoading(b);
 

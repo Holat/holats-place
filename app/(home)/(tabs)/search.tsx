@@ -1,8 +1,7 @@
-import { TextInput, TouchableOpacity, View, Text } from "react-native";
+import { TextInput, View, Text } from "react-native";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome6, AntDesign } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { searchApi } from "@/services/foodService";
 import { FlatList } from "react-native-gesture-handler";

@@ -1,5 +1,4 @@
 import { Image } from "expo-image";
-import { getFoodImage } from "@/constants/data";
 import Price from "@/components/Price";
 import { TouchableOpacity, View, StyleSheet, Pressable } from "react-native";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -16,7 +15,6 @@ const Card = ({
   color,
 }: FoodCardType) => {
   const router = useRouter();
-  const imgUrl = item?.imageUrl.split("/").pop() || "";
 
   return (
     <Pressable
@@ -43,7 +41,7 @@ const Card = ({
       >
         <View style={styles.container}>
           <Image
-            source={getFoodImage(imgUrl)}
+            source={{ uri: item?.imageUrl }}
             className="w-full h-full"
             contentFit="cover"
           />

@@ -116,6 +116,7 @@ export type OrderType = {
   lng?: number | string;
   email?: string;
   phonenumber?: string;
+  tx_ref?: string;
 } & CartType;
 
 export type ThemeType = {

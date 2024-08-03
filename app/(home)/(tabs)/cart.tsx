@@ -4,7 +4,6 @@ import { useTheme, useCart } from "@/hooks";
 import { ScrollView } from "react-native-gesture-handler";
 import { CartCardType } from "@/constants/types";
 import { Image } from "expo-image";
-import { getFoodImage } from "@/constants/data";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -128,7 +127,6 @@ const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
     price,
   } = item;
   const router = useRouter();
-  const imgUrl = imageUrl?.split("/").pop() || "";
 
   return (
     <Pressable
@@ -142,7 +140,7 @@ const Card = ({ item, removeFromCart, rTextStyle, color }: CartCardType) => {
     >
       <View className="mr-3">
         <Image
-          source={getFoodImage(imgUrl)}
+          source={{ uri: imageUrl }}
           className="h-20 w-20 rounded-xl"
           contentFit="cover"
         />

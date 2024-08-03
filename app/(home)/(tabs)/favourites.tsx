@@ -10,7 +10,6 @@ import { getFavourites } from "@/services/favouriteServices";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { FoodItemType, FavFoodCardType } from "@/constants/types";
 import { useTheme, useCart } from "@/hooks";
-import { getFoodImage } from "@/constants/data";
 import { Image } from "expo-image";
 import { Price } from "@/components";
 import { AntDesign, Entypo } from "@expo/vector-icons";
@@ -67,7 +66,7 @@ const Fav = () => {
         className="absolute right-3 bottom-20 w-12 h-12 rounded-full mb-2 items-center justify-center"
         onPress={clearFavourite}
         style={{ backgroundColor: theme.accent }}
-        // disabled={fav.length > 0}
+        disabled={fav.length < 1}
       >
         <AntDesign name="delete" color={"white"} size={hp(3)} />
       </Pressable>
@@ -81,7 +80,6 @@ const FavCard = ({
   value,
   handleFav,
 }: FavFoodCardType) => {
-  const imgUrl = item.imageUrl.split("/").pop() || "";
   const color = value === "dark" ? "#fff" : "#000";
   const backgroundColor = value === "dark" ? "#1e1e1e" : "#fff";
 
@@ -98,7 +96,7 @@ const FavCard = ({
     >
       <View className="mr-3">
         <Image
-          source={getFoodImage(imgUrl)}
+          source={{ uri: item?.imageUrl }}
           className="h-20 w-20 rounded-xl"
           contentFit="cover"
         />
