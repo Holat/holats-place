@@ -9,6 +9,12 @@ const GooglePlacesInput = ({
   theme,
   value,
 }: GooglePlacesInputType) => {
+  const addr = value?.split("|");
+  const defaultLocation = {
+    description: "Default Location",
+    geometry: { location: { lat: addr[1] || 0, lng: addr[2] || 0 } },
+  };
+
   return (
     <View
       style={{
@@ -28,7 +34,7 @@ const GooglePlacesInput = ({
           language: "en",
           components: "country:ng",
         }}
-        placeholder={value ? value : "Search Delivery Address"}
+        placeholder={addr?.length > 3 ? addr[0] : "Search Delivery Address"}
         // currentLocation={true}
         textInputProps={{
           placeholderTextColor: "#A9A9A9",
@@ -36,6 +42,7 @@ const GooglePlacesInput = ({
         fetchDetails={true}
         onPress={(_, details) => onAddressSelect(details)}
         numberOfLines={1}
+        predefinedPlaces={[defaultLocation]}
         styles={{
           container: {
             flex: 1,
