@@ -125,7 +125,7 @@ export type ThemeType = {
   bkg2: string;
   accent: string;
   accentV: string;
-  payed: string;
+  paid: string;
   new: string;
   failed: string;
 };

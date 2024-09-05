@@ -109,8 +109,8 @@ const OrderSummaryCard = ({
           <View
             style={{
               backgroundColor:
-                status === "PAYED"
-                  ? theme.payed
+                status === "PAID"
+                  ? theme.paid
                   : status === "NEW"
                   ? theme.new
                   : status === "FAILED"

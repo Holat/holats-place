@@ -4,7 +4,7 @@ export const lightTheme = {
   bkg2: "#fff",
   accent: "#FA6400",
   accentV: "#fed7aa",
-  payed: "#eaffea",
+  paid: "#eaffea",
   new: "#D9E3F5",
   failed: "#ffe5e5",
 };
@@ -15,7 +15,7 @@ export const darkTheme = {
   bkg2: "#1E1E1E",
   accent: "#FA6400",
   accentV: "#633A00",
-  payed: "#002200",
+  paid: "#002200",
   new: "#001a33",
   failed: "#330000",
 };
