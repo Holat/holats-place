@@ -22,13 +22,14 @@ export default function PaymentBtn({
 }) {
   const router = useRouter();
   const { clearCart } = useCart();
-  const postOrder = { ...order, tx_ref: generateTransactionRef(10) };
+  const tx_ref = generateTransactionRef(10) || "";
+  const postOrder = { ...order, tx_ref };
 
   const handleOnRedirect = async (data: RedirectParams) => {
     handleIsLoading(true);
     if (data.status === "successful") {
       const paymentId = data.transaction_id || Date();
-      await pay(paymentId);
+      await pay(paymentId, tx_ref);
       clearCart();
       handleIsLoading(false);
       router.push("/(home)/orders");
